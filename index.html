@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Eco Solare: propuesta preliminar de soluciones fotovoltaicas para hogares, escuelas y negocios.">
+  <title>Eco Solare | Energía solar inteligente</title>
+  <style>
+    :root {
+      --green: #08783f;
+      --green-dark: #064b35;
+      --teal: #087f91;
+      --navy: #092f4b;
+      --orange: #ffad18;
+      --cream: #f5f8f4;
+      --white: #ffffff;
+      --muted: #60736d;
+      --line: #dce8df;
+      --shadow: 0 18px 45px rgba(7, 54, 43, .10);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--navy);
+      background: var(--white);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1120px, calc(100% - 40px)); margin: auto; }
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 850; letter-spacing: -.8px; font-size: 1.35rem; }
+    .brand svg { width: 47px; height: 47px; }
+    .brand span span { color: var(--green); }
+    nav { display: flex; align-items: center; gap: 27px; color: #38564f; font-size: .94rem; font-weight: 650; }
+    .nav-cta, .button {
+      display: inline-flex; justify-content: center; align-items: center;
+      border-radius: 999px; padding: 12px 20px; font-weight: 750;
+      background: var(--green); color: white; border: 2px solid var(--green);
+      transition: .2s ease;
+    }
+    .nav-cta:hover, .button:hover { background: var(--green-dark); border-color: var(--green-dark); transform: translateY(-1px); }
+    .hero { background: linear-gradient(120deg, #f4f9f3 0%, #fff 60%, #fff7e8 100%); overflow: hidden; }
+    .hero-grid { min-height: 590px; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 55px; padding-top: 65px; padding-bottom: 65px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--green); font-size: .82rem; font-weight: 850; letter-spacing: 1.5px; text-transform: uppercase; }
+    .eyebrow:before { content: ""; width: 24px; height: 3px; background: var(--orange); border-radius: 3px; }
+    h1 { font-size: clamp(2.6rem, 5vw, 4.7rem); line-height: 1.04; letter-spacing: -2.7px; margin: 18px 0; color: var(--navy); }
+    h1 span { color: var(--green); }
+    .hero p { max-width: 580px; color: #526b65; font-size: 1.12rem; margin: 0 0 28px; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+    .button.secondary { background: transparent; color: var(--green); }
+    .button.secondary:hover { color: white; }
+    .hero-note { margin-top: 22px; color: #71847d; font-size: .84rem; }
+    .visual {
+      position: relative; min-height: 390px; border-radius: 32px;
+      background: linear-gradient(145deg, #064b35, #087f91);
+      box-shadow: var(--shadow); padding: 34px; color: white; overflow: hidden;
+    }
+    .visual:before, .visual:after { content: ""; position: absolute; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; }
+    .visual:before { width: 330px; height: 330px; right: -110px; top: -120px; }
+    .visual:after { width: 240px; height: 240px; left: -110px; bottom: -130px; }
+    .visual-top { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+    .visual-top small { color: #d5eee3; letter-spacing: 1px; font-weight: 700; }
+    .sun { width: 62px; height: 62px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 12px rgba(255,173,24,.13); }
+    .panel-art { position: relative; z-index: 1; margin: 45px auto 30px; width: min(100%, 390px); transform: perspective(500px) rotateX(8deg) rotateZ(-7deg); }
+    .panel-art svg { width: 100%; height: auto; filter: drop-shadow(0 18px 14px rgba(0,0,0,.18)); }
+    .visual-bottom { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: end; gap: 15px; }
+    .visual-bottom strong { font-size: 1.5rem; display: block; }
+    .visual-bottom span { color: #cce5dc; font-size: .85rem; }
+    section { padding: 88px 0; }
+    .section-heading { max-width: 700px; margin: 0 auto 42px; text-align: center; }
+    .section-heading h2 { margin: 12px 0; font-size: clamp(2rem, 3.5vw, 3rem); line-height: 1.12; letter-spacing: -1.2px; }
+    .section-heading p { margin: 0; color: var(--muted); }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .step, .feature, .result-card { border: 1px solid var(--line); border-radius: 20px; padding: 26px; background: white; }
+    .step-number { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; color: var(--green); background: #e9f5eb; font-weight: 900; }
+    .step h3, .feature h3 { margin: 18px 0 8px; font-size: 1.15rem; }
+    .step p, .feature p { margin: 0; color: var(--muted); font-size: .95rem; }
+    .solution { background: var(--cream); }
+    .solution-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 55px; align-items: center; }
+    .solution-copy h2 { font-size: clamp(2rem, 3.4vw, 3rem); line-height: 1.1; letter-spacing: -1px; margin: 13px 0 18px; }
+    .solution-copy p { color: var(--muted); }
+    .check-list { list-style: none; padding: 0; margin: 25px 0 0; }
+    .check-list li { display: flex; gap: 12px; margin: 13px 0; color: #36564c; font-weight: 650; }
+    .check-list li:before { content: "✓"; flex: 0 0 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; color: var(--green); background: #dff0e3; font-size: .85rem; }
+    .dashboard { background: white; border: 1px solid var(--line); border-radius: 24px; padding: 25px; box-shadow: var(--shadow); }
+    .dashboard-head { display: flex; justify-content: space-between; gap: 15px; align-items: center; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+    .dashboard-head strong { font-size: 1.1rem; }
+    .status { border-radius: 999px; padding: 6px 10px; background: #fff2d8; color: #94600b; font-size: .72rem; font-weight: 800; }
+    .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 13px; margin-top: 18px; }
+    .metric { background: #f5f9f6; padding: 17px; border-radius: 15px; }
+    .metric span { display: block; color: var(--muted); font-size: .78rem; }
+    .metric strong { display: block; font-size: 1.35rem; margin-top: 4px; color: var(--navy); }
+    .metric small { color: #7b8c85; font-size: .72rem; }
+    .bar-label { display: flex; justify-content: space-between; margin: 22px 0 8px; color: #4e675f; font-size: .83rem; font-weight: 700; }
+    .bar { height: 10px; background: #e8efea; border-radius: 99px; overflow: hidden; }
+    .bar span { display: block; width: 72%; height: 100%; background: linear-gradient(90deg, var(--green), #51b77c); border-radius: 99px; }
+    .features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .feature { padding: 23px; }
+    .feature-icon { font-size: 1.7rem; }
+    .disclaimer { margin-top: 24px; padding: 15px 18px; border-left: 4px solid var(--orange); background: #fff8e9; color: #6f6248; border-radius: 0 12px 12px 0; font-size: .84rem; }
+    .cta-section { padding: 0 0 88px; }
+    .cta-box { padding: 48px; border-radius: 28px; color: white; background: linear-gradient(115deg, var(--green-dark), var(--teal)); display: flex; justify-content: space-between; align-items: center; gap: 30px; }
+    .cta-box h2 { font-size: clamp(1.8rem, 3vw, 2.7rem); line-height: 1.1; margin: 0 0 10px; }
+    .cta-box p { margin: 0; color: #d2e9df; max-width: 590px; }
+    .cta-box .button { flex-shrink: 0; color: var(--navy); background: var(--orange); border-color: var(--orange); }
+    .cta-box .button:hover { background: #ffc34f; border-color: #ffc34f; }
+    footer { background: #062d35; color: white; padding: 35px 0; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .footer-brand { font-weight: 850; font-size: 1.2rem; }
+    .footer-brand span { color: #7bd08f; }
+    footer p { margin: 5px 0 0; color: #b7d0c7; font-size: .82rem; }
+    .student-id { color: #d1e4dc; font-size: .8rem; letter-spacing: 1.5px; }
+    @media (max-width: 850px) {
+      nav { gap: 14px; font-size: .85rem; }
+      .hero-grid, .solution-grid { grid-template-columns: 1fr; }
+      .hero-grid { gap: 35px; }
+      .visual { min-height: 340px; }
+      .features { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 620px) {
+      .container { width: min(100% - 30px, 1120px); }
+      .nav { min-height: 68px; }
+      nav a:not(.nav-cta) { display: none; }
+      .nav-cta { padding: 10px 14px; font-size: .82rem; }
+      .hero-grid { padding-top: 55px; padding-bottom: 55px; min-height: auto; }
+      h1 { letter-spacing: -1.5px; }
+      section { padding: 65px 0; }
+      .steps, .features { grid-template-columns: 1fr; }
+      .visual { padding: 25px; min-height: 300px; }
+      .panel-art { margin: 35px auto 25px; }
+      .metrics { gap: 9px; }
+      .metric { padding: 13px; }
+      .metric strong { font-size: 1.15rem; }
+      .cta-box { padding: 30px 24px; flex-direction: column; align-items: flex-start; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#inicio" aria-label="Eco Solare, inicio">
+        <svg viewBox="0 0 100 100" role="img" aria-label="Símbolo de sol, hoja y panel solar">
+          <circle cx="48" cy="35" r="22" fill="#ffad18"/>
+          <path d="M12 69 Q35 46 76 55 Q63 78 29 79Z" fill="#39a94d"/>
+          <path d="M28 74 L82 65 L91 82 L39 94Z" fill="#092f4b"/>
+          <path d="M47 72 L52 89 M66 68 L72 85 M31 81 L84 73" stroke="#fff" stroke-width="2.5" fill="none"/>
+          <path d="M7 83 Q20 94 39 94" stroke="#08783f" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span><span>Eco</span> Solare</span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <a href="#solucion">La solución</a>
+        <a href="#sistema">Sistema solar</a>
+        <a href="#componentes">Componentes</a>
+        <a class="nav-cta" href="#contacto">Conoce la propuesta</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Energía limpia, decisiones inteligentes</div>
+          <h1>Tu consumo puede convertirse en <span>energía solar.</span></h1>
+          <p>En Eco Solare transformamos los datos de consumo eléctrico en una propuesta fotovoltaica preliminar: dimensionamiento, selección de equipos y evaluación económica en un solo lugar.</p>
+          <div class="hero-actions">
+            <a class="button" href="#solucion">Explorar la solución</a>
+            <a class="button secondary" href="#sistema">Ver sistema propuesto</a>
+          </div>
+          <div class="hero-note">Una propuesta clara para hogares, escuelas y negocios.</div>
+        </div>
+        <div class="visual" aria-label="Ilustración conceptual de paneles solares">
+          <div class="visual-top"><small>ENERGÍA DEL SOL · FUTURO SOSTENIBLE</small><div class="sun"></div></div>
+          <div class="panel-art">
+            <svg viewBox="0 0 420 230" role="img" aria-label="Arreglo ilustrativo de paneles fotovoltaicos">
+              <path d="M48 68 L348 25 L405 177 L102 220Z" fill="#092f4b" stroke="#d6f0e4" stroke-width="5"/>
+              <path d="M123 57 L168 207 M200 46 L246 196 M278 35 L324 185 M67 118 L368 75 M85 166 L386 123" stroke="#d6f0e4" stroke-width="5" fill="none"/>
+              <path d="M48 68 L348 25 L405 177 L102 220Z" fill="none" stroke="#fff" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="visual-bottom"><div><strong>Soluciones fotovoltaicas</strong><span>Del análisis a la propuesta</span></div><span>Eco Solare</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="solucion">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">Nuestra propuesta</div>
+          <h2>De un recibo de luz a una propuesta técnica y económica.</h2>
+          <p>La solución organiza la información necesaria para estimar un sistema solar y explicar sus principales características al cliente.</p>
+        </div>
+        <div class="steps">
+          <article class="step"><div class="step-number">01</div><h3>Conocer el consumo</h3><p>Registrar los equipos eléctricos, su potencia y sus horas de uso para estimar la energía que necesita el espacio.</p></article>
+          <article class="step"><div class="step-number">02</div><h3>Dimensionar el sistema</h3><p>Estimar el arreglo fotovoltaico con base en la demanda energética y las horas solares pico consideradas.</p></article>
+          <article class="step"><div class="step-number">03</div><h3>Evaluar la propuesta</h3><p>Revisar componentes, compatibilidad eléctrica, inversión estimada, ahorro potencial y periodo de recuperación.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="solution" id="sistema">
+      <div class="container solution-grid">
+        <div class="solution-copy">
+          <div class="eyebrow">Una solución integral</div>
+          <h2>Ingeniería que se entiende y se puede evaluar.</h2>
+          <p>La propuesta reúne el análisis del consumo y la selección preliminar de los componentes para que el cliente pueda comprender qué integra el sistema y cómo se estima su desempeño.</p>
+          <ul class="check-list">
+            <li>Estimación de demanda y energía consumida.</li>
+            <li>Configuración de paneles en serie y paralelo.</li>
+            <li>Revisión de tensión, corriente y potencia del inversor.</li>
+            <li>Evaluación de almacenamiento y autonomía, si aplica.</li>
+            <li>Presupuesto y evaluación económica preliminar.</li>
+          </ul>
+        </div>
+        <div class="dashboard">
+          <div class="dashboard-head"><strong>Resumen de propuesta</strong><span class="status">Vista conceptual</span></div>
+          <div class="metrics">
+            <div class="metric"><span>Consumo energético</span><strong>Por calcular</strong><small>kWh / periodo</small></div>
+            <div class="metric"><span>Potencia fotovoltaica</span><strong>Por dimensionar</strong><small>kW</small></div>
+            <div class="metric"><span>Inversión estimada</span><strong>Por cotizar</strong><small>MXN</small></div>
+            <div class="metric"><span>Retorno estimado</span><strong>Por evaluar</strong><small>Años</small></div>
+          </div>
+          <div class="bar-label"><span>Proceso de evaluación</span><span>Consumo → propuesta</span></div>
+          <div class="bar"><span></span></div>
+          <p style="margin:16px 0 0;color:#71847d;font-size:.78rem;">Los resultados se calcularán cuando se ingresen los datos del caso de estudio. Esta página presenta la solución de manera estática.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="componentes">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">Elementos del sistema</div>
+          <h2>Cada componente cumple una función.</h2>
+          <p>La selección final deberá respaldarse con fichas técnicas y precios verificables de productos comerciales.</p>
+        </div>
+        <div class="features">
+          <article class="feature"><div class="feature-icon">☀️</div><h3>Paneles solares</h3><p>Captan la radiación solar y la convierten en energía eléctrica.</p></article>
+          <article class="feature"><div class="feature-icon">🔌</div><h3>Inversor</h3><p>Convierte la energía de corriente directa a corriente alterna y debe ser compatible con el arreglo.</p></article>
+          <article class="feature"><div class="feature-icon">🔋</div><h3>Baterías</h3><p>Almacenan energía para cubrir necesidades de autonomía cuando el diseño las contempla.</p></article>
+          <article class="feature"><div class="feature-icon">📊</div><h3>Evaluación económica</h3><p>Relaciona inversión, tarifa eléctrica, ahorro estimado y recuperación.</p></article>
+        </div>
+        <div class="disclaimer"><strong>Alcance:</strong> el dimensionamiento y la cotización serán preliminares. Los resultados dependerán de los datos de consumo, las condiciones del sitio, las fichas técnicas y los supuestos utilizados; no sustituyen un proyecto ejecutivo ni garantizan ahorros.</div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="contacto">
+      <div class="container">
+        <div class="cta-box">
+          <div><h2>El primer paso hacia una energía más inteligente.</h2><p>Conoce cómo el análisis de circuitos eléctricos puede convertirse en una propuesta solar clara, verificable y comprensible.</p></div>
+          <a class="button" href="#inicio">Volver al inicio ↑</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div><div class="footer-brand"><span>Eco</span> Solare</div><p>Cotiza. Ahorra. Cuida el planeta.</p></div>
+      <div class="student-id">A01744292</div>
+    </div>
+  </footer>
+</body>
+</html>
