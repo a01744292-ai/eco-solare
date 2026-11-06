@@ -1,216 +1,218 @@
-
-import {
-  calcularPotencia,
-  calcularEnergia,
-  calcularEnergiaSemanal
-} from "./consumo.js";
+import { calcularPotencia, calcularEnergia, calcularEnergiaSemanal } from "./consumo.js";
 
 const CLAVE = "eco-solare-inventario-v1";
-
-const formulario = document.getElementById("form-consumo");
-const tabla = document.getElementById("tabla-equipos");
-const resultado = document.getElementById("resultado-consumo");
-const grafica = document.getElementById("grafica-consumo");
-const mensaje = document.getElementById("mensaje-consumo");
-const botonBorrar = document.getElementById("borrar-inventario");
-
+const $ = (id) => document.getElementById(id);
+const formulario = $("form-consumo");
+const tabla = $("tabla-equipos");
+const resultado = $("resultado-consumo");
+const grafica = $("grafica-consumo");
+const mensaje = $("mensaje-consumo");
+const botonBorrar = $("borrar-inventario");
+const botonExportar = $("exportar-inventario");
+const botonCancelar = $("cancelar-edicion");
+const botonGuardar = $("guardar-equipo");
 let equipos = [];
+let indiceEdicion = -1;
 
-function validarEquipo(equipo) {
-  return (
-    typeof equipo.nombre === "string" &&
-    equipo.nombre.trim().length > 0 &&
-    Number.isInteger(equipo.cantidad) &&
-    equipo.cantidad >= 1 &&
-    Number.isFinite(equipo.potencia) &&
-    equipo.potencia > 0 &&
-    Number.isFinite(equipo.horas) &&
-    equipo.horas >= 0 &&
-    equipo.horas <= 24 &&
-    Number.isInteger(equipo.dias) &&
-    equipo.dias >= 1 &&
-    equipo.dias <= 7
-  );
+function validarEquipo(e) {
+  return typeof e.nombre === "string" && e.nombre.trim().length > 0 &&
+    e.nombre.length <= 120 && Number.isInteger(e.cantidad) && e.cantidad >= 1 &&
+    Number.isFinite(e.potencia) && e.potencia > 0 &&
+    Number.isFinite(e.horas) && e.horas >= 0 && e.horas <= 24 &&
+    Number.isInteger(e.dias) && e.dias >= 1 && e.dias <= 7;
 }
-
+function formato(n) { return Number(n).toPrecision(5); }
+function consumo(e) {
+  return {
+    potencia: calcularPotencia(e.cantidad, e.potencia),
+    diaria: calcularEnergia(e.cantidad, e.potencia, e.horas),
+    semanal: calcularEnergiaSemanal(e.cantidad, e.potencia, e.horas, e.dias)
+  };
+}
 function guardar() {
-  try {
-    localStorage.setItem(CLAVE, JSON.stringify(equipos));
-    return true;
-  } catch {
-    mensaje.textContent =
-      "No fue posible guardar los datos en este navegador.";
-    return false;
-  }
+  try { localStorage.setItem(CLAVE, JSON.stringify(equipos)); return true; }
+  catch { mensaje.textContent = "No se pudieron guardar los datos en este navegador."; return false; }
 }
-
 function cargar() {
   try {
     const datos = JSON.parse(localStorage.getItem(CLAVE) || "[]");
-    equipos = Array.isArray(datos)
-      ? datos.filter(validarEquipo)
-      : [];
+    equipos = Array.isArray(datos) ? datos.filter(validarEquipo) : [];
   } catch {
     equipos = [];
-    mensaje.textContent =
-      "No se pudieron recuperar los datos guardados.";
+    mensaje.textContent = "No fue posible recuperar el inventario guardado.";
   }
 }
-
-function formato(numero) {
-  return Number(numero).toPrecision(5);
+function celda(fila, valor) {
+  const td = document.createElement("td");
+  td.textContent = valor;
+  td.style.padding = "12px";
+  td.style.borderBottom = "1px solid #dce8df";
+  fila.appendChild(td);
+  return td;
 }
-
-function crearCelda(fila, texto) {
-  const celda = document.createElement("td");
-  celda.textContent = texto;
-  celda.style.padding = "12px";
-  celda.style.borderBottom = "1px solid #dce8df";
-  fila.appendChild(celda);
-  return celda;
+function botonAccion(texto, accion) {
+  const boton = document.createElement("button");
+  boton.type = "button";
+  boton.textContent = texto;
+  boton.addEventListener("click", accion);
+  return boton;
 }
-
+function cancelarEdicion() {
+  indiceEdicion = -1;
+  formulario.reset();
+  botonGuardar.textContent = "Agregar equipo";
+  botonCancelar.hidden = true;
+}
+function editar(i) {
+  const e = equipos[i];
+  indiceEdicion = i;
+  $("equipo").value = e.nombre;
+  $("cantidad").value = e.cantidad;
+  $("potencia").value = e.potencia;
+  $("horas").value = e.horas;
+  $("dias").value = e.dias;
+  botonGuardar.textContent = "Guardar cambios";
+  botonCancelar.hidden = false;
+  formulario.scrollIntoView({ behavior: "smooth", block: "center" });
+  $("equipo").focus();
+}
 function actualizar() {
   tabla.replaceChildren();
   grafica.replaceChildren();
-
-  let potenciaTotal = 0;
-  let energiaDiariaTotal = 0;
-  let energiaSemanalTotal = 0;
-
+  let totalPotencia = 0;
+  let totalDiaria = 0;
+  let totalSemanal = 0;
   const consumos = [];
 
-  equipos.forEach((equipo, indice) => {
-    const potencia = calcularPotencia(
-      equipo.cantidad, equipo.potencia
-    );
-
-    const diaria = calcularEnergia(
-      equipo.cantidad, equipo.potencia, equipo.horas
-    );
-
-    const semanal = calcularEnergiaSemanal(
-      equipo.cantidad, equipo.potencia,
-      equipo.horas, equipo.dias
-    );
-
-    potenciaTotal += potencia;
-    energiaDiariaTotal += diaria;
-    energiaSemanalTotal += semanal;
-
-    consumos.push({
-      nombre: equipo.nombre,
-      energia: semanal
-    });
-
+  equipos.forEach((e, i) => {
+    const c = consumo(e);
+    totalPotencia += c.potencia;
+    totalDiaria += c.diaria;
+    totalSemanal += c.semanal;
+    consumos.push({ nombre: e.nombre, semanal: c.semanal });
     const fila = document.createElement("tr");
-
-    crearCelda(fila, equipo.nombre);
-    crearCelda(fila, formato(potencia) + " W");
-    crearCelda(fila, formato(diaria));
-    crearCelda(fila, formato(semanal));
-
-    const celdaAccion = crearCelda(fila, "");
-    const boton = document.createElement("button");
-
-    boton.textContent = "Eliminar";
-    boton.type = "button";
-    boton.style.cursor = "pointer";
-    boton.style.color = "#08783F";
-
-    boton.addEventListener("click", () => {
-      equipos.splice(indice, 1);
-      guardar();
-      actualizar();
-    });
-
-    celdaAccion.appendChild(boton);
+    celda(fila, e.nombre);
+    celda(fila, formato(c.potencia) + " W");
+    celda(fila, formato(c.diaria));
+    celda(fila, formato(c.semanal));
+    const acciones = celda(fila, "");
+    acciones.append(
+      botonAccion("Editar", () => editar(i)),
+      document.createTextNode(" "),
+      botonAccion("Eliminar", () => {
+        if (indiceEdicion === i) cancelarEdicion();
+        else if (indiceEdicion > i) indiceEdicion--;
+        equipos.splice(i, 1);
+        guardar();
+        actualizar();
+      })
+    );
     tabla.appendChild(fila);
   });
 
+  const promedioDiario = totalSemanal / 7;
+  const mensual = totalSemanal * 365 / (7 * 12);
   resultado.replaceChildren();
+  const titulo = document.createElement("h3");
+  titulo.textContent = "Resumen del inventario";
+  resultado.appendChild(titulo);
+  [
+    ["Potencia nominal total", totalPotencia, " W"],
+    ["Energía de un día de operación", totalDiaria, " kWh"],
+    ["Energía semanal", totalSemanal, " kWh"],
+    ["Promedio diario semanal", promedioDiario, " kWh/día"],
+    ["Estimación mensual promedio", mensual, " kWh/mes"]
+  ].forEach(([nombre, valor, unidad]) => {
+    const p = document.createElement("p");
+    p.textContent = nombre + ": " + formato(valor) + unidad;
+    resultado.appendChild(p);
+  });
+  const nota = document.createElement("small");
+  nota.textContent = "Estimación mensual = consumo semanal × 365 ÷ (7 × 12). Supone el mismo patrón semanal durante todo el año; no considera vacaciones ni cambios estacionales.";
+  resultado.appendChild(nota);
 
-  const resumen = document.createElement("div");
-  resumen.innerHTML = `
-    <h3>Resumen del inventario</h3>
-    <p>Potencia instalada: ${formato(potenciaTotal)} W</p>
-    <p>Energía diaria de referencia:
-       ${formato(energiaDiariaTotal)} kWh/día</p>
-    <p>Energía semanal:
-       ${formato(energiaSemanalTotal)} kWh/semana</p>
-  `;
-  resultado.appendChild(resumen);
-
-  // Gráfica de barras sin librerías externas
+  consumos.sort((a, b) => b.semanal - a.semanal);
   consumos.forEach((dato) => {
-    const porcentaje = energiaSemanalTotal > 0
-      ? dato.energia / energiaSemanalTotal * 100
-      : 0;
-
+    const porcentaje = totalSemanal > 0 ? dato.semanal / totalSemanal * 100 : 0;
     const bloque = document.createElement("div");
     bloque.style.marginBottom = "16px";
-
     const etiqueta = document.createElement("div");
-    etiqueta.textContent =
-      `${dato.nombre}: ${formato(dato.energia)} kWh`;
+    etiqueta.textContent = dato.nombre + ": " + formato(dato.semanal) + " kWh (" + porcentaje.toFixed(1) + "%)";
     etiqueta.style.marginBottom = "5px";
-
     const fondo = document.createElement("div");
     fondo.style.background = "#e8efea";
     fondo.style.borderRadius = "8px";
     fondo.style.height = "22px";
-
+    fondo.setAttribute("role", "img");
+    fondo.setAttribute("aria-label", etiqueta.textContent);
     const barra = document.createElement("div");
     barra.style.width = porcentaje + "%";
     barra.style.height = "100%";
     barra.style.background = "#08783F";
     barra.style.borderRadius = "8px";
-
     fondo.appendChild(barra);
     bloque.append(etiqueta, fondo);
     grafica.appendChild(bloque);
   });
-
   if (equipos.length === 0) {
     grafica.textContent = "Agrega equipos para visualizar el consumo.";
+    const fila = document.createElement("tr");
+    const vacia = celda(fila, "Todavía no hay equipos registrados.");
+    vacia.colSpan = 5;
+    tabla.appendChild(fila);
   }
+  botonExportar.disabled = equipos.length === 0;
+  botonBorrar.disabled = equipos.length === 0;
+  const resumenPrincipal = $("consumo-resumen-principal");
+  if (resumenPrincipal) resumenPrincipal.textContent = equipos.length ? formato(totalSemanal) + " kWh/semana" : "Por calcular";
 }
-
 formulario.addEventListener("submit", (evento) => {
   evento.preventDefault();
-
-  const equipo = {
-    nombre: document.getElementById("equipo").value.trim(),
-    cantidad: Number(document.getElementById("cantidad").value),
-    potencia: Number(document.getElementById("potencia").value),
-    horas: Number(document.getElementById("horas").value),
-    dias: Number(document.getElementById("dias").value)
+  const e = {
+    nombre: $("equipo").value.trim(),
+    cantidad: Number($("cantidad").value),
+    potencia: Number($("potencia").value),
+    horas: Number($("horas").value),
+    dias: Number($("dias").value)
   };
-
-  if (!validarEquipo(equipo)) {
-    mensaje.textContent = "Revisa los datos introducidos.";
+  if (!validarEquipo(e)) {
+    mensaje.textContent = "Revisa los datos: cantidad y días enteros, potencia positiva, horas entre 0 y 24.";
     return;
   }
-
-  equipos.push(equipo);
+  if (indiceEdicion >= 0) equipos[indiceEdicion] = e;
+  else equipos.push(e);
   const guardado = guardar();
   actualizar();
-
-  if (guardado) {
-    mensaje.textContent = "Equipo agregado y guardado.";
-  }
-
-  formulario.reset();
+  cancelarEdicion();
+  if (guardado) mensaje.textContent = "Inventario actualizado y guardado.";
 });
-
+botonCancelar.addEventListener("click", cancelarEdicion);
 botonBorrar.addEventListener("click", () => {
-  if (confirm("¿Eliminar todos los equipos registrados?")) {
-    equipos = [];
-    guardar();
-    actualizar();
-    mensaje.textContent = "Inventario eliminado.";
-  }
+  if (!confirm("¿Eliminar todos los equipos registrados?")) return;
+  equipos = [];
+  cancelarEdicion();
+  guardar();
+  actualizar();
+  mensaje.textContent = "Inventario eliminado.";
 });
-
+botonExportar.addEventListener("click", () => {
+  const encabezados = ["Equipo", "Cantidad", "Potencia por equipo (W)", "Horas por día", "Días por semana", "Potencia total (W)", "Energía diaria (kWh)", "Energía semanal (kWh)"];
+  const filas = equipos.map((e) => {
+    const c = consumo(e);
+    return [e.nombre, e.cantidad, e.potencia, e.horas, e.dias, c.potencia, c.diaria, c.semanal];
+  });
+  const escapar = (v) => '"' + String(v).replace(/"/g, '""') + '"';
+  const csv = [encabezados, ...filas].map((fila) => fila.map(escapar).join(",")).join("\r\n");
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const enlace = document.createElement("a");
+  enlace.href = url;
+  enlace.download = "eco-solare-inventario.csv";
+  document.body.appendChild(enlace);
+  enlace.click();
+  enlace.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  mensaje.textContent = "Inventario exportado a CSV.";
+});
 cargar();
 actualizar();
