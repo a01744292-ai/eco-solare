@@ -161,6 +161,7 @@ function actualizar() {
     vacia.colSpan = 5;
     tabla.appendChild(fila);
   }
+  document.dispatchEvent(new Event("eco-solare-inventario-actualizado"));
   botonExportar.disabled = equipos.length === 0;
   botonBorrar.disabled = equipos.length === 0;
   const resumenPrincipal = $("consumo-resumen-principal");
