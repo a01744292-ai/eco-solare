@@ -88,5 +88,6 @@ function calcular() {
 $("form-solar").addEventListener("submit", e => { e.preventDefault(); calcular(); });
 $("recalcular-solar").addEventListener("click", calcular);
 window.addEventListener("storage", e => { if (e.key === INVENTARIO) calcular(); });
+document.addEventListener("eco-solare-inventario-actualizado", calcular);
 leerAjustes();
 calcular();
