@@ -263,46 +263,78 @@
       </div>
     </section>
 
+
 <section id="consumo" class="solution">
   <div class="container">
     <div class="section-heading">
       <div class="eyebrow">Análisis eléctrico</div>
-      <h2>Calculadora de consumo energético</h2>
-      <p>
-        Introduce las características de los equipos
-        para estimar su consumo eléctrico.
-      </p>
+      <h2>Inventario de consumo energético</h2>
+      <p>Registra los equipos del aula y analiza su consumo.</p>
     </div>
 
-    <div class="dashboard" style="max-width:650px;margin:auto;">
-      <form id="form-consumo" style="display:grid;gap:16px;">
+    <div class="dashboard" style="max-width:950px;margin:auto;">
+      <form id="form-consumo"
+            style="display:grid;gap:12px;">
 
-        <label for="cantidad">Cantidad de equipos</label>
-        <input id="cantidad" type="number" min="1"
-               step="1" value="10" required>
+        <label for="equipo">Nombre del equipo</label>
+        <input id="equipo" type="text"
+               placeholder="Ej. Luminarias LED" required>
+
+        <label for="cantidad">Cantidad</label>
+        <input id="cantidad" type="number"
+               min="1" step="1" value="10" required>
 
         <label for="potencia">Potencia por equipo (W)</label>
-        <input id="potencia" type="number" min="0.01"
-               step="any" value="20" required>
+        <input id="potencia" type="number"
+               min="0.01" step="any" value="20" required>
 
-        <label for="horas">Horas de uso al día</label>
-        <input id="horas" type="number" min="0" max="24"
-               step="any" value="8" required>
+        <label for="horas">Horas de uso diario</label>
+        <input id="horas" type="number"
+               min="0" max="24" step="any"
+               value="8" required>
 
-        <label for="dias">Días de uso por semana</label>
-        <input id="dias" type="number" min="1" max="7"
-               step="1" value="5" required>
+        <label for="dias">Días por semana</label>
+        <input id="dias" type="number"
+               min="1" max="7" step="1"
+               value="5" required>
 
         <button class="button" type="submit">
-          Calcular consumo
+          Agregar equipo
         </button>
       </form>
 
+      <p id="mensaje-consumo" role="status"></p>
+
+      <div style="overflow-x:auto;margin-top:30px;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th>Equipo</th>
+              <th>Potencia total</th>
+              <th>kWh/día</th>
+              <th>kWh/semana</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-equipos"></tbody>
+        </table>
+      </div>
+
       <div id="resultado-consumo"
            aria-live="polite"
-           style="margin-top:24px;">
-        Introduce los datos y presiona Calcular consumo.
-      </div>
+           style="margin-top:25px;"></div>
+
+      <h3 style="margin-top:35px;">
+        Distribución del consumo semanal
+      </h3>
+      <div id="grafica-consumo"></div>
+
+      <button id="borrar-inventario"
+              type="button"
+              class="button secondary"
+              style="margin-top:25px;">
+        Borrar inventario
+      </button>
     </div>
   </div>
 </section>
