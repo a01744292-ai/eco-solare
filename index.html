@@ -182,6 +182,12 @@
     .solar-results p { margin:10px 0; }
     .solar-note { color:#61766b; font-size:.84rem; line-height:1.6; }
     @media(max-width:620px) { .solar-form {grid-template-columns:1fr;} .solar-actions {flex-direction:column;align-items:stretch;} }
+
+    #seleccion { scroll-margin-top:85px; }
+    .component-alerts { padding-left:24px; line-height:1.65; }
+    .component-alerts li { margin:8px 0; }
+    #form-componentes input { color:var(--navy); }
+    #resultado-componentes:empty { display:none; }
   </style>
 </head>
 <body>
@@ -203,6 +209,7 @@
         <a href="#componentes">Componentes</a>
         <a href="#consumo">Calculadora</a>
         <a href="#solar">Sistema FV</a>
+        <a href="#seleccion">Componentes</a>
         <a class="nav-cta" href="#contacto">Conoce la propuesta</a>
       </nav>
     </div>
@@ -429,6 +436,45 @@
       </div>
     </section>
 
+
+<section id="seleccion" class="solution">
+  <div class="container">
+    <div class="section-heading">
+      <div class="eyebrow">Selección técnica · Etapa siguiente</div>
+      <h2>Paneles e inversores comerciales</h2>
+      <p>Registra modelos reales y transcribe sus especificaciones desde fichas técnicas del fabricante. El análisis compara valores nominales, pero no aprueba un diseño eléctrico.</p>
+    </div>
+    <div class="dashboard" style="max-width:950px;margin:auto">
+      <form id="form-componentes" class="solar-form">
+        <div class="solar-field"><label for="panel-modelo">Modelo comercial del panel</label><input id="panel-modelo" type="text"  placeholder="Ej. fabricante y referencia" required></div>
+        <div class="solar-field"><label for="panel-ficha">URL de la ficha técnica del panel</label><input id="panel-ficha" type="url"  placeholder="https://..." required></div>
+        <div class="solar-field"><label for="panel-wp">Potencia del panel (Wp)</label><input id="panel-wp" type="number" min="0.001" step="any"  required></div>
+        <div class="solar-field"><label for="panel-voc">Voc nominal del panel (V)</label><input id="panel-voc" type="number" min="0.001" step="any"  required></div>
+        <div class="solar-field"><label for="panel-vmp">Vmp nominal del panel (V)</label><input id="panel-vmp" type="number" min="0.001" step="any"  required></div>
+        <div class="solar-field"><label for="panel-isc">Isc nominal del panel (A)</label><input id="panel-isc" type="number" min="0.001" step="any"  required></div>
+        <div class="solar-field"><label for="panel-imp">Imp nominal del panel (A)</label><input id="panel-imp" type="number" min="0.001" step="any"  required></div>
+        <div class="solar-field"><label for="inversor-modelo">Modelo comercial del inversor</label><input id="inversor-modelo" type="text"  placeholder="Ej. fabricante y referencia" required></div>
+        <div class="solar-field"><label for="inversor-ficha">URL de la ficha técnica del inversor</label><input id="inversor-ficha" type="url"  placeholder="https://..." required></div>
+        <div class="solar-field"><label for="inversor-kw">Potencia nominal AC del inversor (kW)</label><input id="inversor-kw" type="number" min="0.001" step="any"  required></div>
+        <div class="solar-field"><label for="inversor-maxdc">Tensión máxima de entrada DC (V)</label><input id="inversor-maxdc" type="number" min="0.001" step="any"  required></div>
+        <div class="solar-field"><label for="inversor-mppt-min">Límite inferior del rango MPPT (V)</label><input id="inversor-mppt-min" type="number" min="0.001" step="any"  required></div>
+        <div class="solar-field"><label for="inversor-mppt-max">Límite superior del rango MPPT (V)</label><input id="inversor-mppt-max" type="number" min="0.001" step="any"  required></div>
+        <div class="solar-field"><label for="inversor-corriente">Corriente máxima admitida por entrada (A)</label><input id="inversor-corriente" type="number" min="0.001" step="any"  required></div>
+        <div class="solar-field"><label for="serie">Paneles en serie por cadena (hipótesis)</label><input id="serie" type="number" min="0.001" step="any"  required></div>
+        <div class="solar-actions">
+          <button class="button" type="submit">Evaluar componentes</button>
+          <button id="limpiar-componentes" class="button secondary" type="button">Borrar fichas guardadas</button>
+        </div>
+      </form>
+      <p id="mensaje-componentes" role="status" aria-live="polite"></p>
+      <div id="resultado-componentes" class="solar-results" aria-live="polite"></div>
+      <h3>Comprobaciones y limitaciones</h3>
+      <ul id="avisos-componentes" class="component-alerts" aria-live="polite"></ul>
+      <p class="solar-note">No se proporcionan especificaciones comerciales predeterminadas. Verifica los datos y enlaces originales. Los valores Voc y Vmp varían con la temperatura. El análisis de corriente de una cadena no sustituye la revisión de entradas MPPT ni del paralelo de cadenas.</p>
+    </div>
+  </div>
+</section>
+
   </main>
 
   <footer>
@@ -439,5 +485,6 @@
   </footer>
 <script type="module" src="./js/app.js"></script>
 <script type="module" src="./js/solar.js"></script>
+<script type="module" src="./js/componentes.js"></script>
 </body>
 </html>
