@@ -142,6 +142,30 @@
       .cta-box { padding: 30px 24px; flex-direction: column; align-items: flex-start; }
       .footer-inner { align-items: flex-start; flex-direction: column; }
     }
+
+    /* Inventario eléctrico: controles, tabla y navegación */
+    #consumo { scroll-margin-top: 85px; }
+    #consumo .dashboard { max-width: 950px; }
+    #form-consumo { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px !important; }
+    #form-consumo label { font-weight: 750; font-size: .9rem; color: var(--navy); align-self: end; }
+    #form-consumo input { width: 100%; min-width: 0; padding: 13px 15px; border: 1px solid #bfd4c7; border-radius: 12px; font: inherit; background: #fff; color: var(--navy); }
+    #form-consumo input:focus-visible { outline: 3px solid rgba(8,127,145,.25); border-color: var(--teal); }
+    #form-consumo button { grid-column: 1 / -1; cursor: pointer; font: inherit; }
+    #consumo table { min-width: 650px; font-size: .9rem; }
+    #consumo th { padding: 12px; text-align: left; background: #e9f5eb; color: var(--navy); }
+    #consumo td { vertical-align: middle; }
+    #consumo td button { border: 1px solid #c8d9ce; border-radius: 9px; background: white; padding: 8px 11px; font: inherit; }
+    #consumo td button:hover { background: #e9f5eb; }
+    #consumo #resultado-consumo { background: #f4f9f6; padding: 20px; border-radius: 15px; }
+    #consumo #resultado-consumo h3 { margin-top: 0; }
+    #consumo #grafica-consumo { margin-top: 15px; }
+    #consumo #mensaje-consumo { color: var(--green-dark); font-weight: 650; }
+    #borrar-inventario { cursor: pointer; font: inherit; }
+    @media (max-width: 620px) {
+      #form-consumo { grid-template-columns: 1fr; }
+      #consumo .dashboard { padding: 18px; }
+      #consumo table { font-size: .82rem; }
+    }
   </style>
 </head>
 <body>
@@ -161,6 +185,7 @@
         <a href="#solucion">La solución</a>
         <a href="#sistema">Sistema solar</a>
         <a href="#componentes">Componentes</a>
+        <a href="#consumo">Calculadora</a>
         <a class="nav-cta" href="#contacto">Conoce la propuesta</a>
       </nav>
     </div>
@@ -174,7 +199,7 @@
           <h1>Tu consumo puede convertirse en <span>energía solar.</span></h1>
           <p>En Eco Solare transformamos los datos de consumo eléctrico en una propuesta fotovoltaica preliminar: dimensionamiento, selección de equipos y evaluación económica en un solo lugar.</p>
           <div class="hero-actions">
-            <a class="button" href="#solucion">Explorar la solución</a>
+            <a class="button" href="#consumo">Calcular mi consumo</a>
             <a class="button secondary" href="#sistema">Ver sistema propuesto</a>
           </div>
           <div class="hero-note">Una propuesta clara para hogares, escuelas y negocios.</div>
