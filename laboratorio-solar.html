@@ -19,32 +19,41 @@ h1{font-size:clamp(2.15rem,4.3vw,3.6rem);letter-spacing:-1.9px;line-height:1.08;
 .card h2{font-size:1.18rem;letter-spacing:-.3px;margin:0 0 15px}.visual{height:370px;position:relative;overflow:hidden;isolation:isolate;border-radius:20px;background:linear-gradient(180deg,#dff4fc 0%,#ecfafa 57%,#f9f5de 100%);perspective:1000px}
 .visual::after{content:"";position:absolute;bottom:0;left:0;right:0;height:55px;background:linear-gradient(transparent,#e6f1e4aa);pointer-events:none}
 .cloud{position:absolute;width:110px;height:27px;background:#fff9;border-radius:99px;filter:blur(1px)}.cloud::before,.cloud::after{content:"";position:absolute;background:#fff9;border-radius:50%}.cloud::before{width:55px;height:46px;left:18px;top:-23px}.cloud::after{width:48px;height:35px;right:18px;top:-16px}.cloud.one{left:43%;top:15%;transform:scale(.65)}.cloud.two{right:3%;top:31%;transform:scale(.46)}
-.sun{position:absolute;width:73px;height:73px;left:13%;top:12%;border-radius:50%;z-index:2;background:radial-gradient(circle at 35% 28%,#ffe590,#ffc448 65%,#ffad1c);box-shadow:0 0 0 12px #ffca5040,0 0 0 23px #ffca5022,0 0 55px #ffbb52a0;animation:sun-bob 6s ease-in-out infinite}
+.sun{position:absolute;width:73px;height:73px;left:13%;top:19%;border-radius:50%;z-index:2;background:radial-gradient(circle at 35% 28%,#ffe590,#ffc448 65%,#ffad1c);box-shadow:0 0 0 12px #ffca5040,0 0 0 23px #ffca5022,0 0 55px #ffbb52a0;animation:sun-bob 6s ease-in-out infinite}
 .sun::before{content:"";position:absolute;inset:-26px;background:repeating-conic-gradient(from 0deg, #ffc448 0deg 6deg,transparent 6deg 45deg);-webkit-mask:radial-gradient(transparent 0 45px,#000 46px 60px,transparent 61px);mask:radial-gradient(transparent 0 45px,#000 46px 60px,transparent 61px);animation:sun-rays 30s linear infinite}
 .sun .eye{position:absolute;top:28px;width:5px;height:8px;border-radius:7px;background:#8b570d}.sun .eye.left{left:24px}.sun .eye.right{right:24px}.sun .smile{position:absolute;left:30px;top:42px;width:14px;height:8px;border:2px solid #8b570d;border-top:0;border-radius:0 0 14px 14px}
 @keyframes sun-bob{50%{transform:translateY(-5px)}}@keyframes sun-rays{to{transform:rotate(360deg)}}
-.beam{position:absolute;left:23%;top:26%;width:4px;height:235px;z-index:1;opacity:.55;background:linear-gradient(#ffd46da8,#ffd46d00);transform-origin:top;transform:rotate(-49deg)}.beam.b2{left:18%;top:29%;transform:rotate(-35deg)}.beam.b3{left:29%;top:29%;transform:rotate(-57deg)}
+.beam{position:absolute;left:24%;top:38%;width:4px;height:205px;z-index:1;opacity:var(--beam-opacity,.42);background:linear-gradient(#ffd46dc0,#ffd46d00);transform-origin:top;transform:rotate(-48deg);transition:opacity .5s ease}.beam.b2{left:18%;top:39%;transform:rotate(-34deg)}.beam.b3{left:29%;top:39%;transform:rotate(-56deg)}
 .ground{position:absolute;left:4%;width:92%;bottom:-74px;height:185px;transform:rotateX(67deg);border-radius:50%;background:radial-gradient(ellipse,#bfe4c9 0%,#d4edd5 68%,#d3e7d2 100%);border:3px solid #9fcdb0}
 .ground-shadow{position:absolute;bottom:52px;left:50%;width:275px;height:55px;transform:translateX(-50%) rotate(-10deg);border-radius:50%;background:#20634b20;filter:blur(14px)}
 .panel-anchor{position:absolute;left:52%;top:55%;width:282px;height:170px;transform:translate(-50%,-50%);perspective:1000px;z-index:3}
-.panel{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateZ(-7deg) rotateY(-19deg) rotateX(30deg);transition:transform .42s cubic-bezier(.2,.75,.2,1)}
-.panel-face{position:absolute;inset:0;border:8px solid #dce9eb;border-radius:10px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 14px 22px #073e4b24}
-.panel-front{background:repeating-linear-gradient(90deg,transparent 0 51px,#aacbd6 52px 54px),repeating-linear-gradient(0deg,transparent 0 38px,#aacbd6 39px 41px),linear-gradient(130deg,#164e70,#092d54 74%);transform:translateZ(5px)}
+.panel{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateZ(-7deg) rotateY(-19deg) rotateX(30deg);transition:transform .42s cubic-bezier(.2,.75,.2,1)filter:drop-shadow(0 12px 12px #073e4b25);--impact:.7}
+.panel-face{position:absolute;inset:0;border:7px solid #dce9eb;border-radius:9px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.panel-front{background:repeating-linear-gradient(90deg,transparent 0 51px,#aacbd6 52px 54px),repeating-linear-gradient(0deg,transparent 0 38px,#aacbd6 39px 41px),linear-gradient(130deg,#164e70,#092d54 74%);transform:translateZ(3px)}
 .panel-front::after{content:"";position:absolute;inset:6px;background:linear-gradient(128deg,#ffffff24 0%,transparent 58%);pointer-events:none}
-.panel-back{background:repeating-linear-gradient(90deg,#e2e8e8 0 32px,#b2c6cb 33px 35px);border-color:#7f969c;transform:rotateY(180deg) translateZ(5px)}
+.panel-back{background:repeating-linear-gradient(90deg,#e2e8e8 0 32px,#b2c6cb 33px 35px);border-color:#7f969c;transform:rotateY(180deg) translateZ(3px)}
 .panel-back::after{content:"";position:absolute;left:calc(50% - 19px);top:calc(50% - 17px);width:38px;height:34px;background:#627980;border-radius:6px;box-shadow:0 2px 5px #3a525e60}
-.panel-rim{position:absolute;inset:0;border:7px solid #69848d;border-radius:10px;transform:translateZ(-5px)}
+.panel-rim{position:absolute;inset:0;border:7px solid #69848d;border-radius:10px;transform:translateZ(0)}
+.panel-edge{position:absolute;background:#758e98;backface-visibility:visible}
+.panel-edge.top{top:0;left:0;width:100%;height:6px;transform-origin:top;transform:rotateX(-90deg)}
+.panel-edge.bottom{bottom:0;left:0;width:100%;height:6px;transform-origin:bottom;transform:rotateX(90deg)}
+.panel-edge.left{top:0;left:0;width:6px;height:100%;transform-origin:left;transform:rotateY(90deg)}
+.panel-edge.right{top:0;right:0;width:6px;height:100%;transform-origin:right;transform:rotateY(-90deg)}
+.spark{position:absolute;width:9px;height:9px;z-index:2;border-radius:50%;background:#fff6d0;box-shadow:0 0 8px 4px #ffe881bc,0 0 20px 7px #ffd25560;opacity:var(--impact,.7);animation:twinkle 2.6s ease-in-out infinite;pointer-events:none}
+.spark::before,.spark::after{content:"";position:absolute;left:50%;top:50%;background:#fff8e1;transform:translate(-50%,-50%);border-radius:15px}.spark::before{width:23px;height:2px}.spark::after{height:23px;width:2px}
+.spark.one{top:22%;left:26%}.spark.two{top:54%;left:58%;animation-delay:.8s}.spark.three{top:39%;left:78%;animation-delay:1.6s}
+@keyframes twinkle{0%,100%{opacity:calc(var(--impact,.7)*.15)}50%{opacity:var(--impact,.7)}}
 .controls{display:flex;gap:9px;flex-wrap:wrap;margin:21px 0 19px}.preset{background:#fff;border:1px solid #c9ddd0;color:var(--ink);padding:11px 14px;border-radius:99px;cursor:pointer;font-size:.88rem;font-weight:800;transition:background .2s,transform .2s,border-color .2s}.preset:hover{transform:translateY(-2px);border-color:var(--green)}.preset[aria-pressed=true]{background:var(--deep);color:white;border-color:var(--deep)}
 .slider-head{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:800}.angle-pill{background:#e8f5eb;color:var(--green);border-radius:12px;padding:6px 13px;font-size:1.07rem;min-width:67px;text-align:center}
 input[type=range]{width:100%;margin:18px 0 5px;accent-color:var(--green);cursor:pointer}.range-ends{display:flex;justify-content:space-between;color:#6b8178;font-size:.8rem}
-.small-note{font-size:.81rem;color:#60746d;margin-top:13px}.metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:17px 0}.metric{background:#eff7f2;border-radius:16px;padding:15px 12px}.metric small{color:#587268;display:block;font-size:.74rem}.metric strong{font-size:clamp(1.15rem,2vw,1.7rem);display:block;white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:-.4px}
+.small-note{font-size:.81rem;color:#60746d;margin-top:13px}.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:17px 0}.metric{background:#eff7f2;border-radius:16px;padding:15px 14px;min-width:0}.metric.power{grid-column:1/-1;background:#e7f4ec}.metric small{color:#587268;display:block;font-size:.77rem}.metric strong{font-size:clamp(1.1rem,1.9vw,1.55rem);display:block;font-variant-numeric:tabular-nums;letter-spacing:-.3px;overflow-wrap:anywhere}.metric.power strong{font-size:clamp(1.4rem,2.7vw,2rem)}.metric .unit{font-size:.8em;color:#527164;font-weight:750}
 .status{display:inline-block;font-size:.76rem;font-weight:850;background:#e8f5eb;color:#08663b;border-radius:100px;padding:5px 11px}.explainer{color:var(--muted);font-size:.88rem;min-height:45px}
 .chart-key{display:flex;gap:15px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin:12px 0 6px}.key::before{content:"";display:inline-block;width:10px;height:10px;margin-right:6px;border-radius:50%;background:var(--teal)}.key.amps::before{background:var(--gold)}.key.power::before{background:var(--green)}
 .chart-shell{border:1px solid var(--line);border-radius:16px;background:#fafdfb;padding:12px;overflow:hidden}.graph{display:block;width:100%;height:auto}.graph .grid-line{stroke:#e0ece5;stroke-width:1}.graph .axis{stroke:#869f94;stroke-width:1.5}.graph text{font:11px Lato,Arial,sans-serif;fill:#6b8178}.graph .curve{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.graph .marker{stroke:white;stroke-width:2}
 .summary{margin-top:20px}.summary p{color:var(--muted);font-size:.91rem}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:570px}th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left}th{font-size:.82rem;background:#eef6ef}td{font-variant-numeric:tabular-nums}.note{background:#fff9e9;border-left:4px solid var(--gold);padding:13px 16px;border-radius:3px 12px 12px 3px;font-size:.87rem;color:#675c3c}
 @media(max-width:880px){.layout{grid-template-columns:1fr}.visual{height:340px}}
-@media(max-width:520px){main{padding:32px 15px 50px}.topinner{padding:13px 15px}.card{padding:17px;border-radius:18px}.visual{height:265px}.panel-anchor{transform:translate(-50%,-50%) scale(.7)}.sun{transform:scale(.75);transform-origin:top left}.metric-grid{grid-template-columns:1fr 1fr}.metric{padding:12px}.metric strong{font-size:1.26rem}.preset{font-size:.8rem;padding:9px 12px}}
-@media(prefers-reduced-motion:reduce){.panel,.sun,.sun::before,.preset{animation:none;transition:none}}
+@media(max-width:520px){main{padding:32px 15px 50px}.topinner{padding:13px 15px}.card{padding:17px;border-radius:18px}.visual{height:265px}.panel-anchor{transform:translate(-50%,-50%) scale(.7)}.sun{transform:scale(.75);transform-origin:top left}.metric-grid{grid-template-columns:1fr 1fr}.metric{padding:12px}.metric strong{font-size:1.18rem}.metric.power strong{font-size:1.6rem}.preset{font-size:.8rem;padding:9px 12px}}
+@media(prefers-reduced-motion:reduce){.panel,.sun,.sun::before,.spark,.preset{animation:none;transition:none}}
 </style>
 </head>
 <body>
@@ -61,7 +70,7 @@ input[type=range]{width:100%;margin:18px 0 5px;accent-color:var(--green);cursor:
 <div class="sun" aria-hidden="true"><span class="eye left"></span><span class="eye right"></span><span class="smile"></span></div>
 <div class="beam"></div><div class="beam b2"></div><div class="beam b3"></div>
 <div class="ground"></div><div class="ground-shadow"></div>
-<div class="panel-anchor"><div class="panel" id="panel"><div class="panel-rim"></div><div class="panel-face panel-front"></div><div class="panel-face panel-back"></div></div></div>
+<div class="panel-anchor"><div class="panel" id="panel"><div class="panel-rim"></div><div class="panel-edge top"></div><div class="panel-edge bottom"></div><div class="panel-edge left"></div><div class="panel-edge right"></div><div class="panel-face panel-front"><i class="spark one"></i><i class="spark two"></i><i class="spark three"></i></div><div class="panel-face panel-back"></div></div></div>
 </div>
 <div class="controls" role="group" aria-label="Seleccionar posición experimental">
 <button type="button" class="preset" data-angle="180" aria-pressed="false">Hacia abajo</button>
@@ -77,9 +86,9 @@ input[type=range]{width:100%;margin:18px 0 5px;accent-color:var(--green);cursor:
 <h2>Medidores eléctricos</h2>
 <span class="status" id="status">Medición experimental · 35°</span>
 <div class="metric-grid">
-<div class="metric"><small>Voltaje</small><strong id="voltage">0.130 V</strong></div>
-<div class="metric"><small>Corriente</small><strong id="current">3.52 mA</strong></div>
-<div class="metric"><small>Potencia</small><strong id="power">0.45760 mW</strong></div>
+<div class="metric"><small>Voltaje</small><strong id="voltage">0.130 <span class="unit">V</span></strong></div>
+<div class="metric"><small>Corriente</small><strong id="current">3.52 <span class="unit">mA</span></strong></div>
+<div class="metric power"><small>Potencia</small><strong id="power">0.45760 <span class="unit">mW</span></strong></div>
 </div>
 <p class="explainer" id="explanation" aria-live="polite"></p>
 <h2 style="margin-top:24px">Comparación dinámica</h2>
@@ -144,9 +153,12 @@ input[type=range]{width:100%;margin:18px 0 5px;accent-color:var(--green);cursor:
     var tilt=65-a;
     $("panel").style.transform="rotateZ(-7deg) rotateY(-19deg) rotateX("+tilt+"deg)";
     $("angleLabel").textContent=a+"°";
-    $("voltage").textContent=result.v.toFixed(3)+" V";
-    $("current").textContent=result.i.toFixed(2)+" mA";
-    $("power").textContent=result.p.toFixed(5)+" mW";
+    $("voltage").innerHTML=result.v.toPrecision(3)+' <span class="unit">V</span>';
+    $("current").innerHTML=result.i.toPrecision(3)+' <span class="unit">mA</span>';
+    $("power").innerHTML=result.p.toPrecision(5)+' <span class="unit">mW</span>';
+    var impact=Math.max(0,Math.cos((a-35)*rad));
+    $("panel").style.setProperty("--impact",Math.max(.04,impact).toFixed(3));
+    document.querySelector(".visual").style.setProperty("--beam-opacity",(.17+.38*impact).toFixed(3));
     $("status").textContent=a===35?"Medición experimental · 35°":result.observed?"Medición asociada a posición idealizada":"Estimación del modelo";
     $("explanation").textContent=result.observed?"Referencia: "+observed[a].label+". "+(a===35?"Ángulo físico aproximado medido: 35°.":"La posición está idealizada; el ángulo exacto no se midió."):"Ángulo "+a+"°: valores aproximados calculados, no medidos.";
     document.querySelectorAll(".preset").forEach(function(b){b.setAttribute("aria-pressed",String(Number(b.dataset.angle)===a));});
