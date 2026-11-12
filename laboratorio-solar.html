@@ -1,7 +1,160 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Laboratorio fotovoltaico | Eco Solare</title>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#073a34">
+<meta name="description" content="Laboratorio solar interactivo Eco Solare: explora la orientación de una celda fotovoltaica, sus mediciones y un modelo educativo de voltaje y corriente.">
+<title>Laboratorio de inclinación solar | Eco Solare</title>
 <style>
-:root{--navy:#092f4b;--green:#08783f;--teal:#087f91;--yellow:#ffad18;--line:#dce8df}*{box-sizing:border-box}body{margin:0;background:#f5f8f4;color:var(--navy);font:16px/1.55 Lato,"Segoe UI",sans-serif}a{color:var(--green)}header{display:flex;justify-content:space-between;gap:15px;align-items:center;padding:17px max(22px,calc((100vw - 1160px)/2));background:#fff;border-bottom:1px solid var(--line)}main{max-width:1160px;margin:auto;padding:42px 20px 80px}h1{font-size:clamp(2.1rem,4vw,3.35rem);line-height:1.14;max-width:850px;margin:10px 0}h1 em{font-style:normal;color:var(--green)}h2{font-size:1.25rem;margin:0 0 18px}.muted{color:#5c716a}.eyebrow{font-size:.77rem;font-weight:800;color:var(--green);letter-spacing:.13em;text-transform:uppercase}.layout{display:grid;grid-template-columns:1.25fr .85fr;gap:20px}.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;margin:20px 0;box-shadow:0 8px 24px #092f4b09}.controls{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.controls button{cursor:pointer;font:inherit;padding:10px 15px;border-radius:40px;border:1px solid #c6d9cd;background:#fff;color:var(--navy)}.controls button[aria-pressed=true]{background:var(--green);color:#fff;border-color:var(--green)}.controls button:focus-visible,input:focus-visible{outline:3px solid #ffad18}input[type=range]{width:100%;accent-color:var(--green)}.scene{height:345px;position:relative;border-radius:19px;overflow:hidden;background:linear-gradient(#e5f2fa,#fff5da);isolation:isolate;perspective:720px}.sun{position:absolute;left:12%;top:10%;height:55px;width:55px;border-radius:100%;background:#ffba38;box-shadow:0 0 0 13px #ffba3830,0 0 65px #ffba3860}.ray{position:absolute;top:78px;left:22%;height:215px;width:3px;background:linear-gradient(#f4b331bb,#f4b33100);transform:rotate(-43deg);transform-origin:top}.ray:nth-of-type(3){left:15%;top:88px}.ray:nth-of-type(4){left:29%;top:99px}.soil{position:absolute;bottom:-44px;left:5%;width:90%;height:145px;background:#ddede0;border:3px solid #80ab90;border-radius:50%;transform:rotateX(65deg)}.pedestal{position:absolute;bottom:66px;left:50%;width:10px;height:75px;background:#7d938d;border-radius:4px;transform:translateX(-50%)}.panel-space{position:absolute;left:50%;top:54%;width:240px;height:145px;transform:translate(-50%,-50%);transform-style:preserve-3d;perspective:720px}.panel-body{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .32s ease-out;transform:rotateZ(-12deg) rotateY(-18deg) rotateX(50deg)}.face{position:absolute;inset:0;border:9px solid #dde7e5;border-radius:9px;backface-visibility:hidden;box-shadow:0 12px 22px #052c3760}.front{background:repeating-linear-gradient(90deg,transparent 0 37px,#83b3ba 38px 40px),repeating-linear-gradient(0deg,transparent 0 28px,#83b3ba 29px 31px),linear-gradient(145deg,#123f60,#031e37);transform:translateZ(5px)}.back{background:repeating-linear-gradient(90deg,#dce3e6 0 22px,#b8c5c8 23px 25px);transform:rotateY(180deg) translateZ(5px);border-color:#80959c}.edge{position:absolute;top:0;left:0;width:100%;height:100%;border:5px solid #667983;transform:translateZ(-4px);border-radius:9px}.scene-label{position:absolute;bottom:11px;left:17px;right:17px;display:flex;justify-content:space-between;font-size:.75rem;color:#345447;z-index:2}.angle-chip{display:inline-block;padding:6px 12px;background:#e9f6ec;color:var(--green);border-radius:50px;font-weight:800}.readings{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.reading{background:#eff7f0;border-radius:13px;padding:14px 10px}.reading strong{display:block;font-size:clamp(1.1rem,2.1vw,1.7rem);white-space:nowrap}.reading small{font-size:.77rem;color:#62766e}.chartrow{margin-top:13px}.chartrow p{margin:0 0 5px;font-size:.85rem;display:flex;justify-content:space-between;gap:10px}.bar{height:11px;background:#e7eee8;border-radius:30px;overflow:hidden}.bar>span{display:block;background:var(--teal);height:100%;transition:width .12s}.note{padding:14px 17px;background:#fff7e7;border-left:4px solid var(--yellow);border-radius:3px 10px 10px 3px;color:#5f573f;font-size:.9rem}.tablewrap{overflow-x:auto}table{width:100%;min-width:560px;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left}th{background:#eef7f1}tr.selected td{background:#eaf7f1}.legend{display:flex;gap:15px;flex-wrap:wrap;font-size:.82rem;color:#577068}.dot{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;background:#174d6c}.dot.back{background:#b7c6cb}.simflag{display:inline-block;color:var(--green);background:#eaf6ee;border-radius:10px;padding:3px 9px;font-size:.8rem;font-weight:bold}@media(max-width:790px){.layout{grid-template-columns:1fr}.scene{height:300px}}@media(max-width:440px){.card{padding:17px}.readings{grid-template-columns:1fr 1fr}.panel-space{transform:translate(-50%,-50%) scale(.76)}.scene{height:265px}header{font-size:.9rem}}
-</style></head><body><header><strong>☀ Eco Solare · Laboratorio solar</strong><a href="./index.html">← Regresar al sitio</a></header><main><div class="eyebrow">Práctica experimental · 11 noviembre 2026 · 16:00 h</div><h1>Simulador de <em>inclinación fotovoltaica</em></h1><p class="muted">Gira el panel respecto al suelo y consulta la respuesta eléctrica estimada. El giro adicional en perspectiva está incorporado automáticamente para distinguir la cara frontal de la posterior; no es un control independiente.</p><div class="layout"><section class="card"><h2>Panel solar en perspectiva</h2><div class="scene" role="img" aria-label="Visualización tridimensional de panel solar con cara frontal azul, cara posterior gris, soporte, suelo y sol"><div class="sun"></div><div class="ray"></div><div class="ray"></div><div class="ray"></div><div class="soil"></div><div class="pedestal"></div><div class="panel-space"><div class="panel-body" id="panel"><div class="edge"></div><div class="face front"></div><div class="face back"></div></div></div></div><p class="legend"><span><i class="dot"></i>Cara frontal activa</span><span><i class="dot back"></i>Cara posterior gris visible al voltear</span></p><div class="controls" role="group" aria-label="Posiciones experimentales"><button data-angle="0" data-preset="down">Hacia abajo</button><button data-angle="180" data-preset="up">Hacia arriba</button><button data-angle="110" data-preset="max" aria-pressed="true">Máximo voltaje · 110° visual</button></div><label for="angle"><strong>Ángulo respecto al suelo: <output id="angleLabel">110°</output></strong></label><input type="range" id="angle" min="0" max="180" step="1" value="110" aria-describedby="angleInfo"><p id="angleInfo" class="muted" style="font-size:.88rem">La ilustración conserva un giro lateral fijo para mostrar el volumen del panel. La cara gris corresponde a la parte trasera; la cara azul, a la parte fotovoltaica. La posición de 110° en el control reproduce aproximadamente la inclinación física de 35° de la prueba.</p></section><section class="card"><h2>Respuesta eléctrica</h2><span id="classification" class="simflag">Medición experimental · 35°</span><div class="readings" style="margin-top:15px"><div class="reading"><small>Voltaje</small><strong id="voltage">0.130 V</strong></div><div class="reading"><small>Corriente</small><strong id="current">3.52 mA</strong></div><div class="reading"><small>Potencia calculada</small><strong id="power">0.45760 mW</strong></div></div><p id="stateText" class="muted" aria-live="polite"></p><h3>Comparación de potencia (mW)</h3><div id="bars"></div><div class="note" style="margin-top:22px"><strong>Modelo aproximado:</strong> interpolación/extrapolación angular ilustrativa anclada en las tres mediciones disponibles. No es una curva experimental continua ni predice con precisión el comportamiento real para otras orientaciones, horas o irradiancias.</div></section></div><section class="card"><h2>Datos y fundamentos</h2><div class="tablewrap"><table><thead><tr><th>Orientación</th><th>Voltaje (V)</th><th>Corriente (mA)</th><th>Potencia (mW)</th></tr></thead><tbody><tr><td>Hacia abajo (0° visual)</td><td>0.002</td><td>2.20</td><td>0.00440</td></tr><tr><td>Hacia arriba (180° visual)</td><td>0.085</td><td>3.45</td><td>0.29325</td></tr><tr><td>Máximo voltaje (~35°)</td><td>0.130</td><td>3.52</td><td>0.45760</td></tr></tbody></table></div><p class="muted">Para generar una curva aproximada entre posiciones se emplea un factor de incidencia simplificado: <strong>f(θ) = máx(0, cos(θ − 110°))</strong>. Se calculan voltaje y corriente como <strong>V(θ) = 0.002 + 0.128·f(θ)<sup>pV</sup></strong> e <strong>I(θ) = 2.20 + 1.32·f(θ)<sup>pI</sup></strong>, con exponentes elegidos para recuperar el punto hacia arriba (180° visual). La potencia mostrada es <strong>P(mW) = V(V) × I(mA)</strong>. Estas ecuaciones son una aproximación pedagógica, no una ley física calibrada.</p><p class="muted">El ángulo óptimo puede variar con la orientación cardinal del panel, la ubicación, la hora, las nubes, la temperatura y la carga eléctrica. Para obtener eficiencia de conversión harían falta irradiancia y área activa. Un máximo de voltaje no equivale necesariamente al punto de máxima potencia.</p></section></main>
+:root{--ink:#092f4b;--green:#08783f;--deep:#064b35;--teal:#087f91;--gold:#ffb52e;--muted:#547068;--line:#d9e8df;--paper:#f5f9f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Lato,"Segoe UI",Arial,sans-serif;line-height:1.55}
+button,input{font:inherit}a{color:inherit;text-decoration:none}
+.topbar{background:#fff;border-bottom:1px solid var(--line)}.topinner{max-width:1200px;margin:auto;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.logo{font-size:1.2rem;font-weight:900;letter-spacing:-.6px}.logo span{color:var(--green)}.backlink{border:1px solid #cbdcd0;border-radius:100px;padding:9px 14px;font-weight:750;font-size:.85rem}
+main{max-width:1200px;margin:auto;padding:42px 24px 70px}.kicker{color:var(--green);font-size:.76rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
+h1{font-size:clamp(2.15rem,4.3vw,3.6rem);letter-spacing:-1.9px;line-height:1.08;margin:10px 0 14px;max-width:870px}h1 em{color:var(--green);font-style:normal}
+.subtitle{max-width:780px;color:var(--muted);margin:0 0 30px}
+.layout{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(0,.86fr);gap:20px;align-items:start}.card{background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 12px 38px #0b4c3410;padding:24px;min-width:0}
+.card h2{font-size:1.18rem;letter-spacing:-.3px;margin:0 0 15px}.visual{height:370px;position:relative;overflow:hidden;isolation:isolate;border-radius:20px;background:linear-gradient(180deg,#dff4fc 0%,#ecfafa 57%,#f9f5de 100%);perspective:1000px}
+.visual::after{content:"";position:absolute;bottom:0;left:0;right:0;height:55px;background:linear-gradient(transparent,#e6f1e4aa);pointer-events:none}
+.cloud{position:absolute;width:110px;height:27px;background:#fff9;border-radius:99px;filter:blur(1px)}.cloud::before,.cloud::after{content:"";position:absolute;background:#fff9;border-radius:50%}.cloud::before{width:55px;height:46px;left:18px;top:-23px}.cloud::after{width:48px;height:35px;right:18px;top:-16px}.cloud.one{left:43%;top:15%;transform:scale(.65)}.cloud.two{right:3%;top:31%;transform:scale(.46)}
+.sun{position:absolute;width:73px;height:73px;left:13%;top:12%;border-radius:50%;z-index:2;background:radial-gradient(circle at 35% 28%,#ffe590,#ffc448 65%,#ffad1c);box-shadow:0 0 0 12px #ffca5040,0 0 0 23px #ffca5022,0 0 55px #ffbb52a0;animation:sun-bob 6s ease-in-out infinite}
+.sun::before{content:"";position:absolute;inset:-26px;background:repeating-conic-gradient(from 0deg, #ffc448 0deg 6deg,transparent 6deg 45deg);-webkit-mask:radial-gradient(transparent 0 45px,#000 46px 60px,transparent 61px);mask:radial-gradient(transparent 0 45px,#000 46px 60px,transparent 61px);animation:sun-rays 30s linear infinite}
+.sun .eye{position:absolute;top:28px;width:5px;height:8px;border-radius:7px;background:#8b570d}.sun .eye.left{left:24px}.sun .eye.right{right:24px}.sun .smile{position:absolute;left:30px;top:42px;width:14px;height:8px;border:2px solid #8b570d;border-top:0;border-radius:0 0 14px 14px}
+@keyframes sun-bob{50%{transform:translateY(-5px)}}@keyframes sun-rays{to{transform:rotate(360deg)}}
+.beam{position:absolute;left:23%;top:26%;width:4px;height:235px;z-index:1;opacity:.55;background:linear-gradient(#ffd46da8,#ffd46d00);transform-origin:top;transform:rotate(-49deg)}.beam.b2{left:18%;top:29%;transform:rotate(-35deg)}.beam.b3{left:29%;top:29%;transform:rotate(-57deg)}
+.ground{position:absolute;left:4%;width:92%;bottom:-74px;height:185px;transform:rotateX(67deg);border-radius:50%;background:radial-gradient(ellipse,#bfe4c9 0%,#d4edd5 68%,#d3e7d2 100%);border:3px solid #9fcdb0}
+.ground-shadow{position:absolute;bottom:52px;left:50%;width:275px;height:55px;transform:translateX(-50%) rotate(-10deg);border-radius:50%;background:#20634b20;filter:blur(14px)}
+.panel-anchor{position:absolute;left:52%;top:55%;width:282px;height:170px;transform:translate(-50%,-50%);perspective:1000px;z-index:3}
+.panel{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateZ(-7deg) rotateY(-19deg) rotateX(30deg);transition:transform .42s cubic-bezier(.2,.75,.2,1)}
+.panel-face{position:absolute;inset:0;border:8px solid #dce9eb;border-radius:10px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 14px 22px #073e4b24}
+.panel-front{background:repeating-linear-gradient(90deg,transparent 0 51px,#aacbd6 52px 54px),repeating-linear-gradient(0deg,transparent 0 38px,#aacbd6 39px 41px),linear-gradient(130deg,#164e70,#092d54 74%);transform:translateZ(5px)}
+.panel-front::after{content:"";position:absolute;inset:6px;background:linear-gradient(128deg,#ffffff24 0%,transparent 58%);pointer-events:none}
+.panel-back{background:repeating-linear-gradient(90deg,#e2e8e8 0 32px,#b2c6cb 33px 35px);border-color:#7f969c;transform:rotateY(180deg) translateZ(5px)}
+.panel-back::after{content:"";position:absolute;left:calc(50% - 19px);top:calc(50% - 17px);width:38px;height:34px;background:#627980;border-radius:6px;box-shadow:0 2px 5px #3a525e60}
+.panel-rim{position:absolute;inset:0;border:7px solid #69848d;border-radius:10px;transform:translateZ(-5px)}
+.controls{display:flex;gap:9px;flex-wrap:wrap;margin:21px 0 19px}.preset{background:#fff;border:1px solid #c9ddd0;color:var(--ink);padding:11px 14px;border-radius:99px;cursor:pointer;font-size:.88rem;font-weight:800;transition:background .2s,transform .2s,border-color .2s}.preset:hover{transform:translateY(-2px);border-color:var(--green)}.preset[aria-pressed=true]{background:var(--deep);color:white;border-color:var(--deep)}
+.slider-head{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:800}.angle-pill{background:#e8f5eb;color:var(--green);border-radius:12px;padding:6px 13px;font-size:1.07rem;min-width:67px;text-align:center}
+input[type=range]{width:100%;margin:18px 0 5px;accent-color:var(--green);cursor:pointer}.range-ends{display:flex;justify-content:space-between;color:#6b8178;font-size:.8rem}
+.small-note{font-size:.81rem;color:#60746d;margin-top:13px}.metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:17px 0}.metric{background:#eff7f2;border-radius:16px;padding:15px 12px}.metric small{color:#587268;display:block;font-size:.74rem}.metric strong{font-size:clamp(1.15rem,2vw,1.7rem);display:block;white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:-.4px}
+.status{display:inline-block;font-size:.76rem;font-weight:850;background:#e8f5eb;color:#08663b;border-radius:100px;padding:5px 11px}.explainer{color:var(--muted);font-size:.88rem;min-height:45px}
+.chart-key{display:flex;gap:15px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin:12px 0 6px}.key::before{content:"";display:inline-block;width:10px;height:10px;margin-right:6px;border-radius:50%;background:var(--teal)}.key.amps::before{background:var(--gold)}.key.power::before{background:var(--green)}
+.chart-shell{border:1px solid var(--line);border-radius:16px;background:#fafdfb;padding:12px;overflow:hidden}.graph{display:block;width:100%;height:auto}.graph .grid-line{stroke:#e0ece5;stroke-width:1}.graph .axis{stroke:#869f94;stroke-width:1.5}.graph text{font:11px Lato,Arial,sans-serif;fill:#6b8178}.graph .curve{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.graph .marker{stroke:white;stroke-width:2}
+.summary{margin-top:20px}.summary p{color:var(--muted);font-size:.91rem}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:570px}th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left}th{font-size:.82rem;background:#eef6ef}td{font-variant-numeric:tabular-nums}.note{background:#fff9e9;border-left:4px solid var(--gold);padding:13px 16px;border-radius:3px 12px 12px 3px;font-size:.87rem;color:#675c3c}
+@media(max-width:880px){.layout{grid-template-columns:1fr}.visual{height:340px}}
+@media(max-width:520px){main{padding:32px 15px 50px}.topinner{padding:13px 15px}.card{padding:17px;border-radius:18px}.visual{height:265px}.panel-anchor{transform:translate(-50%,-50%) scale(.7)}.sun{transform:scale(.75);transform-origin:top left}.metric-grid{grid-template-columns:1fr 1fr}.metric{padding:12px}.metric strong{font-size:1.26rem}.preset{font-size:.8rem;padding:9px 12px}}
+@media(prefers-reduced-motion:reduce){.panel,.sun,.sun::before,.preset{animation:none;transition:none}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topinner"><a class="logo" href="./index.html"><span>Eco</span> Solare ☀</a><a class="backlink" href="./index.html">← Volver al sitio</a></div></header>
+<main>
+<div class="kicker">Laboratorio fotovoltaico · Práctica del 11/11/2026 · 16:00 h</div>
+<h1>Descubre cómo el ángulo cambia la <em>energía solar</em></h1>
+<p class="subtitle">Inclina la celda para observar su orientación y una estimación de voltaje, corriente y potencia. Los resultados de los tres ensayos se conservan como referencias experimentales.</p>
+<div class="layout">
+<section class="card">
+<h2>Explora la inclinación</h2>
+<div class="visual" role="img" aria-label="Celda solar tridimensional suspendida, con superficie fotovoltaica azul, parte trasera gris, suelo y sol animado">
+<div class="cloud one"></div><div class="cloud two"></div>
+<div class="sun" aria-hidden="true"><span class="eye left"></span><span class="eye right"></span><span class="smile"></span></div>
+<div class="beam"></div><div class="beam b2"></div><div class="beam b3"></div>
+<div class="ground"></div><div class="ground-shadow"></div>
+<div class="panel-anchor"><div class="panel" id="panel"><div class="panel-rim"></div><div class="panel-face panel-front"></div><div class="panel-face panel-back"></div></div></div>
+</div>
+<div class="controls" role="group" aria-label="Seleccionar posición experimental">
+<button type="button" class="preset" data-angle="180" aria-pressed="false">Hacia abajo</button>
+<button type="button" class="preset" data-angle="0" aria-pressed="false">Hacia arriba</button>
+<button type="button" class="preset" data-angle="35" aria-pressed="true">Máximo voltaje</button>
+</div>
+<div class="slider-head"><label for="angle">Ángulo de inclinación</label><output class="angle-pill" id="angleLabel" for="angle">35°</output></div>
+<input id="angle" type="range" min="0" max="180" value="35" step="1" aria-label="Inclinación respecto al suelo, grados">
+<div class="range-ends"><span>0° · cara arriba</span><span>90° · vertical</span><span>180° · cara abajo</span></div>
+<p class="small-note">El panel gira sobre su centro. El giro lateral de la cámara es fijo y solo ayuda a distinguir las dos caras; los 0° y 180° representan las posiciones idealizadas hacia arriba y hacia abajo.</p>
+</section>
+<section class="card">
+<h2>Medidores eléctricos</h2>
+<span class="status" id="status">Medición experimental · 35°</span>
+<div class="metric-grid">
+<div class="metric"><small>Voltaje</small><strong id="voltage">0.130 V</strong></div>
+<div class="metric"><small>Corriente</small><strong id="current">3.52 mA</strong></div>
+<div class="metric"><small>Potencia</small><strong id="power">0.45760 mW</strong></div>
+</div>
+<p class="explainer" id="explanation" aria-live="polite"></p>
+<h2 style="margin-top:24px">Comparación dinámica</h2>
+<div class="chart-key"><span class="key">Voltaje (V)</span><span class="key amps">Corriente (mA)</span><span class="key power">Potencia (mW)</span></div>
+<div class="chart-shell"><svg id="graph" class="graph" viewBox="0 0 460 245" role="img" aria-label="Tres curvas en escalas relativas: voltaje, corriente y potencia según el ángulo, con marcador de inclinación seleccionada"></svg></div>
+<p class="small-note">Las tres curvas están normalizadas a sus valores máximos para facilitar la comparación. Consulta arriba sus magnitudes reales y unidades.</p>
+<div class="note"><strong>Dato real frente a estimación:</strong> los valores en los botones proceden del experimento; en los demás ángulos se muestra un modelo didáctico aproximado, no nuevas mediciones ni una predicción garantizada.</div>
+</section>
+</div>
+<section class="card summary">
+<h2>Resultados medidos y metodología</h2>
+<div class="tablewrap"><table><thead><tr><th>Orientación registrada</th><th>Voltaje (V)</th><th>Corriente (mA)</th><th>Potencia calculada (mW)</th></tr></thead><tbody>
+<tr><td>Hacia abajo</td><td>0.002</td><td>2.20</td><td>0.00440</td></tr>
+<tr><td>Hacia arriba</td><td>0.085</td><td>3.45</td><td>0.29325</td></tr>
+<tr><td>Máximo voltaje (~35°)</td><td>0.130</td><td>3.52</td><td>0.45760</td></tr>
+</tbody></table></div>
+<p>Modelo pedagógico de respuesta angular a las 16:00 h: factor de incidencia simplificado <strong>f(θ) = max[0, cos(θ − 35°)]</strong>; <strong>V(θ) = 0.002 + 0.128·f(θ)<sup>pV</sup></strong> e <strong>I(θ) = 2.20 + 1.32·f(θ)<sup>pI</sup></strong>, con exponentes ajustados para recuperar la medición hacia arriba si se representa como 0°. Se obtiene <strong>P(mW) = V(V) × I(mA)</strong>. La posición hacia abajo se representa visualmente como 180°, aunque su ángulo no se registró en campo.</p>
+<p>Este ajuste simplificado no caracteriza toda la curva I-V del panel ni incluye irradiancia difusa, temperatura o carga. El máximo de voltaje no equivale necesariamente al máximo de potencia. Para calcular eficiencia fotovoltaica se necesitarían irradiancia (W/m²) y área activa (m²).</p>
+</section>
+</main>
 <script>
-(()=>{const $=id=>document.getElementById(id), btns=[...document.querySelectorAll('[data-preset]')], v0=.002,vmax=.130,i0=2.2,imax=3.52,f0=Math.cos(70*Math.PI/180),pv=Math.log((.085-v0)/(vmax-v0))/Math.log(f0),pi=Math.log((3.45-i0)/(imax-i0))/Math.log(f0);const modes=[{name:'Hacia abajo',angle:0,v:.002,i:2.2},{name:'Hacia arriba',angle:180,v:.085,i:3.45},{name:'Máximo voltaje',angle:110,v:.130,i:3.52}];function update(){let a=Number($('angle').value);let f=Math.max(0,Math.cos((a-110)*Math.PI/180));let v=v0+(vmax-v0)*Math.pow(f,pv),i=i0+(imax-i0)*Math.pow(f,pi);let exact=modes.find(x=>x.angle===a);if(exact){v=exact.v;i=exact.i}let p=v*i;const visualTilt=a<=110?250+(50-250)*(a/110):50+(72-50)*((a-110)/70);$('panel').style.transform='rotateZ(-12deg) rotateY(-18deg) rotateX('+visualTilt+'deg)';$('angleLabel').textContent=a+'°';$('voltage').textContent=v.toFixed(3)+' V';$('current').textContent=i.toFixed(2)+' mA';$('power').textContent=p.toFixed(5)+' mW';$('classification').textContent=a===110?'Medición experimental · 35° físicos / 110° visuales':a===0||a===180?'Valor experimental asociado a orientación idealizada':'Estimación del modelo · sin medición';$('stateText').textContent=exact?'Referencia: '+exact.name+'. '+(a===110?'35° físicos aproximados; 110° en el control visual.':'Ángulo geométrico idealizado; no registrado en campo.'):'Ángulo '+a+'°: estimación interpolada/extrapolada; no se midió este punto.';btns.forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.angle)===a)));let series=[...modes.map(m=>({n:m.name,p:m.v*m.i})),{n:'Ángulo elegido ('+a+'°)',p:p}];$('bars').innerHTML=series.map(s=>'<div class="chartrow"><p><span>'+s.n+'</span><strong>'+s.p.toFixed(5)+'</strong></p><div class="bar"><span style="width:'+Math.min(100,s.p/(vmax*imax)*100).toFixed(2)+'%"></span></div></div>').join('')}btns.forEach(b=>b.addEventListener('click',()=>{$('angle').value=b.dataset.angle;update()}));$('angle').addEventListener('input',update);update()})();
-</script></body></html>
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id);};
+  var rad=Math.PI/180, vmax=.130, vmin=.002, imax=3.52, imin=2.20;
+  var f0=Math.cos(35*rad);
+  var pV=Math.log((.085-vmin)/(vmax-vmin))/Math.log(f0);
+  var pI=Math.log((3.45-imin)/(imax-imin))/Math.log(f0);
+  var observed={0:{v:.085,i:3.45,label:"Hacia arriba"},35:{v:.130,i:3.52,label:"Máximo voltaje"},180:{v:.002,i:2.20,label:"Hacia abajo"}};
+  function calc(a){
+    var f=Math.max(0,Math.cos((a-35)*rad));
+    var v=vmin+(vmax-vmin)*Math.pow(f,pV);
+    var i=imin+(imax-imin)*Math.pow(f,pI);
+    if(observed[a]){v=observed[a].v;i=observed[a].i;}
+    return {v:v,i:i,p:v*i,observed:!!observed[a]};
+  }
+  function s(tag,attrs){var el=document.createElementNS("http://www.w3.org/2000/svg",tag);Object.keys(attrs).forEach(function(k){el.setAttribute(k,attrs[k]);});return el;}
+  function chart(a){
+    var svg=$("graph");while(svg.firstChild)svg.removeChild(svg.firstChild);
+    var left=42,right=440,top=17,bottom=203, w=right-left,h=bottom-top;
+    var xp=function(x){return left+w*x/180;};
+    var yp=function(y){return bottom-h*y;};
+    [0,.25,.5,.75,1].forEach(function(y){
+      svg.appendChild(s("line",{x1:left,x2:right,y1:yp(y),y2:yp(y),"class":"grid-line"}));
+      var t=s("text",{x:32,y:yp(y)+4,"text-anchor":"end"});t.textContent=Math.round(y*100)+"%";svg.appendChild(t);
+    });
+    svg.appendChild(s("line",{x1:left,y1:bottom,x2:right,y2:bottom,"class":"axis"}));
+    [0,35,90,135,180].forEach(function(x){var t=s("text",{x:xp(x),y:bottom+19,"text-anchor":"middle"});t.textContent=x+"°";svg.appendChild(t);});
+    var series=[{key:"v",maximum:vmax,color:"#087f91"},{key:"i",maximum:imax,color:"#ffb52e"},{key:"p",maximum:vmax*imax,color:"#08783f"}];
+    series.forEach(function(line){
+      var d="";for(var angle=0;angle<=180;angle+=1){var result=calc(angle);var y=Math.max(0,Math.min(1,result[line.key]/line.maximum));d+=(angle===0?"M":"L")+xp(angle).toFixed(2)+" "+yp(y).toFixed(2)+" ";}
+      svg.appendChild(s("path",{d:d,stroke:line.color,"class":"curve"}));
+      var selected=calc(a);
+      svg.appendChild(s("circle",{cx:xp(a),cy:yp(Math.min(1,selected[line.key]/line.maximum)),r:5.2,fill:line.color,"class":"marker"}));
+    });
+    svg.appendChild(s("line",{x1:xp(a),y1:top,x2:xp(a),y2:bottom,stroke:"#58786a","stroke-dasharray":"5 5","stroke-width":"1.3"}));
+  }
+  function render(){
+    var a=Number($("angle").value), result=calc(a);
+    // The panel starts facing upward (front visible) and flips around its own
+    // horizontal axis. The fixed Z and Y rotations provide depth, not user input.
+    var tilt=65-a;
+    $("panel").style.transform="rotateZ(-7deg) rotateY(-19deg) rotateX("+tilt+"deg)";
+    $("angleLabel").textContent=a+"°";
+    $("voltage").textContent=result.v.toFixed(3)+" V";
+    $("current").textContent=result.i.toFixed(2)+" mA";
+    $("power").textContent=result.p.toFixed(5)+" mW";
+    $("status").textContent=a===35?"Medición experimental · 35°":result.observed?"Medición asociada a posición idealizada":"Estimación del modelo";
+    $("explanation").textContent=result.observed?"Referencia: "+observed[a].label+". "+(a===35?"Ángulo físico aproximado medido: 35°.":"La posición está idealizada; el ángulo exacto no se midió."):"Ángulo "+a+"°: valores aproximados calculados, no medidos.";
+    document.querySelectorAll(".preset").forEach(function(b){b.setAttribute("aria-pressed",String(Number(b.dataset.angle)===a));});
+    chart(a);
+  }
+  document.querySelectorAll(".preset").forEach(function(b){b.addEventListener("click",function(){$("angle").value=b.dataset.angle;render();});});
+  $("angle").addEventListener("input",render);
+  render();
+})();
+</script>
+</body></html>
