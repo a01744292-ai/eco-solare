@@ -4,169 +4,927 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#073a34">
-<meta name="description" content="Laboratorio solar interactivo Eco Solare: explora la orientación de una celda fotovoltaica, sus mediciones y un modelo educativo de voltaje y corriente.">
+<meta name="description" content="Laboratorio solar interactivo Eco Solare: explora la orientación de una celda fotovoltaica, sus mediciones y un modelo educativo de voltaje, corriente y potencia.">
 <title>Laboratorio de inclinación solar | Eco Solare</title>
 <style>
-:root{--ink:#092f4b;--green:#08783f;--deep:#064b35;--teal:#087f91;--gold:#ffb52e;--muted:#547068;--line:#d9e8df;--paper:#f5f9f5}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Lato,"Segoe UI",Arial,sans-serif;line-height:1.55}
-button,input{font:inherit}a{color:inherit;text-decoration:none}
-.topbar{background:#fff;border-bottom:1px solid var(--line)}.topinner{max-width:1200px;margin:auto;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;gap:15px}
-.logo{font-size:1.2rem;font-weight:900;letter-spacing:-.6px}.logo span{color:var(--green)}.backlink{border:1px solid #cbdcd0;border-radius:100px;padding:9px 14px;font-weight:750;font-size:.85rem}
-main{max-width:1200px;margin:auto;padding:42px 24px 70px}.kicker{color:var(--green);font-size:.76rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
-h1{font-size:clamp(2.15rem,4.3vw,3.6rem);letter-spacing:-1.9px;line-height:1.08;margin:10px 0 14px;max-width:870px}h1 em{color:var(--green);font-style:normal}
+:root{
+  --ink:#092f4b;
+  --green:#08783f;
+  --deep:#064b35;
+  --teal:#087f91;
+  --gold:#ffb52e;
+  --muted:#547068;
+  --line:#d9e8df;
+  --paper:#f5f9f5;
+  --beam-opacity:.42;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:Lato,"Segoe UI",Arial,sans-serif;
+  line-height:1.55;
+}
+button,input{font:inherit}
+a{color:inherit;text-decoration:none}
+
+.topbar{background:#fff;border-bottom:1px solid var(--line)}
+.topinner{
+  max-width:1200px;
+  margin:auto;
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
+.logo{font-size:1.2rem;font-weight:900;letter-spacing:-.6px}
+.logo span{color:var(--green)}
+.backlink{
+  border:1px solid #cbdcd0;
+  border-radius:100px;
+  padding:9px 14px;
+  font-weight:750;
+  font-size:.85rem;
+}
+
+main{max-width:1200px;margin:auto;padding:42px 24px 70px}
+.kicker{
+  color:var(--green);
+  font-size:.76rem;
+  font-weight:900;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+h1{
+  font-size:clamp(2.15rem,4.3vw,3.6rem);
+  letter-spacing:-1.9px;
+  line-height:1.08;
+  margin:10px 0 14px;
+  max-width:870px;
+}
+h1 em{color:var(--green);font-style:normal}
 .subtitle{max-width:780px;color:var(--muted);margin:0 0 30px}
-.layout{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(0,.86fr);gap:20px;align-items:start}.card{background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 12px 38px #0b4c3410;padding:24px;min-width:0}
-.card h2{font-size:1.18rem;letter-spacing:-.3px;margin:0 0 15px}.visual{height:370px;position:relative;overflow:hidden;isolation:isolate;border-radius:20px;background:linear-gradient(180deg,#dff4fc 0%,#ecfafa 57%,#f9f5de 100%);perspective:1000px}
-.visual::after{content:"";position:absolute;bottom:0;left:0;right:0;height:55px;background:linear-gradient(transparent,#e6f1e4aa);pointer-events:none}
-.cloud{position:absolute;width:110px;height:27px;background:#fff9;border-radius:99px;filter:blur(1px)}.cloud::before,.cloud::after{content:"";position:absolute;background:#fff9;border-radius:50%}.cloud::before{width:55px;height:46px;left:18px;top:-23px}.cloud::after{width:48px;height:35px;right:18px;top:-16px}.cloud.one{left:43%;top:15%;transform:scale(.65)}.cloud.two{right:3%;top:31%;transform:scale(.46)}
-.sun{position:absolute;width:73px;height:73px;left:13%;top:19%;border-radius:50%;z-index:2;background:radial-gradient(circle at 35% 28%,#ffe590,#ffc448 65%,#ffad1c);box-shadow:0 0 0 12px #ffca5040,0 0 0 23px #ffca5022,0 0 55px #ffbb52a0;animation:sun-bob 6s ease-in-out infinite}
-.sun::before{content:"";position:absolute;inset:-26px;background:repeating-conic-gradient(from 0deg, #ffc448 0deg 6deg,transparent 6deg 45deg);-webkit-mask:radial-gradient(transparent 0 45px,#000 46px 60px,transparent 61px);mask:radial-gradient(transparent 0 45px,#000 46px 60px,transparent 61px);animation:sun-rays 30s linear infinite}
-.sun .eye{position:absolute;top:28px;width:5px;height:8px;border-radius:7px;background:#8b570d}.sun .eye.left{left:24px}.sun .eye.right{right:24px}.sun .smile{position:absolute;left:30px;top:42px;width:14px;height:8px;border:2px solid #8b570d;border-top:0;border-radius:0 0 14px 14px}
-@keyframes sun-bob{50%{transform:translateY(-5px)}}@keyframes sun-rays{to{transform:rotate(360deg)}}
-.beam{position:absolute;left:24%;top:38%;width:4px;height:205px;z-index:1;opacity:var(--beam-opacity,.42);background:linear-gradient(#ffd46dc0,#ffd46d00);transform-origin:top;transform:rotate(-48deg);transition:opacity .5s ease}.beam.b2{left:18%;top:39%;transform:rotate(-34deg)}.beam.b3{left:29%;top:39%;transform:rotate(-56deg)}
-.ground{position:absolute;left:4%;width:92%;bottom:-74px;height:185px;transform:rotateX(67deg);border-radius:50%;background:radial-gradient(ellipse,#bfe4c9 0%,#d4edd5 68%,#d3e7d2 100%);border:3px solid #9fcdb0}
-.ground-shadow{position:absolute;bottom:52px;left:50%;width:275px;height:55px;transform:translateX(-50%) rotate(-10deg);border-radius:50%;background:#20634b20;filter:blur(14px)}
-.panel-anchor{position:absolute;left:52%;top:55%;width:282px;height:170px;transform:translate(-50%,-50%);perspective:1000px;z-index:3}
-.panel{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateZ(-7deg) rotateY(-19deg) rotateX(30deg);transition:transform .42s cubic-bezier(.2,.75,.2,1)filter:drop-shadow(0 12px 12px #073e4b25);--impact:.7}
-.panel-face{position:absolute;inset:0;border:7px solid #dce9eb;border-radius:9px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
-.panel-front{background:repeating-linear-gradient(90deg,transparent 0 51px,#aacbd6 52px 54px),repeating-linear-gradient(0deg,transparent 0 38px,#aacbd6 39px 41px),linear-gradient(130deg,#164e70,#092d54 74%);transform:translateZ(3px)}
-.panel-front::after{content:"";position:absolute;inset:6px;background:linear-gradient(128deg,#ffffff24 0%,transparent 58%);pointer-events:none}
-.panel-back{background:repeating-linear-gradient(90deg,#e2e8e8 0 32px,#b2c6cb 33px 35px);border-color:#7f969c;transform:rotateY(180deg) translateZ(3px)}
-.panel-back::after{content:"";position:absolute;left:calc(50% - 19px);top:calc(50% - 17px);width:38px;height:34px;background:#627980;border-radius:6px;box-shadow:0 2px 5px #3a525e60}
-.panel-rim{position:absolute;inset:0;border:7px solid #69848d;border-radius:10px;transform:translateZ(0)}
-.panel-edge{position:absolute;background:#758e98;backface-visibility:visible}
-.panel-edge.top{top:0;left:0;width:100%;height:6px;transform-origin:top;transform:rotateX(-90deg)}
-.panel-edge.bottom{bottom:0;left:0;width:100%;height:6px;transform-origin:bottom;transform:rotateX(90deg)}
-.panel-edge.left{top:0;left:0;width:6px;height:100%;transform-origin:left;transform:rotateY(90deg)}
-.panel-edge.right{top:0;right:0;width:6px;height:100%;transform-origin:right;transform:rotateY(-90deg)}
-.spark{position:absolute;width:9px;height:9px;z-index:2;border-radius:50%;background:#fff6d0;box-shadow:0 0 8px 4px #ffe881bc,0 0 20px 7px #ffd25560;opacity:var(--impact,.7);animation:twinkle 2.6s ease-in-out infinite;pointer-events:none}
-.spark::before,.spark::after{content:"";position:absolute;left:50%;top:50%;background:#fff8e1;transform:translate(-50%,-50%);border-radius:15px}.spark::before{width:23px;height:2px}.spark::after{height:23px;width:2px}
-.spark.one{top:22%;left:26%}.spark.two{top:54%;left:58%;animation-delay:.8s}.spark.three{top:39%;left:78%;animation-delay:1.6s}
-@keyframes twinkle{0%,100%{opacity:calc(var(--impact,.7)*.15)}50%{opacity:var(--impact,.7)}}
-.controls{display:flex;gap:9px;flex-wrap:wrap;margin:21px 0 19px}.preset{background:#fff;border:1px solid #c9ddd0;color:var(--ink);padding:11px 14px;border-radius:99px;cursor:pointer;font-size:.88rem;font-weight:800;transition:background .2s,transform .2s,border-color .2s}.preset:hover{transform:translateY(-2px);border-color:var(--green)}.preset[aria-pressed=true]{background:var(--deep);color:white;border-color:var(--deep)}
-.slider-head{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:800}.angle-pill{background:#e8f5eb;color:var(--green);border-radius:12px;padding:6px 13px;font-size:1.07rem;min-width:67px;text-align:center}
-input[type=range]{width:100%;margin:18px 0 5px;accent-color:var(--green);cursor:pointer}.range-ends{display:flex;justify-content:space-between;color:#6b8178;font-size:.8rem}
-.small-note{font-size:.81rem;color:#60746d;margin-top:13px}.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:17px 0}.metric{background:#eff7f2;border-radius:16px;padding:15px 14px;min-width:0}.metric.power{grid-column:1/-1;background:#e7f4ec}.metric small{color:#587268;display:block;font-size:.77rem}.metric strong{font-size:clamp(1.1rem,1.9vw,1.55rem);display:block;font-variant-numeric:tabular-nums;letter-spacing:-.3px;overflow-wrap:anywhere}.metric.power strong{font-size:clamp(1.4rem,2.7vw,2rem)}.metric .unit{font-size:.8em;color:#527164;font-weight:750}
-.status{display:inline-block;font-size:.76rem;font-weight:850;background:#e8f5eb;color:#08663b;border-radius:100px;padding:5px 11px}.explainer{color:var(--muted);font-size:.88rem;min-height:45px}
-.chart-key{display:flex;gap:15px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin:12px 0 6px}.key::before{content:"";display:inline-block;width:10px;height:10px;margin-right:6px;border-radius:50%;background:var(--teal)}.key.amps::before{background:var(--gold)}.key.power::before{background:var(--green)}
-.chart-shell{border:1px solid var(--line);border-radius:16px;background:#fafdfb;padding:12px;overflow:hidden}.graph{display:block;width:100%;height:auto}.graph .grid-line{stroke:#e0ece5;stroke-width:1}.graph .axis{stroke:#869f94;stroke-width:1.5}.graph text{font:11px Lato,Arial,sans-serif;fill:#6b8178}.graph .curve{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.graph .marker{stroke:white;stroke-width:2}
-.summary{margin-top:20px}.summary p{color:var(--muted);font-size:.91rem}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:570px}th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left}th{font-size:.82rem;background:#eef6ef}td{font-variant-numeric:tabular-nums}.note{background:#fff9e9;border-left:4px solid var(--gold);padding:13px 16px;border-radius:3px 12px 12px 3px;font-size:.87rem;color:#675c3c}
-@media(max-width:880px){.layout{grid-template-columns:1fr}.visual{height:340px}}
-@media(max-width:520px){main{padding:32px 15px 50px}.topinner{padding:13px 15px}.card{padding:17px;border-radius:18px}.visual{height:265px}.panel-anchor{transform:translate(-50%,-50%) scale(.7)}.sun{transform:scale(.75);transform-origin:top left}.metric-grid{grid-template-columns:1fr 1fr}.metric{padding:12px}.metric strong{font-size:1.18rem}.metric.power strong{font-size:1.6rem}.preset{font-size:.8rem;padding:9px 12px}}
-@media(prefers-reduced-motion:reduce){.panel,.sun,.sun::before,.spark,.preset{animation:none;transition:none}}
+
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.14fr) minmax(0,.86fr);
+  gap:20px;
+  align-items:start;
+}
+.card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:0 12px 38px #0b4c3410;
+  padding:24px;
+  min-width:0;
+}
+.card h2{
+  font-size:1.18rem;
+  letter-spacing:-.3px;
+  margin:0 0 15px;
+}
+
+/* ---------- ESCENA ---------- */
+.visual{
+  height:370px;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  border-radius:20px;
+  background:linear-gradient(180deg,#dff4fc 0%,#ecfafa 57%,#f9f5de 100%);
+  perspective:1000px;
+}
+.visual::after{
+  content:"";
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:55px;
+  background:linear-gradient(transparent,#e6f1e4aa);
+  pointer-events:none;
+}
+
+/* Nubes */
+.cloud{
+  position:absolute;
+  width:110px;
+  height:27px;
+  background:#fff8;
+  border-radius:99px;
+  filter:blur(1px);
+}
+.cloud::before,.cloud::after{
+  content:"";
+  position:absolute;
+  background:#fff8;
+  border-radius:50%;
+}
+.cloud::before{width:55px;height:46px;left:18px;top:-23px}
+.cloud::after{width:48px;height:35px;right:18px;top:-16px}
+.cloud.one{left:43%;top:15%;transform:scale(.65)}
+.cloud.two{right:3%;top:31%;transform:scale(.46)}
+
+/* Sol */
+.sun{
+  position:absolute;
+  width:73px;
+  height:73px;
+  left:13%;
+  top:19%;
+  border-radius:50%;
+  z-index:2;
+  background:radial-gradient(circle at 35% 28%,#ffe590,#ffc448 65%,#ffad1c);
+  box-shadow:0 0 0 12px #ffca5040,0 0 0 23px #ffca5022,0 0 55px #ffbb52a0;
+  animation:sun-bob 6s ease-in-out infinite;
+}
+.sun::before{
+  content:"";
+  position:absolute;
+  inset:-26px;
+  background:repeating-conic-gradient(from 0deg,#ffc448 0deg 6deg,transparent 6deg 45deg);
+  -webkit-mask:radial-gradient(transparent 0 45px,#000 46px 60px,transparent 61px);
+  mask:radial-gradient(transparent 0 45px,#000 46px 60px,transparent 61px);
+  animation:sun-rays 30s linear infinite;
+}
+.sun .eye{
+  position:absolute;
+  top:28px;
+  width:5px;
+  height:8px;
+  border-radius:7px;
+  background:#8b570d;
+}
+.sun .eye.left{left:24px}
+.sun .eye.right{right:24px}
+.sun .smile{
+  position:absolute;
+  left:30px;
+  top:42px;
+  width:14px;
+  height:8px;
+  border:2px solid #8b570d;
+  border-top:0;
+  border-radius:0 0 14px 14px;
+}
+@keyframes sun-bob{50%{transform:translateY(-5px)}}
+@keyframes sun-rays{to{transform:rotate(360deg)}}
+
+/* Rayos */
+.beam{
+  position:absolute;
+  width:4px;
+  height:220px;
+  z-index:1;
+  transform-origin:top;
+  background:linear-gradient(to bottom,#ffd46dcc 0%,#ffd46d88 35%,#ffd46d00 100%);
+  opacity:var(--beam-opacity,.45);
+  animation:beamPulse 2.2s ease-in-out infinite;
+  transition:opacity .35s ease;
+  filter:blur(.3px);
+}
+.beam.b1{left:24%;top:38%;transform:rotate(-48deg);animation-delay:0s}
+.beam.b2{left:18%;top:39%;transform:rotate(-34deg);animation-delay:.35s}
+.beam.b3{left:29%;top:39%;transform:rotate(-56deg);animation-delay:.7s}
+
+@keyframes beamPulse{
+  0%,100%{
+    opacity:calc(var(--beam-opacity,.45) * .45);
+    filter:blur(.2px);
+  }
+  50%{
+    opacity:var(--beam-opacity,.45);
+    filter:blur(1px);
+  }
+}
+
+/* Suelo */
+.ground{
+  position:absolute;
+  left:4%;
+  width:92%;
+  bottom:-74px;
+  height:185px;
+  transform:rotateX(67deg);
+  border-radius:50%;
+  background:radial-gradient(ellipse,#bfe4c9 0%,#d4edd5 68%,#d3e7d2 100%);
+  border:3px solid #9fcdb0;
+}
+.ground-shadow{
+  position:absolute;
+  bottom:52px;
+  left:50%;
+  width:275px;
+  height:55px;
+  transform:translateX(-50%) rotate(-10deg);
+  border-radius:50%;
+  background:#20634b20;
+  filter:blur(14px);
+}
+
+/* Panel */
+.panel-anchor{
+  position:absolute;
+  left:52%;
+  top:55%;
+  width:282px;
+  height:170px;
+  transform:translate(-50%,-50%);
+  perspective:1000px;
+  z-index:3;
+}
+.panel{
+  position:absolute;
+  inset:0;
+  transform-style:preserve-3d;
+  transform:rotateZ(-7deg) rotateY(-19deg) rotateX(30deg);
+  transition:transform .42s cubic-bezier(.2,.75,.2,1);
+  filter:drop-shadow(0 12px 12px #073e4b25);
+  --impact:.7;
+}
+.panel-face{
+  position:absolute;
+  inset:0;
+  border:7px solid #dce9eb;
+  border-radius:0;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  overflow:hidden;
+}
+.panel-front{
+  background:
+    repeating-linear-gradient(90deg,transparent 0 51px,#aacbd6 52px 54px),
+    repeating-linear-gradient(0deg,transparent 0 38px,#aacbd6 39px 41px),
+    linear-gradient(130deg,#164e70,#092d54 74%);
+  transform:translateZ(3px);
+}
+.panel-front::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(128deg,#ffffff20 0%,transparent 58%);
+  pointer-events:none;
+}
+.panel-back{
+  background:repeating-linear-gradient(90deg,#e2e8e8 0 32px,#b2c6cb 33px 35px);
+  border-color:#7f969c;
+  border-radius:0;
+  transform:rotateY(180deg) translateZ(3px);
+}
+.panel-back::after{
+  content:"";
+  position:absolute;
+  left:calc(50% - 19px);
+  top:calc(50% - 17px);
+  width:38px;
+  height:34px;
+  background:#627980;
+  border-radius:4px;
+  box-shadow:0 2px 5px #3a525e60;
+}
+.panel-rim{
+  position:absolute;
+  inset:0;
+  border:7px solid #69848d;
+  border-radius:0;
+  transform:translateZ(0);
+}
+.panel-edge{
+  position:absolute;
+  background:#758e98;
+  backface-visibility:visible;
+}
+.panel-edge.top{
+  top:0; left:0;
+  width:100%; height:6px;
+  transform-origin:top;
+  transform:rotateX(-90deg);
+}
+.panel-edge.bottom{
+  bottom:0; left:0;
+  width:100%; height:6px;
+  transform-origin:bottom;
+  transform:rotateX(90deg);
+}
+.panel-edge.left{
+  top:0; left:0;
+  width:6px; height:100%;
+  transform-origin:left;
+  transform:rotateY(90deg);
+}
+.panel-edge.right{
+  top:0; right:0;
+  width:6px; height:100%;
+  transform-origin:right;
+  transform:rotateY(-90deg);
+}
+
+/* Impactos / brillos sincronizados con rayos */
+.impact{
+  position:absolute;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  pointer-events:none;
+  opacity:var(--impact,.7);
+  background:radial-gradient(circle,#fff9cf 0%,#ffe56b 30%,#ffd25555 55%,transparent 75%);
+  box-shadow:0 0 10px 4px #ffe98188, 0 0 22px 10px #ffd25533;
+  animation:impactPulse 2.2s ease-in-out infinite;
+}
+.impact::before,
+.impact::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  background:#fff8d8;
+  border-radius:20px;
+}
+.impact::before{width:24px;height:2px}
+.impact::after{width:2px;height:24px}
+
+.impact.i1{top:23%;left:28%;animation-delay:0s}
+.impact.i2{top:44%;left:55%;animation-delay:.35s}
+.impact.i3{top:30%;left:77%;animation-delay:.7s}
+
+@keyframes impactPulse{
+  0%,100%{
+    opacity:calc(var(--impact,.7) * .22);
+    transform:scale(.85);
+  }
+  50%{
+    opacity:var(--impact,.7);
+    transform:scale(1.05);
+  }
+}
+
+/* ---------- CONTROLES ---------- */
+.controls{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin:21px 0 19px;
+}
+.preset{
+  background:#fff;
+  border:1px solid #c9ddd0;
+  color:var(--ink);
+  padding:11px 14px;
+  border-radius:99px;
+  cursor:pointer;
+  font-size:.88rem;
+  font-weight:800;
+  transition:background .2s,transform .2s,border-color .2s;
+}
+.preset:hover{transform:translateY(-2px);border-color:var(--green)}
+.preset[aria-pressed=true]{
+  background:var(--deep);
+  color:white;
+  border-color:var(--deep);
+}
+
+.slider-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  font-weight:800;
+}
+.angle-pill{
+  background:#e8f5eb;
+  color:var(--green);
+  border-radius:12px;
+  padding:6px 13px;
+  font-size:1.07rem;
+  min-width:67px;
+  text-align:center;
+}
+input[type=range]{
+  width:100%;
+  margin:18px 0 5px;
+  accent-color:var(--green);
+  cursor:pointer;
+}
+.range-ends{
+  display:flex;
+  justify-content:space-between;
+  color:#6b8178;
+  font-size:.8rem;
+}
+.small-note{
+  font-size:.81rem;
+  color:#60746d;
+  margin-top:13px;
+}
+
+/* ---------- MEDIDORES ---------- */
+.status{
+  display:inline-block;
+  font-size:.76rem;
+  font-weight:850;
+  background:#e8f5eb;
+  color:#08663b;
+  border-radius:100px;
+  padding:5px 11px;
+}
+.metric-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin:17px 0;
+}
+.metric{
+  background:#eff7f2;
+  border-radius:16px;
+  padding:15px 14px;
+  min-width:0;
+}
+.metric.power{
+  grid-column:1/-1;
+  background:#e7f4ec;
+}
+.metric small{
+  color:#587268;
+  display:block;
+  font-size:.77rem;
+}
+.metric strong{
+  font-size:clamp(1.1rem,1.9vw,1.55rem);
+  display:block;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.3px;
+  overflow-wrap:anywhere;
+}
+.metric.power strong{
+  font-size:clamp(1.3rem,2.2vw,1.9rem);
+}
+.unit{
+  font-size:.78em;
+  white-space:nowrap;
+}
+
+.explainer{
+  color:var(--muted);
+  font-size:.88rem;
+  min-height:45px;
+}
+
+/* ---------- GRÁFICA ---------- */
+.chart-key{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+  font-size:.78rem;
+  color:var(--muted);
+  margin:12px 0 6px;
+}
+.key::before{
+  content:"";
+  display:inline-block;
+  width:10px;
+  height:10px;
+  margin-right:6px;
+  border-radius:50%;
+  background:var(--teal);
+}
+.key.amps::before{background:var(--gold)}
+.key.power::before{background:var(--green)}
+
+.chart-shell{
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#fafdfb;
+  padding:12px;
+  overflow:hidden;
+}
+.graph{
+  display:block;
+  width:100%;
+  height:auto;
+}
+.graph .grid-line{stroke:#e0ece5;stroke-width:1}
+.graph .axis{stroke:#869f94;stroke-width:1.5}
+.graph text{font:11px Lato,Arial,sans-serif;fill:#6b8178}
+.graph .curve{
+  fill:none;
+  stroke-width:3;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.graph .marker{stroke:white;stroke-width:2}
+
+/* ---------- RESUMEN ---------- */
+.summary{margin-top:20px}
+.summary p{color:var(--muted);font-size:.91rem}
+.tablewrap{overflow:auto}
+table{
+  border-collapse:collapse;
+  width:100%;
+  min-width:570px;
+}
+th,td{
+  padding:11px 12px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+}
+th{
+  font-size:.82rem;
+  background:#eef6ef;
+}
+td{font-variant-numeric:tabular-nums}
+
+.note{
+  background:#fff9e9;
+  border-left:4px solid var(--gold);
+  padding:13px 16px;
+  border-radius:3px 12px 12px 3px;
+  font-size:.87rem;
+  color:#675c3c;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:880px){
+  .layout{grid-template-columns:1fr}
+  .visual{height:340px}
+}
+@media(max-width:520px){
+  main{padding:32px 15px 50px}
+  .topinner{padding:13px 15px}
+  .card{padding:17px;border-radius:18px}
+  .visual{height:265px}
+  .panel-anchor{transform:translate(-50%,-50%) scale(.7)}
+  .sun{transform:scale(.75);transform-origin:top left}
+  .metric-grid{grid-template-columns:1fr 1fr}
+  .metric{padding:12px}
+  .metric strong{font-size:1.18rem}
+  .metric.power strong{font-size:1.6rem}
+  .preset{font-size:.8rem;padding:9px 12px}
+}
+@media(prefers-reduced-motion:reduce){
+  .panel,.sun,.sun::before,.beam,.impact,.preset{
+    animation:none;
+    transition:none;
+  }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="topinner"><a class="logo" href="./index.html"><span>Eco</span> Solare ☀</a><a class="backlink" href="./index.html">← Volver al sitio</a></div></header>
+<header class="topbar">
+  <div class="topinner">
+    <a class="logo" href="./index.html"><span>Eco</span> Solare ☀</a>
+    <a class="backlink" href="./index.html">← Volver al sitio</a>
+  </div>
+</header>
+
 <main>
-<div class="kicker">Laboratorio fotovoltaico · Práctica del 11/11/2026 · 16:00 h</div>
-<h1>Descubre cómo el ángulo cambia la <em>energía solar</em></h1>
-<p class="subtitle">Inclina la celda para observar su orientación y una estimación de voltaje, corriente y potencia. Los resultados de los tres ensayos se conservan como referencias experimentales.</p>
-<div class="layout">
-<section class="card">
-<h2>Explora la inclinación</h2>
-<div class="visual" role="img" aria-label="Celda solar tridimensional suspendida, con superficie fotovoltaica azul, parte trasera gris, suelo y sol animado">
-<div class="cloud one"></div><div class="cloud two"></div>
-<div class="sun" aria-hidden="true"><span class="eye left"></span><span class="eye right"></span><span class="smile"></span></div>
-<div class="beam"></div><div class="beam b2"></div><div class="beam b3"></div>
-<div class="ground"></div><div class="ground-shadow"></div>
-<div class="panel-anchor"><div class="panel" id="panel"><div class="panel-rim"></div><div class="panel-edge top"></div><div class="panel-edge bottom"></div><div class="panel-edge left"></div><div class="panel-edge right"></div><div class="panel-face panel-front"><i class="spark one"></i><i class="spark two"></i><i class="spark three"></i></div><div class="panel-face panel-back"></div></div></div>
-</div>
-<div class="controls" role="group" aria-label="Seleccionar posición experimental">
-<button type="button" class="preset" data-angle="180" aria-pressed="false">Hacia abajo</button>
-<button type="button" class="preset" data-angle="0" aria-pressed="false">Hacia arriba</button>
-<button type="button" class="preset" data-angle="35" aria-pressed="true">Máximo voltaje</button>
-</div>
-<div class="slider-head"><label for="angle">Ángulo de inclinación</label><output class="angle-pill" id="angleLabel" for="angle">35°</output></div>
-<input id="angle" type="range" min="0" max="180" value="35" step="1" aria-label="Inclinación respecto al suelo, grados">
-<div class="range-ends"><span>0° · cara arriba</span><span>90° · vertical</span><span>180° · cara abajo</span></div>
-<p class="small-note">El panel gira sobre su centro. El giro lateral de la cámara es fijo y solo ayuda a distinguir las dos caras; los 0° y 180° representan las posiciones idealizadas hacia arriba y hacia abajo.</p>
-</section>
-<section class="card">
-<h2>Medidores eléctricos</h2>
-<span class="status" id="status">Medición experimental · 35°</span>
-<div class="metric-grid">
-<div class="metric"><small>Voltaje</small><strong id="voltage">0.130 <span class="unit">V</span></strong></div>
-<div class="metric"><small>Corriente</small><strong id="current">3.52 <span class="unit">mA</span></strong></div>
-<div class="metric power"><small>Potencia</small><strong id="power">0.45760 <span class="unit">mW</span></strong></div>
-</div>
-<p class="explainer" id="explanation" aria-live="polite"></p>
-<h2 style="margin-top:24px">Comparación dinámica</h2>
-<div class="chart-key"><span class="key">Voltaje (V)</span><span class="key amps">Corriente (mA)</span><span class="key power">Potencia (mW)</span></div>
-<div class="chart-shell"><svg id="graph" class="graph" viewBox="0 0 460 245" role="img" aria-label="Tres curvas en escalas relativas: voltaje, corriente y potencia según el ángulo, con marcador de inclinación seleccionada"></svg></div>
-<p class="small-note">Las tres curvas están normalizadas a sus valores máximos para facilitar la comparación. Consulta arriba sus magnitudes reales y unidades.</p>
-<div class="note"><strong>Dato real frente a estimación:</strong> los valores en los botones proceden del experimento; en los demás ángulos se muestra un modelo didáctico aproximado, no nuevas mediciones ni una predicción garantizada.</div>
-</section>
-</div>
-<section class="card summary">
-<h2>Resultados medidos y metodología</h2>
-<div class="tablewrap"><table><thead><tr><th>Orientación registrada</th><th>Voltaje (V)</th><th>Corriente (mA)</th><th>Potencia calculada (mW)</th></tr></thead><tbody>
-<tr><td>Hacia abajo</td><td>0.002</td><td>2.20</td><td>0.00440</td></tr>
-<tr><td>Hacia arriba</td><td>0.085</td><td>3.45</td><td>0.29325</td></tr>
-<tr><td>Máximo voltaje (~35°)</td><td>0.130</td><td>3.52</td><td>0.45760</td></tr>
-</tbody></table></div>
-<p>Modelo pedagógico de respuesta angular a las 16:00 h: factor de incidencia simplificado <strong>f(θ) = max[0, cos(θ − 35°)]</strong>; <strong>V(θ) = 0.002 + 0.128·f(θ)<sup>pV</sup></strong> e <strong>I(θ) = 2.20 + 1.32·f(θ)<sup>pI</sup></strong>, con exponentes ajustados para recuperar la medición hacia arriba si se representa como 0°. Se obtiene <strong>P(mW) = V(V) × I(mA)</strong>. La posición hacia abajo se representa visualmente como 180°, aunque su ángulo no se registró en campo.</p>
-<p>Este ajuste simplificado no caracteriza toda la curva I-V del panel ni incluye irradiancia difusa, temperatura o carga. El máximo de voltaje no equivale necesariamente al máximo de potencia. Para calcular eficiencia fotovoltaica se necesitarían irradiancia (W/m²) y área activa (m²).</p>
-</section>
+  <div class="kicker">Laboratorio fotovoltaico · Práctica del 11/11/2026 · 16:00 h</div>
+  <h1>Descubre cómo el ángulo cambia la <em>energía solar</em></h1>
+  <p class="subtitle">
+    Inclina la celda para observar su orientación y una estimación de voltaje, corriente y potencia.
+    Los resultados de los tres ensayos se conservan como referencias experimentales.
+  </p>
+
+  <div class="layout">
+    <section class="card">
+      <h2>Explora la inclinación</h2>
+
+      <div class="visual" id="visual" role="img" aria-label="Celda solar tridimensional suspendida, con superficie fotovoltaica azul, parte trasera gris, suelo y sol animado">
+        <div class="cloud one"></div>
+        <div class="cloud two"></div>
+
+        <div class="sun" aria-hidden="true">
+          <span class="eye left"></span>
+          <span class="eye right"></span>
+          <span class="smile"></span>
+        </div>
+
+        <div class="beam b1"></div>
+        <div class="beam b2"></div>
+        <div class="beam b3"></div>
+
+        <div class="ground"></div>
+        <div class="ground-shadow"></div>
+
+        <div class="panel-anchor">
+          <div class="panel" id="panel">
+            <div class="panel-rim"></div>
+
+            <div class="panel-edge top"></div>
+            <div class="panel-edge bottom"></div>
+            <div class="panel-edge left"></div>
+            <div class="panel-edge right"></div>
+
+            <div class="panel-face panel-front">
+              <i class="impact i1"></i>
+              <i class="impact i2"></i>
+              <i class="impact i3"></i>
+            </div>
+
+            <div class="panel-face panel-back"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls" role="group" aria-label="Seleccionar posición experimental">
+        <button type="button" class="preset" data-angle="180" aria-pressed="false">Hacia abajo</button>
+        <button type="button" class="preset" data-angle="0" aria-pressed="false">Hacia arriba</button>
+        <button type="button" class="preset" data-angle="35" aria-pressed="true">Máximo voltaje</button>
+      </div>
+
+      <div class="slider-head">
+        <label for="angle">Ángulo de inclinación</label>
+        <output class="angle-pill" id="angleLabel" for="angle">35°</output>
+      </div>
+
+      <input id="angle" type="range" min="0" max="180" value="35" step="1" aria-label="Inclinación respecto al suelo, grados">
+
+      <div class="range-ends">
+        <span>0° · cara arriba</span>
+        <span>90° · vertical</span>
+        <span>180° · cara abajo</span>
+      </div>
+
+      <p class="small-note">
+        El panel gira sobre su centro. El giro lateral de la cámara es fijo y solo ayuda a distinguir las dos caras;
+        los 0° y 180° representan las posiciones idealizadas hacia arriba y hacia abajo.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Medidores eléctricos</h2>
+      <span class="status" id="status">Medición experimental · 35°</span>
+
+      <div class="metric-grid">
+        <div class="metric">
+          <small>Voltaje</small>
+          <strong id="voltage">0.130 <span class="unit">V</span></strong>
+        </div>
+
+        <div class="metric">
+          <small>Corriente</small>
+          <strong id="current">3.52 <span class="unit">mA</span></strong>
+        </div>
+
+        <div class="metric power">
+          <small>Potencia</small>
+          <strong id="power">0.45760 <span class="unit">mW</span></strong>
+        </div>
+      </div>
+
+      <p class="explainer" id="explanation" aria-live="polite"></p>
+
+      <h2 style="margin-top:24px">Comparación dinámica</h2>
+      <div class="chart-key">
+        <span class="key">Voltaje (V)</span>
+        <span class="key amps">Corriente (mA)</span>
+        <span class="key power">Potencia (mW)</span>
+      </div>
+
+      <div class="chart-shell">
+        <svg id="graph" class="graph" viewBox="0 0 460 245" role="img" aria-label="Tres curvas en escalas relativas: voltaje, corriente y potencia según el ángulo, con marcador de inclinación seleccionada"></svg>
+      </div>
+
+      <p class="small-note">
+        Las tres curvas están normalizadas a sus valores máximos para facilitar la comparación.
+        Consulta arriba sus magnitudes reales y unidades.
+      </p>
+
+      <div class="note">
+        <strong>Dato real frente a estimación:</strong>
+        los valores en los botones proceden del experimento; en los demás ángulos se muestra un modelo didáctico aproximado,
+        no nuevas mediciones ni una predicción garantizada.
+      </div>
+    </section>
+  </div>
+
+  <section class="card summary">
+    <h2>Resultados medidos y metodología</h2>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Orientación registrada</th>
+            <th>Voltaje (V)</th>
+            <th>Corriente (mA)</th>
+            <th>Potencia calculada (mW)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hacia abajo</td>
+            <td>0.002</td>
+            <td>2.20</td>
+            <td>0.00440</td>
+          </tr>
+          <tr>
+            <td>Hacia arriba</td>
+            <td>0.085</td>
+            <td>3.45</td>
+            <td>0.29325</td>
+          </tr>
+          <tr>
+            <td>Máximo voltaje (~35°)</td>
+            <td>0.130</td>
+            <td>3.52</td>
+            <td>0.45760</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Modelo pedagógico de respuesta angular a las 16:00 h:
+      factor de incidencia simplificado <strong>f(θ) = max[0, cos(θ − 35°)]</strong>;
+      <strong>V(θ) = 0.002 + 0.128·f(θ)<sup>pV</sup></strong> e
+      <strong>I(θ) = 2.20 + 1.32·f(θ)<sup>pI</sup></strong>,
+      con exponentes ajustados para recuperar la medición hacia arriba si se representa como 0°.
+      Se obtiene <strong>P(mW) = V(V) × I(mA)</strong>.
+      La posición hacia abajo se representa visualmente como 180°, aunque su ángulo no se registró en campo.
+    </p>
+
+    <p>
+      Este ajuste simplificado no caracteriza toda la curva I-V del panel ni incluye irradiancia difusa,
+      temperatura o carga. El máximo de voltaje no equivale necesariamente al máximo de potencia.
+      Para calcular eficiencia fotovoltaica se necesitarían irradiancia (W/m²) y área activa (m²).
+    </p>
+  </section>
 </main>
+
 <script>
 (function(){
   "use strict";
-  var $=function(id){return document.getElementById(id);};
-  var rad=Math.PI/180, vmax=.130, vmin=.002, imax=3.52, imin=2.20;
-  var f0=Math.cos(35*rad);
-  var pV=Math.log((.085-vmin)/(vmax-vmin))/Math.log(f0);
-  var pI=Math.log((3.45-imin)/(imax-imin))/Math.log(f0);
-  var observed={0:{v:.085,i:3.45,label:"Hacia arriba"},35:{v:.130,i:3.52,label:"Máximo voltaje"},180:{v:.002,i:2.20,label:"Hacia abajo"}};
-  function calc(a){
-    var f=Math.max(0,Math.cos((a-35)*rad));
-    var v=vmin+(vmax-vmin)*Math.pow(f,pV);
-    var i=imin+(imax-imin)*Math.pow(f,pI);
-    if(observed[a]){v=observed[a].v;i=observed[a].i;}
-    return {v:v,i:i,p:v*i,observed:!!observed[a]};
+
+  var $ = function(id){ return document.getElementById(id); };
+  var rad = Math.PI / 180;
+
+  var vmax = 0.130;
+  var vmin = 0.002;
+  var imax = 3.52;
+  var imin = 2.20;
+
+  var f0 = Math.cos(35 * rad);
+  var pV = Math.log((0.085 - vmin) / (vmax - vmin)) / Math.log(f0);
+  var pI = Math.log((3.45 - imin) / (imax - imin)) / Math.log(f0);
+
+  var observed = {
+    0:   { v:0.085, i:3.45, label:"Hacia arriba" },
+    35:  { v:0.130, i:3.52, label:"Máximo voltaje" },
+    180: { v:0.002, i:2.20, label:"Hacia abajo" }
+  };
+
+  function calc(angle){
+    var f = Math.max(0, Math.cos((angle - 35) * rad));
+    var v = vmin + (vmax - vmin) * Math.pow(f, pV);
+    var i = imin + (imax - imin) * Math.pow(f, pI);
+
+    if(observed[angle]){
+      v = observed[angle].v;
+      i = observed[angle].i;
+    }
+
+    return {
+      v: v,
+      i: i,
+      p: v * i,
+      observed: !!observed[angle]
+    };
   }
-  function s(tag,attrs){var el=document.createElementNS("http://www.w3.org/2000/svg",tag);Object.keys(attrs).forEach(function(k){el.setAttribute(k,attrs[k]);});return el;}
-  function chart(a){
-    var svg=$("graph");while(svg.firstChild)svg.removeChild(svg.firstChild);
-    var left=42,right=440,top=17,bottom=203, w=right-left,h=bottom-top;
-    var xp=function(x){return left+w*x/180;};
-    var yp=function(y){return bottom-h*y;};
+
+  function s(tag, attrs){
+    var el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    Object.keys(attrs).forEach(function(k){
+      el.setAttribute(k, attrs[k]);
+    });
+    return el;
+  }
+
+  function chart(angle){
+    var svg = $("graph");
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+
+    var left = 42, right = 440, top = 17, bottom = 203;
+    var w = right - left, h = bottom - top;
+
+    var xp = function(x){ return left + w * x / 180; };
+    var yp = function(y){ return bottom - h * y; };
+
     [0,.25,.5,.75,1].forEach(function(y){
-      svg.appendChild(s("line",{x1:left,x2:right,y1:yp(y),y2:yp(y),"class":"grid-line"}));
-      var t=s("text",{x:32,y:yp(y)+4,"text-anchor":"end"});t.textContent=Math.round(y*100)+"%";svg.appendChild(t);
+      svg.appendChild(s("line", {
+        x1:left, x2:right, y1:yp(y), y2:yp(y), "class":"grid-line"
+      }));
+      var t = s("text", { x:32, y:yp(y)+4, "text-anchor":"end" });
+      t.textContent = Math.round(y * 100) + "%";
+      svg.appendChild(t);
     });
-    svg.appendChild(s("line",{x1:left,y1:bottom,x2:right,y2:bottom,"class":"axis"}));
-    [0,35,90,135,180].forEach(function(x){var t=s("text",{x:xp(x),y:bottom+19,"text-anchor":"middle"});t.textContent=x+"°";svg.appendChild(t);});
-    var series=[{key:"v",maximum:vmax,color:"#087f91"},{key:"i",maximum:imax,color:"#ffb52e"},{key:"p",maximum:vmax*imax,color:"#08783f"}];
+
+    svg.appendChild(s("line", {
+      x1:left, y1:bottom, x2:right, y2:bottom, "class":"axis"
+    }));
+
+    [0,35,90,135,180].forEach(function(x){
+      var t = s("text", { x:xp(x), y:bottom+19, "text-anchor":"middle" });
+      t.textContent = x + "°";
+      svg.appendChild(t);
+    });
+
+    var series = [
+      { key:"v", maximum:vmax, color:"#087f91" },
+      { key:"i", maximum:imax, color:"#ffb52e" },
+      { key:"p", maximum:vmax * imax, color:"#08783f" }
+    ];
+
     series.forEach(function(line){
-      var d="";for(var angle=0;angle<=180;angle+=1){var result=calc(angle);var y=Math.max(0,Math.min(1,result[line.key]/line.maximum));d+=(angle===0?"M":"L")+xp(angle).toFixed(2)+" "+yp(y).toFixed(2)+" ";}
-      svg.appendChild(s("path",{d:d,stroke:line.color,"class":"curve"}));
-      var selected=calc(a);
-      svg.appendChild(s("circle",{cx:xp(a),cy:yp(Math.min(1,selected[line.key]/line.maximum)),r:5.2,fill:line.color,"class":"marker"}));
+      var d = "";
+      for(var ang = 0; ang <= 180; ang += 1){
+        var result = calc(ang);
+        var y = Math.max(0, Math.min(1, result[line.key] / line.maximum));
+        d += (ang === 0 ? "M" : "L") + xp(ang).toFixed(2) + " " + yp(y).toFixed(2) + " ";
+      }
+
+      svg.appendChild(s("path", {
+        d:d,
+        stroke:line.color,
+        "class":"curve"
+      }));
+
+      var selected = calc(angle);
+      svg.appendChild(s("circle", {
+        cx:xp(angle),
+        cy:yp(Math.min(1, selected[line.key] / line.maximum)),
+        r:5.2,
+        fill:line.color,
+        "class":"marker"
+      }));
     });
-    svg.appendChild(s("line",{x1:xp(a),y1:top,x2:xp(a),y2:bottom,stroke:"#58786a","stroke-dasharray":"5 5","stroke-width":"1.3"}));
+
+    svg.appendChild(s("line", {
+      x1:xp(angle),
+      y1:top,
+      x2:xp(angle),
+      y2:bottom,
+      stroke:"#58786a",
+      "stroke-dasharray":"5 5",
+      "stroke-width":"1.3"
+    }));
   }
+
   function render(){
-    var a=Number($("angle").value), result=calc(a);
-    // The panel starts facing upward (front visible) and flips around its own
-    // horizontal axis. The fixed Z and Y rotations provide depth, not user input.
-    var tilt=65-a;
-    $("panel").style.transform="rotateZ(-7deg) rotateY(-19deg) rotateX("+tilt+"deg)";
-    $("angleLabel").textContent=a+"°";
-    $("voltage").innerHTML=result.v.toPrecision(3)+' <span class="unit">V</span>';
-    $("current").innerHTML=result.i.toPrecision(3)+' <span class="unit">mA</span>';
-    $("power").innerHTML=result.p.toPrecision(5)+' <span class="unit">mW</span>';
-    var impact=Math.max(0,Math.cos((a-35)*rad));
-    $("panel").style.setProperty("--impact",Math.max(.04,impact).toFixed(3));
-    document.querySelector(".visual").style.setProperty("--beam-opacity",(.17+.38*impact).toFixed(3));
-    $("status").textContent=a===35?"Medición experimental · 35°":result.observed?"Medición asociada a posición idealizada":"Estimación del modelo";
-    $("explanation").textContent=result.observed?"Referencia: "+observed[a].label+". "+(a===35?"Ángulo físico aproximado medido: 35°.":"La posición está idealizada; el ángulo exacto no se midió."):"Ángulo "+a+"°: valores aproximados calculados, no medidos.";
-    document.querySelectorAll(".preset").forEach(function(b){b.setAttribute("aria-pressed",String(Number(b.dataset.angle)===a));});
+    var a = Number($("angle").value);
+    var result = calc(a);
+
+    // Rotación del panel:
+    // 0° = cara frontal hacia arriba
+    // 180° = cara trasera visible / cara frontal hacia abajo
+    var tilt = 65 - a;
+    $("panel").style.transform = "rotateZ(-7deg) rotateY(-19deg) rotateX(" + tilt + "deg)";
+
+    $("angleLabel").textContent = a + "°";
+
+    $("voltage").innerHTML = result.v.toPrecision(3) + ' <span class="unit">V</span>';
+    $("current").innerHTML = result.i.toPrecision(3) + ' <span class="unit">mA</span>';
+    $("power").innerHTML   = result.p.toPrecision(5) + ' <span class="unit">mW</span>';
+
+    $("status").textContent =
+      a === 35
+        ? "Medición experimental · 35°"
+        : result.observed
+          ? "Medición asociada a posición idealizada"
+          : "Estimación del modelo";
+
+    $("explanation").textContent =
+      result.observed
+        ? "Referencia: " + observed[a].label + ". " + (a === 35
+            ? "Ángulo físico aproximado medido: 35°."
+            : "La posición está idealizada; el ángulo exacto no se midió.")
+        : "Ángulo " + a + "°: valores aproximados calculados, no medidos.";
+
+    document.querySelectorAll(".preset").forEach(function(b){
+      b.setAttribute("aria-pressed", String(Number(b.dataset.angle) === a));
+    });
+
+    // Sincroniza rayos y brillos
+    var impact = Math.max(0, Math.cos((a - 35) * rad));
+    $("panel").style.setProperty("--impact", Math.max(.06, impact).toFixed(3));
+    $("visual").style.setProperty("--beam-opacity", (0.18 + 0.42 * impact).toFixed(3));
+
     chart(a);
   }
-  document.querySelectorAll(".preset").forEach(function(b){b.addEventListener("click",function(){$("angle").value=b.dataset.angle;render();});});
-  $("angle").addEventListener("input",render);
+
+  document.querySelectorAll(".preset").forEach(function(b){
+    b.addEventListener("click", function(){
+      $("angle").value = b.dataset.angle;
+      render();
+    });
+  });
+
+  $("angle").addEventListener("input", render);
+
   render();
 })();
 </script>
-</body></html>
+</body>
+</html>
