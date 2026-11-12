@@ -278,7 +278,7 @@ h1 em{color:var(--green);font-style:normal}
 .panel-edge.right{top:0;right:-4px;width:8px;height:100%;transform:rotateY(90deg)}
 /* Puntos de colisión invisibles, solidarios a la cara frontal del panel. */
 .hitpoint{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
-.hitpoint.h1{top:24%;left:28%}.hitpoint.h2{top:46%;left:54%}.hitpoint.h3{top:35%;left:77%}
+.hitpoint.h1{top:17%;left:18%}.hitpoint.h2{top:22%;left:42%}.hitpoint.h3{top:15%;left:69%}.hitpoint.h4{top:35%;left:85%}.hitpoint.h5{top:48%;left:16%}.hitpoint.h6{top:53%;left:39%}.hitpoint.h7{top:47%;left:65%}.hitpoint.h8{top:70%;left:83%}.hitpoint.h9{top:82%;left:28%}.hitpoint.h10{top:78%;left:58%}
 /* ---------- CONTROLES ---------- */
 .controls{
   display:flex;
@@ -537,6 +537,13 @@ td{font-variant-numeric:tabular-nums}
               <i class="hitpoint h1"></i>
               <i class="hitpoint h2"></i>
               <i class="hitpoint h3"></i>
+              <i class="hitpoint h4"></i>
+              <i class="hitpoint h5"></i>
+              <i class="hitpoint h6"></i>
+              <i class="hitpoint h7"></i>
+              <i class="hitpoint h8"></i>
+              <i class="hitpoint h9"></i>
+              <i class="hitpoint h10"></i>
             </div>
 
             <div class="panel-face panel-back"></div>
@@ -841,7 +848,7 @@ td{font-variant-numeric:tabular-nums}
   // Los extremos se calculan desde las posiciones proyectadas reales del panel,
   // incluso mientras gira o cambia el tamaño de la ventana.
   var trails=$("lightTrails");
-  var tracks=[0,1,2].map(function(i){
+  var tracks=Array.from({length:10},function(_,i){
     var group=s("g",{});
     var path=s("line",{"class":"path-glow"});
     var tail=s("line",{"class":"photon-tail"});
@@ -868,7 +875,7 @@ td{font-variant-numeric:tabular-nums}
         var r=t.point.getBoundingClientRect();
         var ex=r.left+r.width/2-rect.left,ey=r.top+r.height/2-rect.top;
         var dx=ex-sx,dy=ey-sy;
-        var period=2700,delay=i*850;
+        var period=2700,delay=i*260;
         var progress=reduced?1:(((now-startTime-delay)%period+period)%period)/period;
         var flight=.76,travel=Math.min(1,progress/flight);
         // Fin del trayecto: el fotón desaparece y su impacto aparece en el mismo punto.
