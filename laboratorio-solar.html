@@ -172,34 +172,14 @@ h1 em{color:var(--green);font-style:normal}
 @keyframes sun-bob{50%{transform:translateY(-5px)}}
 @keyframes sun-rays{to{transform:rotate(360deg)}}
 
-/* Rayos */
-.beam{
-  position:absolute;
-  width:4px;
-  height:220px;
-  z-index:1;
-  transform-origin:top;
-  background:linear-gradient(to bottom,#ffd46dcc 0%,#ffd46d88 35%,#ffd46d00 100%);
-  opacity:var(--beam-opacity,.45);
-  animation:beamPulse 2.2s ease-in-out infinite;
-  transition:opacity .35s ease;
-  filter:blur(.3px);
-}
-.beam.b1{left:24%;top:38%;transform:rotate(-48deg);animation-delay:0s}
-.beam.b2{left:18%;top:39%;transform:rotate(-34deg);animation-delay:.35s}
-.beam.b3{left:29%;top:39%;transform:rotate(-56deg);animation-delay:.7s}
-
-@keyframes beamPulse{
-  0%,100%{
-    opacity:calc(var(--beam-opacity,.45) * .45);
-    filter:blur(.2px);
-  }
-  50%{
-    opacity:var(--beam-opacity,.45);
-    filter:blur(1px);
-  }
-}
-
+/* Rayos viajeros: un solo reloj sincroniza el trayecto y su destello. */
+.light-trails{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;overflow:visible}
+.light-trails .path-glow{fill:none;stroke:#ffca54;stroke-width:2.2;stroke-linecap:round;opacity:.14}
+.light-trails .photon{fill:#fff0a2;stroke:#ffd05a;stroke-width:1.4;filter:drop-shadow(0 0 5px #ffca48)}
+.light-trails .photon-tail{stroke:#ffe499;stroke-width:3.1;stroke-linecap:round;opacity:.67}
+.light-trails .flash{fill:#fff8ce;stroke:#fff0a0;stroke-width:2;filter:drop-shadow(0 0 8px #ffe067)}
+.light-trails .flash-ring{fill:none;stroke:#fff0aa;stroke-width:2}
+.light-trails .star-line{stroke:#fff4c3;stroke-width:2;stroke-linecap:round}
 /* Suelo */
 .ground{
   position:absolute;
@@ -241,8 +221,8 @@ h1 em{color:var(--green);font-style:normal}
   transform-style:preserve-3d;
   transform:rotateZ(-7deg) rotateY(-19deg) rotateX(30deg);
   transition:transform .42s cubic-bezier(.2,.75,.2,1);
-  filter:drop-shadow(0 12px 12px #073e4b25);
-  --impact:.7;
+  will-change:transform;
+  /* Sin filter: evita aplanar las superficies 3D al rotar. */
 }
 .panel-face{
   position:absolute;
@@ -258,7 +238,7 @@ h1 em{color:var(--green);font-style:normal}
     repeating-linear-gradient(90deg,transparent 0 51px,#aacbd6 52px 54px),
     repeating-linear-gradient(0deg,transparent 0 38px,#aacbd6 39px 41px),
     linear-gradient(130deg,#164e70,#092d54 74%);
-  transform:translateZ(3px);
+  transform:translateZ(4px);
 }
 .panel-front::after{
   content:"";
@@ -271,7 +251,7 @@ h1 em{color:var(--green);font-style:normal}
   background:repeating-linear-gradient(90deg,#e2e8e8 0 32px,#b2c6cb 33px 35px);
   border-color:#7f969c;
   border-radius:0;
-  transform:rotateY(180deg) translateZ(3px);
+  transform:rotateY(180deg) translateZ(4px);
 }
 .panel-back::after{
   content:"";
@@ -291,76 +271,14 @@ h1 em{color:var(--green);font-style:normal}
   border-radius:0;
   transform:translateZ(0);
 }
-.panel-edge{
-  position:absolute;
-  background:#758e98;
-  backface-visibility:visible;
-}
-.panel-edge.top{
-  top:0; left:0;
-  width:100%; height:6px;
-  transform-origin:top;
-  transform:rotateX(-90deg);
-}
-.panel-edge.bottom{
-  bottom:0; left:0;
-  width:100%; height:6px;
-  transform-origin:bottom;
-  transform:rotateX(90deg);
-}
-.panel-edge.left{
-  top:0; left:0;
-  width:6px; height:100%;
-  transform-origin:left;
-  transform:rotateY(90deg);
-}
-.panel-edge.right{
-  top:0; right:0;
-  width:6px; height:100%;
-  transform-origin:right;
-  transform:rotateY(-90deg);
-}
-
-/* Impactos / brillos sincronizados con rayos */
-.impact{
-  position:absolute;
-  width:16px;
-  height:16px;
-  border-radius:50%;
-  pointer-events:none;
-  opacity:var(--impact,.7);
-  background:radial-gradient(circle,#fff9cf 0%,#ffe56b 30%,#ffd25555 55%,transparent 75%);
-  box-shadow:0 0 10px 4px #ffe98188, 0 0 22px 10px #ffd25533;
-  animation:impactPulse 2.2s ease-in-out infinite;
-}
-.impact::before,
-.impact::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  background:#fff8d8;
-  border-radius:20px;
-}
-.impact::before{width:24px;height:2px}
-.impact::after{width:2px;height:24px}
-
-.impact.i1{top:23%;left:28%;animation-delay:0s}
-.impact.i2{top:44%;left:55%;animation-delay:.35s}
-.impact.i3{top:30%;left:77%;animation-delay:.7s}
-
-@keyframes impactPulse{
-  0%,100%{
-    opacity:calc(var(--impact,.7) * .22);
-    transform:scale(.85);
-  }
-  50%{
-    opacity:var(--impact,.7);
-    transform:scale(1.05);
-  }
-}
-
+.panel-edge{position:absolute;background:linear-gradient(#b8cbd0,#627d88);backface-visibility:visible}
+.panel-edge.top{top:-4px;left:0;width:100%;height:8px;transform:rotateX(90deg)}
+.panel-edge.bottom{bottom:-4px;left:0;width:100%;height:8px;transform:rotateX(90deg)}
+.panel-edge.left{top:0;left:-4px;width:8px;height:100%;transform:rotateY(90deg)}
+.panel-edge.right{top:0;right:-4px;width:8px;height:100%;transform:rotateY(90deg)}
+/* Puntos de colisión invisibles, solidarios a la cara frontal del panel. */
+.hitpoint{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.hitpoint.h1{top:24%;left:28%}.hitpoint.h2{top:46%;left:54%}.hitpoint.h3{top:35%;left:77%}
 /* ---------- CONTROLES ---------- */
 .controls{
   display:flex;
@@ -564,7 +482,7 @@ td{font-variant-numeric:tabular-nums}
   .preset{font-size:.8rem;padding:9px 12px}
 }
 @media(prefers-reduced-motion:reduce){
-  .panel,.sun,.sun::before,.beam,.impact,.preset{
+  .panel,.sun,.sun::before,.preset{
     animation:none;
     transition:none;
   }
@@ -601,9 +519,7 @@ td{font-variant-numeric:tabular-nums}
           <span class="smile"></span>
         </div>
 
-        <div class="beam b1"></div>
-        <div class="beam b2"></div>
-        <div class="beam b3"></div>
+        
 
         <div class="ground"></div>
         <div class="ground-shadow"></div>
@@ -618,14 +534,15 @@ td{font-variant-numeric:tabular-nums}
             <div class="panel-edge right"></div>
 
             <div class="panel-face panel-front">
-              <i class="impact i1"></i>
-              <i class="impact i2"></i>
-              <i class="impact i3"></i>
+              <i class="hitpoint h1"></i>
+              <i class="hitpoint h2"></i>
+              <i class="hitpoint h3"></i>
             </div>
 
             <div class="panel-face panel-back"></div>
           </div>
         </div>
+        <svg id="lightTrails" class="light-trails" aria-hidden="true" preserveAspectRatio="none"></svg>
       </div>
 
       <div class="controls" role="group" aria-label="Seleccionar posición experimental">
@@ -906,11 +823,6 @@ td{font-variant-numeric:tabular-nums}
       b.setAttribute("aria-pressed", String(Number(b.dataset.angle) === a));
     });
 
-    // Sincroniza rayos y brillos
-    var impact = Math.max(0, Math.cos((a - 35) * rad));
-    $("panel").style.setProperty("--impact", Math.max(.06, impact).toFixed(3));
-    $("visual").style.setProperty("--beam-opacity", (0.18 + 0.42 * impact).toFixed(3));
-
     chart(a);
   }
 
@@ -924,6 +836,71 @@ td{font-variant-numeric:tabular-nums}
   $("angle").addEventListener("input", render);
 
   render();
+
+  // Cada fotón usa el mismo tiempo para viajar y generar su destello al impactar.
+  // Los extremos se calculan desde las posiciones proyectadas reales del panel,
+  // incluso mientras gira o cambia el tamaño de la ventana.
+  var trails=$("lightTrails");
+  var tracks=[0,1,2].map(function(i){
+    var group=s("g",{});
+    var path=s("line",{"class":"path-glow"});
+    var tail=s("line",{"class":"photon-tail"});
+    var photon=s("circle",{r:4,"class":"photon"});
+    var ring=s("circle",{r:9,"class":"flash-ring"});
+    var flash=s("circle",{r:5,"class":"flash"});
+    var v=s("line",{"class":"star-line"}),h=s("line",{"class":"star-line"});
+    [path,tail,photon,ring,flash,v,h].forEach(function(e){group.appendChild(e);});
+    trails.appendChild(group);
+    return {path:path,tail:tail,photon:photon,ring:ring,flash:flash,v:v,h:h,point:document.querySelectorAll(".hitpoint")[i]};
+  });
+  var reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var startTime=null;
+  function animateLight(now){
+    if(startTime===null)startTime=now;
+    var rect=$("visual").getBoundingClientRect(),sun=document.querySelector(".sun").getBoundingClientRect();
+    if(rect.width>0&&rect.height>0){
+      trails.setAttribute("viewBox","0 0 "+rect.width+" "+rect.height);
+      var sx=sun.left+sun.width*.61-rect.left,sy=sun.top+sun.height*.68-rect.top;
+      var a=Number($("angle").value);
+      // Al estar del revés no iluminamos ficticiamente la superficie activa.
+      var incidence=Math.max(0,Math.cos((a-35)*rad));
+      tracks.forEach(function(t,i){
+        var r=t.point.getBoundingClientRect();
+        var ex=r.left+r.width/2-rect.left,ey=r.top+r.height/2-rect.top;
+        var dx=ex-sx,dy=ey-sy;
+        var period=2700,delay=i*850;
+        var progress=reduced?1:(((now-startTime-delay)%period+period)%period)/period;
+        var flight=.76,travel=Math.min(1,progress/flight);
+        // Fin del trayecto: el fotón desaparece y su impacto aparece en el mismo punto.
+        var contact=progress>=flight&&progress<.97&&incidence>.08;
+        var visible=incidence>.08;
+        t.path.setAttribute("x1",sx);t.path.setAttribute("y1",sy);
+        t.path.setAttribute("x2",ex);t.path.setAttribute("y2",ey);
+        t.path.style.opacity=visible?".13":"0";
+        var x=sx+dx*travel,y=sy+dy*travel;
+        t.photon.setAttribute("cx",x);t.photon.setAttribute("cy",y);
+        t.photon.style.opacity=visible&&progress<flight?String(.50+.5*incidence):"0";
+        t.tail.setAttribute("x1",sx+dx*Math.max(0,travel-.13));
+        t.tail.setAttribute("y1",sy+dy*Math.max(0,travel-.13));
+        t.tail.setAttribute("x2",x);t.tail.setAttribute("y2",y);
+        t.tail.style.opacity=visible&&progress<flight?String(.35+.3*incidence):"0";
+        var pulse=contact?Math.sin(Math.PI*(progress-flight)/(.97-flight))*incidence:0;
+        t.flash.setAttribute("cx",ex);t.flash.setAttribute("cy",ey);
+        t.flash.setAttribute("r",4+7*pulse);t.flash.style.opacity=String(pulse);
+        t.ring.setAttribute("cx",ex);t.ring.setAttribute("cy",ey);
+        t.ring.setAttribute("r",7+14*pulse);t.ring.style.opacity=String(pulse*.8);
+        [t.v,t.h].forEach(function(line){line.style.opacity=String(pulse);});
+        t.v.setAttribute("x1",ex);t.v.setAttribute("x2",ex);
+        t.v.setAttribute("y1",ey-15*pulse);t.v.setAttribute("y2",ey+15*pulse);
+        t.h.setAttribute("x1",ex-15*pulse);t.h.setAttribute("x2",ex+15*pulse);
+        t.h.setAttribute("y1",ey);t.h.setAttribute("y2",ey);
+      });
+    }
+    if(!reduced)requestAnimationFrame(animateLight);
+  }
+  if(reduced)requestAnimationFrame(animateLight);
+  else requestAnimationFrame(animateLight);
+
 })();
 </script>
 </body>
