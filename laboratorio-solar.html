@@ -573,12 +573,15 @@ h1,h2,h3,h4,.logo,.preset,.status,.angle-pill,.metric strong,.slider-head,.kicke
  /* La ilustración de un experimento diurno conserva el cielo y panel originales. */
 }
 
+
+/* PNG con transparencia: evitar fondos propios y solicitar la versión actual. */
+.brand-picture,.brand-picture picture,.brand-picture img,.brand-detail{background:transparent!important;box-shadow:none;}
 </style>
 <meta name="color-scheme" content="light dark">
 <script>
 (function(){
  const mq=window.matchMedia("(prefers-color-scheme: dark)");
- function icon(){const path="./assets/branding/"+(mq.matches?"logo-negativo.png":"logo-minimo-color.png");const check=new Image();check.onload=()=>{let link=document.querySelector('link[data-brand-icon]');if(!link){link=document.createElement("link");link.rel="icon";link.type="image/png";link.dataset.brandIcon="";document.head.appendChild(link);}link.href=path;};check.src=path;}
+ function icon(){const path="./assets/branding/"+(mq.matches?"logo-negativo.png":"logo-minimo-color.png")+"?v=20261117-transparente";const check=new Image();check.onload=()=>{let link=document.querySelector('link[data-brand-icon]');if(!link){link=document.createElement("link");link.rel="icon";link.type="image/png";link.dataset.brandIcon="";document.head.appendChild(link);}link.href=path;};check.src=path;}
  icon();if(mq.addEventListener)mq.addEventListener("change",icon);else if(mq.addListener)mq.addListener(icon);
 })();
 </script>
@@ -586,7 +589,7 @@ h1,h2,h3,h4,.logo,.preset,.status,.angle-pill,.metric strong,.slider-head,.kicke
 <body>
 <header class="topbar">
   <div class="topinner">
-    <a class="logo" href="./index.html?desde=laboratorio#inicio" aria-label="Eco Solare, inicio"><span class="brand-picture" aria-hidden="true"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/branding/logo-negativo.png"><source media="(max-width: 620px)" srcset="./assets/branding/logo-minimo-color.png"><img src="./assets/branding/logo-horizontal.png" alt="" onload="this.closest('.brand-picture').classList.add('is-ready')" onerror="this.closest('.brand-picture').classList.remove('is-ready')"></picture><span class="brand-name">Eco Solare</span></span><span class="brand-fallback"><span>Eco</span> Solare ☀</span></a>
+    <a class="logo" href="./index.html?desde=laboratorio#inicio" aria-label="Eco Solare, inicio"><span class="brand-picture" aria-hidden="true"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/branding/logo-negativo.png?v=20261117-transparente"><source media="(max-width: 620px)" srcset="./assets/branding/logo-minimo-color.png?v=20261117-transparente"><img src="./assets/branding/logo-horizontal.png?v=20261117-transparente" alt="" onload="this.closest('.brand-picture').classList.add('is-ready')" onerror="this.closest('.brand-picture').classList.remove('is-ready')"></picture><span class="brand-name">Eco Solare</span></span><span class="brand-fallback"><span>Eco</span> Solare ☀</span></a>
     <a class="backlink" href="./index.html?desde=laboratorio#inicio">← Volver al sitio</a>
   </div>
 </header>
