@@ -320,12 +320,15 @@
  .eco-slides nav .nav-cta[aria-current="page"]{color:white}
 }
 
+
+/* PNG con transparencia: evitar fondos propios y solicitar la versión actual. */
+.brand-picture,.brand-picture picture,.brand-picture img,.brand-detail{background:transparent!important;box-shadow:none;}
 </style>
 <meta name="color-scheme" content="light dark">
 <script>
 (function(){
  const mq=window.matchMedia("(prefers-color-scheme: dark)");
- function icon(){const path="./assets/branding/"+(mq.matches?"logo-negativo.png":"logo-minimo-color.png");const check=new Image();check.onload=()=>{let link=document.querySelector('link[data-brand-icon]');if(!link){link=document.createElement("link");link.rel="icon";link.type="image/png";link.dataset.brandIcon="";document.head.appendChild(link);}link.href=path;};check.src=path;}
+ function icon(){const path="./assets/branding/"+(mq.matches?"logo-negativo.png":"logo-minimo-color.png")+"?v=20261117-transparente";const check=new Image();check.onload=()=>{let link=document.querySelector('link[data-brand-icon]');if(!link){link=document.createElement("link");link.rel="icon";link.type="image/png";link.dataset.brandIcon="";document.head.appendChild(link);}link.href=path;};check.src=path;}
  icon();if(mq.addEventListener)mq.addEventListener("change",icon);else if(mq.addListener)mq.addListener(icon);
 })();
 </script>
@@ -333,7 +336,7 @@
 <body>
   <header>
     <div class="container nav">
-      <a class="brand" href="#inicio" aria-label="Eco Solare, inicio"><span class="brand-picture" aria-hidden="true"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/branding/logo-negativo.png"><source media="(max-width: 620px)" srcset="./assets/branding/logo-minimo-color.png"><img src="./assets/branding/logo-horizontal.png" alt="" onload="this.closest('.brand-picture').classList.add('is-ready')" onerror="this.closest('.brand-picture').classList.remove('is-ready')"></picture><span class="brand-name">Eco Solare</span></span><span class="brand-fallback"><svg viewBox="0 0 100 100" role="img" aria-label="Símbolo de sol, hoja y panel solar">
+      <a class="brand" href="#inicio" aria-label="Eco Solare, inicio"><span class="brand-picture" aria-hidden="true"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/branding/logo-negativo.png?v=20261117-transparente"><source media="(max-width: 620px)" srcset="./assets/branding/logo-minimo-color.png?v=20261117-transparente"><img src="./assets/branding/logo-horizontal.png?v=20261117-transparente" alt="" onload="this.closest('.brand-picture').classList.add('is-ready')" onerror="this.closest('.brand-picture').classList.remove('is-ready')"></picture><span class="brand-name">Eco Solare</span></span><span class="brand-fallback"><svg viewBox="0 0 100 100" role="img" aria-label="Símbolo de sol, hoja y panel solar">
           <circle cx="48" cy="35" r="22" fill="#ffad18"/>
           <path d="M12 69 Q35 46 76 55 Q63 78 29 79Z" fill="#39a94d"/>
           <path d="M28 74 L82 65 L91 82 L39 94Z" fill="#092f4b"/>
@@ -381,7 +384,7 @@
       </div>
     </section>
 
-    <section class="lab-announcement"><div class="container" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px"><div><img class="brand-detail" src="./assets/branding/logo-isotipo-detallado.png" alt="" onload="this.classList.add('is-ready')" onerror="this.classList.remove('is-ready')"><div class="eyebrow">Nuevo experimento · 11 noviembre 2026</div><h2 style="margin:8px 0">Laboratorio de inclinación fotovoltaica</h2><p>Explora voltaje, corriente y potencia según tres orientaciones medidas a las 16:00.</p></div><a class="button" href="laboratorio-solar.html">Abrir simulador solar</a></div></section>
+    <section class="lab-announcement"><div class="container" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px"><div><img class="brand-detail" src="./assets/branding/logo-isotipo-detallado.png?v=20261117-transparente" alt="" onload="this.classList.add('is-ready')" onerror="this.classList.remove('is-ready')"><div class="eyebrow">Nuevo experimento · 11 noviembre 2026</div><h2 style="margin:8px 0">Laboratorio de inclinación fotovoltaica</h2><p>Explora voltaje, corriente y potencia según tres orientaciones medidas a las 16:00.</p></div><a class="button" href="laboratorio-solar.html">Abrir simulador solar</a></div></section>
     <section id="solucion">
       <div class="container">
         <div class="section-heading">
@@ -619,7 +622,7 @@
 
   <footer>
     <div class="container footer-inner">
-      <div><div class="footer-brand"><span class="brand-picture brand-negative"><img src="./assets/branding/logo-negativo.png" alt="Eco Solare" onload="this.parentElement.classList.add('is-ready')" onerror="this.parentElement.classList.remove('is-ready')"><span class="brand-name">Eco Solare</span></span><span class="brand-fallback">Eco Solare</span></div><p>Cotiza. Ahorra. Cuida el planeta.</p></div>
+      <div><div class="footer-brand"><span class="brand-picture brand-negative"><img src="./assets/branding/logo-negativo.png?v=20261117-transparente" alt="Eco Solare" onload="this.parentElement.classList.add('is-ready')" onerror="this.parentElement.classList.remove('is-ready')"><span class="brand-name">Eco Solare</span></span><span class="brand-fallback">Eco Solare</span></div><p>Cotiza. Ahorra. Cuida el planeta.</p></div>
       <div class="student-id">A01744292</div>
     </div>
   </footer>
