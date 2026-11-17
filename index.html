@@ -188,6 +188,24 @@
     .component-alerts li { margin:8px 0; }
     #form-componentes input { color:var(--navy); }
     #resultado-componentes:empty { display:none; }
+
+    /* Navegación horizontal: cada apartado mantiene su contenido y estado. */
+    html.eco-slides{scroll-behavior:auto}
+    .eco-slides body{overflow-x:hidden}
+    .eco-slides .nav{flex-wrap:wrap;gap:8px 18px;padding-top:8px;padding-bottom:8px}
+    .eco-slides nav{flex:1 1 auto;min-width:0;justify-content:flex-end;gap:14px;flex-wrap:wrap}
+    .eco-slides nav a{white-space:nowrap}
+    .eco-slides nav a[aria-current="page"]{color:var(--green);text-decoration:underline;text-underline-offset:5px}
+    .eco-slides nav .nav-cta[aria-current="page"]{color:white}
+    .eco-slide-viewport{width:100%;overflow:hidden;position:relative}
+    .eco-slide-track{display:flex;align-items:flex-start;width:100%;will-change:transform}
+    .eco-slide-page{flex:0 0 100%;width:100%;min-width:0}
+    .eco-slide-page[aria-hidden="true"]{pointer-events:none}
+    .eco-lab-frame{width:100%;border:0;display:block;min-height:700px;background:#f5f9f5}
+    .eco-lab-fallback{padding:12px 20px;text-align:center;font-size:.85rem}
+    @media(max-width:850px){.eco-slides nav{flex-basis:100%;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:5px 0 8px;scrollbar-width:thin}}
+    @media(max-width:620px){.eco-slides nav a:not(.nav-cta){display:inline-flex}.eco-slides nav{gap:16px}.eco-slides .nav{min-height:68px}}
+    @media(prefers-reduced-motion:reduce){.eco-slide-track{will-change:auto}}
   </style>
 </head>
 <body>
@@ -485,6 +503,129 @@
       <div class="student-id">A01744292</div>
     </div>
   </footer>
+
+<script>
+(function(){
+  "use strict";
+  const main=document.querySelector("main"), nav=document.querySelector("header nav");
+  if(!main||!nav)return;
+  const order=["inicio","solucion","sistema","componentes","consumo","solar","seleccion","laboratorio","contacto"];
+  const original=Array.from(main.children);
+  const sections=order.filter(id=>id!=="laboratorio").map(id=>document.getElementById(id));
+  if(sections.some(x=>!x))return;
+  const viewport=document.createElement("div"),track=document.createElement("div");
+  viewport.className="eco-slide-viewport";track.className="eco-slide-track";
+  viewport.appendChild(track);
+  const pages=[];
+  let frame=null, frameObserver=null, frameHeight=900;
+  order.forEach(id=>{
+    const page=document.createElement("div");
+    page.className="eco-slide-page";page.dataset.section=id;
+    if(id==="laboratorio"){
+      page.id="laboratorio";
+      frame=document.createElement("iframe");frame.className="eco-lab-frame";frame.title="Laboratorio solar interactivo Eco Solare";
+      frame.dataset.src="./laboratorio-solar.html";frame.style.height=frameHeight+"px";
+      const fallback=document.createElement("div");fallback.className="eco-lab-fallback";
+      const direct=document.createElement("a");direct.href="./laboratorio-solar.html";direct.target="_blank";direct.rel="noopener";direct.textContent="Abrir laboratorio en una pestaña independiente";
+      fallback.appendChild(direct);page.append(frame,fallback);
+    }else{
+      const section=document.getElementById(id);page.appendChild(section);
+      // El anuncio original del laboratorio forma parte de la página de inicio.
+      if(id==="inicio")original.filter(el=>el.tagName==="SECTION"&&!el.id).forEach(el=>page.appendChild(el));
+    }
+    pages.push(page);track.appendChild(page);
+  });
+  main.appendChild(viewport);
+  document.documentElement.classList.add("eco-slides");
+  const reduced=window.matchMedia("(prefers-reduced-motion: reduce)");
+  const indexOf=id=>order.indexOf(id);
+  let current=indexOf(location.hash.slice(1));if(current<0)current=0;
+  let moving=false, token=0, timeout=0, lastHeight=0;
+  function sizePage(animate){
+    const h=Math.ceil(pages[current].getBoundingClientRect().height);
+    if(!h)return;
+    if(!animate||!moving)viewport.style.height=h+"px";
+    else viewport.style.height=Math.max(lastHeight,h)+"px";
+  }
+  function loadLab(){
+    if(frame&&!frame.getAttribute("src"))frame.src=frame.dataset.src;
+  }
+  frame.addEventListener("load",()=>{
+    try{
+      const doc=frame.contentDocument;
+      if(!doc||!doc.body||doc.location.href==="about:blank")return;
+      // Solo ocultar el encabezado duplicado al mostrarlo dentro del sitio.
+      let style=doc.getElementById("eco-embedded-style");
+      if(!style){style=doc.createElement("style");style.id="eco-embedded-style";style.textContent=".topbar{display:none!important}html,body{overflow-x:hidden}";doc.head.appendChild(style);}
+      const measure=()=>{
+        const content=doc.querySelector("main");
+        const height=Math.ceil(content?content.getBoundingClientRect().bottom+doc.defaultView.scrollY:doc.body.scrollHeight);
+        if(height>0&&Math.abs(height-frameHeight)>1){frameHeight=height;frame.style.height=height+"px";sizePage(false);}
+      };
+      if(frameObserver)frameObserver.disconnect();
+      frameObserver=new ResizeObserver(measure);frameObserver.observe(doc.querySelector("main")||doc.body);
+      measure();
+    }catch(e){/* El enlace independiente sigue disponible. */}
+  });
+  function mark(){
+    pages.forEach((page,i)=>{
+      const active=i===current;
+      page.inert=!active;page.setAttribute("aria-hidden",String(!active));
+    });
+    nav.querySelectorAll("a").forEach(a=>{
+      const id=a.getAttribute("href")==="laboratorio-solar.html"?"laboratorio":(a.hash||"").slice(1);
+      if(id===order[current])a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+    });
+    const active=nav.querySelector('[aria-current="page"]');
+    if(active&&nav.scrollWidth>nav.clientWidth){
+      nav.scrollTo({left:active.offsetLeft-nav.offsetLeft-nav.clientWidth/2+active.offsetWidth/2,behavior:reduced.matches?"auto":"smooth"});
+    }
+  }
+  function place(){track.style.transform="translate3d("+(-current*100)+"%,0,0)";}
+  function go(id,push=true,initial=false){
+    const next=indexOf(id);if(next<0)return;
+    if(next===current&&!moving){sizePage(false);if(push&&location.hash!=="#"+id)history.pushState(null,"","#"+id);return;}
+    if(next===indexOf("laboratorio"))loadLab();
+    const previous=current;
+    const serial=++token;
+    clearTimeout(timeout);
+    // Conservar una altura suficiente durante el recorrido por apartados intermedios.
+    const lo=Math.min(previous,next),hi=Math.max(previous,next);
+    lastHeight=Math.max(...pages.slice(lo,hi+1).map(p=>p.getBoundingClientRect().height));
+    viewport.style.height=Math.ceil(lastHeight)+"px";
+    current=next;moving=true;mark();
+    if(push&&location.hash!=="#"+id)history.pushState(null,"","#"+id);
+    if(!initial)window.scrollTo({top:0,behavior:"instant"});
+    const duration=reduced.matches?0:Math.min(1800,440+Math.abs(next-previous)*155);
+    track.style.transition=duration?"transform "+duration+"ms cubic-bezier(.36,.06,.24,1)":"none";
+    place();
+    const finish=()=>{if(serial!==token)return;moving=false;track.style.transition="none";sizePage(false);};
+    timeout=setTimeout(finish,duration+45);
+  }
+  // Enlaces existentes, incluido el laboratorio: navegación sin recargar.
+  document.addEventListener("click",event=>{
+    const a=event.target.closest("a");if(!a||event.defaultPrevented||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey||a.target==="_blank"||a.hasAttribute("download"))return;
+    const href=a.getAttribute("href")||"";
+    let id=href==="laboratorio-solar.html"||href==="./laboratorio-solar.html"?"laboratorio":href.startsWith("#")?href.slice(1):"";
+    if(indexOf(id)<0)return;
+    event.preventDefault();go(id);
+  });
+  window.addEventListener("popstate",()=>go(location.hash.slice(1)||"inicio",false));
+  window.addEventListener("hashchange",()=>go(location.hash.slice(1)||"inicio",false));
+  const observer=new ResizeObserver(()=>{if(!moving)sizePage(false);});
+  pages.forEach(p=>observer.observe(p));
+  if(current===indexOf("laboratorio"))loadLab();
+  // Precargar el laboratorio después del primer render para que esté listo al deslizar.
+  if("requestIdleCallback" in window)requestIdleCallback(loadLab,{timeout:1800});else setTimeout(loadLab,900);
+  track.style.transition="none";place();mark();sizePage(false);
+  // Al regresar desde la página independiente, empezar visualmente en el laboratorio.
+  if(new URLSearchParams(location.search).get("desde")==="laboratorio"){
+    const target=order[current];current=indexOf("laboratorio");loadLab();place();mark();sizePage(false);
+    history.replaceState(null,"",location.pathname+"#"+target);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>go(target,false,true)));
+  }
+})();
+</script>
 <script type="module" src="./js/app.js"></script>
 <script type="module" src="./js/solar.js"></script>
 <script type="module" src="./js/componentes.js"></script>
