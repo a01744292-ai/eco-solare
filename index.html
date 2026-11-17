@@ -225,21 +225,122 @@
     .eco-slides nav a[aria-current="page"]{color:var(--teal)}
     .eco-slides nav .nav-cta[aria-current="page"]{color:var(--white)}
 
+
+/* Eco Solare | identidad visual, versiones originales PNG sin filtros. */
+.brand,.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;text-decoration:none;min-width:0}
+.brand-picture{display:none;align-items:center;gap:8px;flex-shrink:0}
+.brand-picture.is-ready{display:flex}
+.brand-picture.is-ready~.brand-fallback{display:none}
+.brand-picture img{display:block;width:220px;height:auto;max-width:100%;object-fit:contain;filter:none;flex-shrink:0}
+.brand-picture .brand-name{display:none;font-family:Lato,Arial,sans-serif;font-weight:900;font-size:1.15rem;white-space:nowrap}
+.brand-fallback{display:flex;align-items:center;gap:9px}
+.brand-fallback svg{flex-shrink:0}
+.brand-negative img{width:60px;height:60px;object-fit:contain}
+.brand-negative.is-ready .brand-name{display:inline}
+.brand-detail{display:none;width:80px;height:80px;object-fit:contain;flex:none;border-radius:0}
+.brand-detail.is-ready{display:block}
+@media(max-width:620px){
+  .brand-picture img{width:48px;height:48px}
+  .brand-picture .brand-name{display:inline}
+  .brand-negative img{width:54px;height:54px}
+}
+@media(prefers-color-scheme:dark){
+  .brand-picture img{width:56px;height:56px}
+  .brand-picture .brand-name{display:inline;color:#EAF4F2}
+  .brand-detail{display:none!important}
+}
+
+/* Adaptación responsive: preserva el carrusel y sus páginas. */
+.eco-slides .nav{gap:8px 18px;min-height:70px}
+.eco-slides nav{gap:10px 15px}
+.eco-slides nav a{display:inline-flex;align-items:center;min-height:44px}
+.brand:focus-visible,.button:focus-visible,nav a:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+.hero-grid>*,.solution-grid>*,.steps>*,.features>*,.metrics>*{min-width:0}
+.dashboard{min-width:0}
+#contacto{padding-top:40px}
+.lab-announcement{padding:35px 0;background:var(--cream)}
+.lab-announcement p{margin:0;color:var(--muted)}
+.footer-brand{display:flex;align-items:center;gap:12px}
+.footer-brand .brand-name{color:white}
+@media(max-width:1000px){.eco-slides nav{flex-basis:100%;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;padding:2px 0 5px}}
+@media(max-width:620px){
+ .container{width:calc(100% - 28px)}
+ .eco-slides .nav{padding:6px 0;gap:4px}
+ .eco-slides nav{gap:12px;max-width:100%;padding:2px 0 6px}
+ .eco-slides nav a{font-size:.83rem;min-height:44px;flex:none}
+ .eco-slides .nav-cta{padding:8px 12px}
+ .hero-grid{padding-top:34px;padding-bottom:38px;gap:24px}
+ h1{font-size:clamp(2rem,8vw,3.1rem);letter-spacing:-1.1px}
+ section{padding:42px 0}
+ .section-heading{margin-bottom:25px}
+ .section-heading h2,.solution-copy h2{font-size:clamp(1.6rem,6vw,2.2rem)}
+ .solution-grid{gap:26px}
+ .hero-actions .button{flex:1 1 160px}
+ .step,.feature,.result-card,.dashboard{padding:18px;max-width:100%}
+ .dashboard-head{flex-wrap:wrap}
+ .visual{padding:20px;min-height:295px}
+ .visual-bottom{flex-wrap:wrap}
+ .solar-actions button,#form-consumo button,.button{min-height:44px}
+ .solar-field input,#form-consumo input{font-size:16px}
+ .solar-results,#consumo #resultado-consumo{padding:15px;overflow-wrap:anywhere}
+ #consumo .dashboard{padding:15px}
+ .cta-box{padding:24px 18px}
+ .footer-inner{gap:14px}
+}
+@media(max-width:360px){.metrics{grid-template-columns:1fr}}
+/* El tema sigue la preferencia del sistema o navegador. Los PNG no se recolorean. */
+@media(prefers-color-scheme:dark){
+ :root{color-scheme:dark;--bg:#0B1821;--surface:#122631;--surface-alt:#183440;--navy:#EAF4F2;--green:#75DFA5;--green-dark:#064B35;--teal:#55CADB;--cream:#10232D;--muted:#BCD1D0;--line:#35505C;--shadow:0 18px 45px #0005}
+ body,html{background:var(--bg);color:var(--navy)}
+ header{background:#0B1821F5}
+ nav,.hero p,.hero-note,.check-list li,.bar-label,.solar-note,.metric small{color:var(--muted)}
+ .hero{background:linear-gradient(120deg,#0B1821 0%,#102D36 60%,#182D2B 100%)}
+ .visual,.cta-box{background:linear-gradient(125deg,#092F4B,#075463)}
+ .button,.nav-cta{background:#08783F;color:white;border-color:#08783F}
+ .button:hover,.nav-cta:hover{background:#064B35;border-color:#064B35}
+ .button.secondary{background:transparent;color:var(--green);border-color:var(--green)}
+ .button.secondary:hover{background:#064B35;color:white}
+ .cta-box .button{color:#092F4B}
+ .step,.feature,.result-card,.dashboard{background:var(--surface);border-color:var(--line)}
+ .metric,.solar-results,#consumo #resultado-consumo{background:var(--surface-alt)}
+ .step-number,.check-list li:before{background:#174D37;color:#A0F1C0}
+ .status{background:#493513;color:#FFD98B}
+ .bar{background:#294650}
+ .disclaimer{background:#332B19;color:#F4DCAD}
+ #form-consumo input,.solar-field input,#consumo td button{background:#0C202A;color:var(--navy);border-color:var(--line)}
+ #consumo th{background:#1A3B44;color:var(--navy)}
+ #consumo td button:hover{background:var(--surface-alt)}
+ #consumo #mensaje-consumo{color:var(--green)}
+ #consumo td{border-color:var(--line)!important}
+ #grafica-consumo div[style*="232, 239, 234"]{background:var(--surface-alt)!important}
+ footer{background:#09131B;color:white}
+ .eco-lab-frame{background:var(--bg)}
+ .eco-lab-fallback{color:var(--teal)}
+ .eco-slides nav a[aria-current="page"]{color:var(--teal)}
+ .eco-slides nav .nav-cta[aria-current="page"]{color:white}
+}
+
 </style>
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){
+ const mq=window.matchMedia("(prefers-color-scheme: dark)");
+ function icon(){const path="./assets/branding/"+(mq.matches?"logo-negativo.png":"logo-minimo-color.png");const check=new Image();check.onload=()=>{let link=document.querySelector('link[data-brand-icon]');if(!link){link=document.createElement("link");link.rel="icon";link.type="image/png";link.dataset.brandIcon="";document.head.appendChild(link);}link.href=path;};check.src=path;}
+ icon();if(mq.addEventListener)mq.addEventListener("change",icon);else if(mq.addListener)mq.addListener(icon);
+})();
+</script>
 </head>
 <body>
   <header>
     <div class="container nav">
-      <a class="brand" href="#inicio" aria-label="Eco Solare, inicio">
-        <svg viewBox="0 0 100 100" role="img" aria-label="Símbolo de sol, hoja y panel solar">
+      <a class="brand" href="#inicio" aria-label="Eco Solare, inicio"><span class="brand-picture" aria-hidden="true"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/branding/logo-negativo.png"><source media="(max-width: 620px)" srcset="./assets/branding/logo-minimo-color.png"><img src="./assets/branding/logo-horizontal.png" alt="" onload="this.closest('.brand-picture').classList.add('is-ready')" onerror="this.closest('.brand-picture').classList.remove('is-ready')"></picture><span class="brand-name">Eco Solare</span></span><span class="brand-fallback"><svg viewBox="0 0 100 100" role="img" aria-label="Símbolo de sol, hoja y panel solar">
           <circle cx="48" cy="35" r="22" fill="#ffad18"/>
           <path d="M12 69 Q35 46 76 55 Q63 78 29 79Z" fill="#39a94d"/>
           <path d="M28 74 L82 65 L91 82 L39 94Z" fill="#092f4b"/>
           <path d="M47 72 L52 89 M66 68 L72 85 M31 81 L84 73" stroke="#fff" stroke-width="2.5" fill="none"/>
           <path d="M7 83 Q20 94 39 94" stroke="#08783f" stroke-width="5" fill="none" stroke-linecap="round"/>
         </svg>
-        <span><span>Eco</span> Solare</span>
-      </a>
+        <span><span>Eco</span> Solare</span></span></a>
       <nav aria-label="Navegación principal">
         <a href="#solucion">La solución</a>
         <a href="#sistema">Sistema solar</a>
@@ -280,7 +381,7 @@
       </div>
     </section>
 
-    <section style="padding:35px 0;background:#eaf6ee"><div class="container" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px"><div><div class="eyebrow">Nuevo experimento · 11 noviembre 2026</div><h2 style="margin:8px 0">Laboratorio de inclinación fotovoltaica</h2><p style="margin:0;color:#526b65">Explora voltaje, corriente y potencia según tres orientaciones medidas a las 16:00.</p></div><a class="button" href="laboratorio-solar.html">Abrir simulador solar</a></div></section>
+    <section class="lab-announcement"><div class="container" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px"><div><img class="brand-detail" src="./assets/branding/logo-isotipo-detallado.png" alt="" onload="this.classList.add('is-ready')" onerror="this.classList.remove('is-ready')"><div class="eyebrow">Nuevo experimento · 11 noviembre 2026</div><h2 style="margin:8px 0">Laboratorio de inclinación fotovoltaica</h2><p>Explora voltaje, corriente y potencia según tres orientaciones medidas a las 16:00.</p></div><a class="button" href="laboratorio-solar.html">Abrir simulador solar</a></div></section>
     <section id="solucion">
       <div class="container">
         <div class="section-heading">
@@ -518,7 +619,7 @@
 
   <footer>
     <div class="container footer-inner">
-      <div><div class="footer-brand"><span>Eco</span> Solare</div><p>Cotiza. Ahorra. Cuida el planeta.</p></div>
+      <div><div class="footer-brand"><span class="brand-picture brand-negative"><img src="./assets/branding/logo-negativo.png" alt="Eco Solare" onload="this.parentElement.classList.add('is-ready')" onerror="this.parentElement.classList.remove('is-ready')"><span class="brand-name">Eco Solare</span></span><span class="brand-fallback">Eco Solare</span></div><p>Cotiza. Ahorra. Cuida el planeta.</p></div>
       <div class="student-id">A01744292</div>
     </div>
   </footer>
