@@ -752,7 +752,7 @@
 <script type="module" src="./js/app.js"></script>
 <script type="module" src="./js/solar.js"></script>
 <script type="module" src="./js/componentes.js"></script>
-<!-- ===================== ECO SOLARE · INTRO PREMIUM V7 ===================== -->
+<!-- ===================== ECO SOLARE · INTRO PREMIUM V8 ===================== -->
 <style>
 #ecoPremium[hidden]{display:none!important}
 #ecoPremium{
@@ -920,7 +920,9 @@ body.ep-lock{overflow:hidden}
 #ecoPremium .ep-mask{stroke-linecap:butt;opacity:0}
 #ecoPremium .ep-word,#ecoPremium .ep-id{animation-name:epV7Appear}
 #ecoPremium .ep-final-photo{animation:epV7Appear .95s ease 3.85s both}
-#ecoPremium .ep-assembly{animation:epAssemblySettle .95s ease 3.85s both}
+#ecoPremium .ep-assembly{animation:none}
+#ecoPremium .ep-flow-glint{fill:none;stroke:#c8f8ff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+#ecoPremium .ep-final-photo{pointer-events:none}
 #ecoPremium .ep-corner-proxy{object-fit:contain;max-width:none}
 @keyframes epFlow{0%{stroke-dashoffset:100;opacity:0}1%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
 @keyframes epV7Appear{from{opacity:0}to{opacity:1}}
@@ -933,7 +935,7 @@ body.ep-lock{overflow:hidden}
   <div class="ep-stage">
     <svg viewBox="0 0 960 384" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Eco Solare A01744292: sol ascendente, agua en flujo y hoja verde">
       <defs>
-        <image id="epArt" href="./assets/branding/logo-cinematic-horizontal.png" width="960" height="384" preserveAspectRatio="xMidYMid meet"/>
+        <image id="epArt" href="./assets/branding/logo-cinematic-horizontal.png?v=20261117-v8" width="960" height="384" preserveAspectRatio="xMidYMid meet"/>
 
         <clipPath id="epSun">
           <path d="M142.2 145 C142 105 176 71.8 215 71.8 C249 71.8 277 93 286 125.8 L258 133 L211 140 L164 191 Q142 173 142.2 145Z"/>
@@ -948,13 +950,13 @@ body.ep-lock{overflow:hidden}
           <path d="M62 289 C63 253 70 226 92 209 C119 185 150 188 179 202 Q207 217 232 240 Q198 236 170 253 Q122 281 62 289Z"/>
         </clipPath>
         <clipPath id="epRim">
-          <path d="M253 132 Q291 124 341 114 L316 196 Q305 237 286 250 Q257 268 223 272 L116 283 Q148 274 176 258 Q199 244 229 244 Q282 250 298 206 L323 130 Z"/>
+          <path d="M247 133 Q278 122 343 111 L319 190 Q308 233 288 251 Q261 271 220 274 Q163 284 105 284 L125 277 Q151 273 176 257 Q201 241 230 244 Q282 250 297 205 L323 130 Q280 136 247 139Z"/>
         </clipPath>
         <clipPath id="epUpper">
-          <path d="M70.8 223 C75 187 103 151 141.6 141.5 L141.9 161 C113 164 88 189 70.8 223Z"/>
+          <path d="M69 225 C72 187 99 151 142 141 L143 161 Q103 164 69 226Z"/>
         </clipPath>
         <clipPath id="epMiddle">
-          <path d="M70.8 223 C91 191 118 173 143.8 162 C147 171 153 181 162 190 C124 184 95 201 70.8 223Z"/>
+          <path d="M69 225 C86 190 117 170 144 162 Q148 178 164 190 Q122 182 69 225Z"/>
         </clipPath>
         <clipPath id="epWord">
           <rect x="343" y="133" width="551" height="94" rx="4"/>
@@ -963,18 +965,17 @@ body.ep-lock{overflow:hidden}
           <rect x="343" y="238" width="548" height="33" rx="3"/>
         </clipPath>
 
-        <path id="epFlowMain" d="M351 108 C333 132 324 166 312 199 S286 250 252 261 S174 274 108 286" pathLength="100"/>
-        <path id="epFlowUpper" d="M149 143 C113 146 83 185 66 232" pathLength="100"/>
-        <path id="epFlowMiddle" d="M167 182 C131 171 92 198 66 232" pathLength="100"/>
 
-        <mask id="epMainMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384">
-          <path d="M351 108 C333 132 324 166 312 199 S286 250 252 261 S174 274 108 286" pathLength="100" class="ep-mask ep-main" stroke-width="54"/>
+        <!-- El caudal superior derecho se bifurca desde la misma punta. Cada trazo permanece completamente oculto hasta su comienzo. -->
+        <mask id="epMainMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:luminance">
+          <path id="epRevealMain" d="M350 108 C333 132 324 165 311 201 S286 249 251 261 S173 275 101 286" fill="none" stroke="white" stroke-width="72" stroke-linecap="butt" stroke-linejoin="round" opacity="0"/>
+          <path id="epRevealTip" d="M350 111 C322 119 283 125 244 139" fill="none" stroke="white" stroke-width="29" stroke-linecap="butt" opacity="0"/>
         </mask>
-        <mask id="epUpperMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384">
-          <path d="M149 143 C113 146 83 185 66 232" pathLength="100" class="ep-mask ep-upper" stroke-width="41"/>
+        <mask id="epUpperMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:luminance">
+          <path id="epRevealUpper" d="M151 139 C117 145 84 180 63 234" fill="none" stroke="white" stroke-width="48" stroke-linecap="butt" opacity="0"/>
         </mask>
-        <mask id="epMiddleMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384">
-          <path d="M167 182 C131 171 92 198 66 232" pathLength="100" class="ep-mask ep-middle" stroke-width="38"/>
+        <mask id="epMiddleMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:luminance">
+          <path id="epRevealMiddle" d="M168 181 C137 171 94 193 63 234" fill="none" stroke="white" stroke-width="44" stroke-linecap="butt" opacity="0"/>
         </mask>
 
         <linearGradient id="epSheenGradient">
@@ -995,8 +996,21 @@ body.ep-lock{overflow:hidden}
           <feGaussianBlur stdDeviation="3.1"/>
         </filter>
 
-        <mask id="epWordMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:alpha"><image id="epWordAlpha" width="960" height="384"/></mask>
-        <mask id="epIdMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:alpha"><image id="epIdAlpha" width="960" height="384"/></mask>
+        
+        <!-- Siluetas obtenidas del render original mediante segmentación de sus letras.
+             El interior de cada letra y sus contraformas se conservan; ningún rectángulo
+             de la imagen puede aparecer junto a la firma. -->
+        <path id="epWordOutline" d="M853 159L847 161L840 165L831 174L827 184L827 199L832 210L842 219L852 223L869 223L875 221L882 217L888 210L879 203L874 207L873 206L868 209L856 209L852 207L845 199L845 197L846 196L891 196L891 185L887 174L878 164L866 159ZM845 183L847 179L852 174L858 172L863 172L866 173L873 180L873 183L874 184L873 185L846 185ZM827 160L824 159L817 159L810 162L803 169L802 168L803 160L786 160L786 209L785 210L785 221L802 222L802 190L803 189L803 184L804 182L812 175L825 175L825 168L826 167L826 162ZM721 166L719 169L725 178L735 173L750 173L756 178L757 184L756 185L752 185L751 184L737 184L736 185L729 186L723 189L718 194L715 200L715 208L717 214L724 221L734 224L745 223L753 219L756 216L757 217L757 221L775 222L775 180L772 171L764 163L754 159L738 159L728 162ZM733 207L733 200L739 195L756 195L757 196L757 201L755 205L752 208L746 211L739 211ZM644 159L638 161L631 165L622 175L619 183L619 199L624 210L634 219L644 223L659 223L670 218L680 207L684 196L683 182L678 172L668 163L658 159ZM647 174L655 174L658 175L664 181L666 186L666 195L663 202L658 207L655 208L647 208L643 206L637 198L637 193L636 192L637 184L639 180L643 176ZM496 159L483 165L476 172L473 177L470 186L470 198L472 204L476 211L484 218L496 223L509 223L521 218L530 209L535 197L535 186L531 175L522 165L510 159ZM498 174L508 174L510 175L515 180L517 184L517 197L515 202L508 208L497 208L490 202L488 198L488 184L490 180L494 176ZM437 159L426 164L416 173L411 185L411 199L416 210L426 219L437 223L449 223L450 222L456 221L463 217L468 212L469 209L468 210L465 208L459 201L454 206L450 208L439 208L435 206L431 202L428 195L428 187L429 184L436 176L440 174L449 174L454 176L459 180L469 171L462 164L450 159ZM409 139L379 138L378 139L371 139L370 140L350 140L350 156L349 157L349 195L350 196L350 207L349 208L349 221L348 222L408 222L408 206L367 206L366 205L366 188L367 187L402 187L402 174L403 173L402 172L368 172L367 171L367 156L368 155L409 155ZM692 135L691 136L691 222L709 222L709 135ZM574 135L560 141L553 148L550 155L550 166L554 175L561 181L567 184L591 191L595 196L595 201L590 206L587 207L575 207L565 203L557 197L548 209L548 211L554 216L567 222L571 222L572 223L592 223L604 217L612 208L614 202L614 192L611 185L601 176L587 170L583 170L573 166L570 163L569 158L573 153L576 153L577 152L590 152L604 159L608 151L612 146L607 142L596 137L593 137L588 135Z" fill-rule="evenodd" clip-rule="evenodd"/>
+        <path id="epIdOutline" d="M345 253H474V257H345ZM741 253H884V257H741ZM587 242L569 242L569 246L581 247L571 266L576 266L587 246ZM707 242L705 246L709 249L715 246L717 248L717 250L705 262L705 266L722 266L722 262L714 262L713 261L722 251L722 247L720 244L716 242ZM680 242L677 247L677 253L683 258L689 257L690 259L687 262L684 262L680 260L678 264L682 266L689 266L694 262L696 256L696 249L694 243L690 241L684 241ZM682 248L684 246L688 246L690 248L690 252L689 253L684 253L682 251ZM653 242L649 248L654 249L655 247L660 246L662 248L662 251L651 261L650 265L651 266L667 266L667 262L659 262L658 261L665 255L667 252L667 246L665 244L661 242ZM632 242L629 247L624 254L622 257L622 261L633 261L634 262L634 266L638 266L639 261L642 261L642 257L639 257L639 242ZM633 249L634 250L634 256L633 257L629 257L628 256ZM604 242L602 246L597 253L594 257L594 261L605 261L606 262L606 266L611 266L611 261L614 261L614 257L611 256L611 242ZM605 249L606 250L606 256L605 257L601 257L600 256ZM551 242L546 247L549 249L552 247L553 248L553 265L554 266L558 266L559 264L559 242ZM524 242L519 250L519 257L521 262L524 265L526 266L532 266L538 261L539 258L539 249L537 246L536 242ZM527 246L531 246L534 250L534 258L531 261L527 261L525 259L524 252L525 248ZM497 242L494 251L492 254L489 261L488 266L493 266L495 261L505 261L507 266L512 266L508 255L504 242ZM500 249L503 255L502 257L498 257L497 256L497 254Z" fill-rule="evenodd" clip-rule="evenodd"/>
+        <filter id="epGlyphHalo" x="-8%" y="-25%" width="116%" height="150%"><feGaussianBlur stdDeviation="1.5"/></filter>
+        <mask id="epWordMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:alpha">
+          <use href="#epWordOutline" fill="white" stroke="white" stroke-width="2" filter="url(#epGlyphHalo)" opacity=".65"/>
+          <use href="#epWordOutline" fill="white" stroke="white" stroke-width=".7"/>
+        </mask>
+        <mask id="epIdMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:alpha">
+          <use href="#epIdOutline" fill="white" stroke="white" stroke-width="2" filter="url(#epGlyphHalo)" opacity=".55"/>
+          <use href="#epIdOutline" fill="white" stroke="white" stroke-width=".8"/>
+        </mask>
       </defs>
 
       <rect width="960" height="384" fill="#03131e"/>
@@ -1023,17 +1037,17 @@ body.ep-lock{overflow:hidden}
 
           <g clip-path="url(#epRim)" mask="url(#epMainMask)">
             <use href="#epArt"/>
-            <use href="#epFlowMain" class="ep-current"/>
+            <path id="epGlintMain" d="M350 108 C333 132 324 165 311 201 S286 249 251 261 S173 275 101 286" class="ep-flow-glint" opacity="0"/><path id="epGlintTip" d="M350 111 C322 119 283 125 244 139" class="ep-flow-glint" opacity="0"/>
           </g>
 
           <g clip-path="url(#epUpper)" mask="url(#epUpperMask)">
             <use href="#epArt"/>
-            <use href="#epFlowUpper" class="ep-current"/>
+            <path id="epGlintUpper" d="M151 139 C117 145 84 180 63 234" class="ep-flow-glint" opacity="0"/>
           </g>
 
           <g clip-path="url(#epMiddle)" mask="url(#epMiddleMask)">
             <use href="#epArt"/>
-            <use href="#epFlowMiddle" class="ep-current"/>
+            <path id="epGlintMiddle" d="M168 181 C137 171 94 193 63 234" class="ep-flow-glint" opacity="0"/>
           </g>
 
           <g class="ep-leaf">
@@ -1096,6 +1110,7 @@ body.ep-lock{overflow:hidden}
     clearTimeout(loadTimer);
     clearTimeout(finishTimer);
     clearTimeout(dockTimer);
+    cancelAnimationFrame(flowFrame);
 
     document.body.classList.remove("ep-lock");
 
@@ -1123,48 +1138,123 @@ body.ep-lock{overflow:hidden}
   }
 
 
-  // Construye un fondo sin marca, de la propia imagen original y luz ambiental.
-  // Los cauces decorativos exteriores permanecen visibles desde el primer fotograma.
+
+  // Reconstruye sólo las zonas ocupadas por la marca. El resto de la fotografía
+  // (incluidas las ondas decorativas) permanece intacto. La reconstrucción usa
+  // difusión multiescala con los píxeles del fondo original como frontera.
+  let flowFrame=0;
   function prepareLayers(){
-    const w=960,h=384,canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;
-    const ctx=canvas.getContext("2d",{willReadFrequently:true});if(!ctx)throw Error("canvas");
-    ctx.drawImage(art,0,0,w,h);
-    const src=ctx.getImageData(0,0,w,h),bg=ctx.createImageData(w,h),word=ctx.createImageData(w,h),id=ctx.createImageData(w,h);
-    const clamp=v=>Math.max(0,Math.min(1,v)),ease=v=>{v=clamp(v);return v*v*(3-2*v)};
-    const gaussian=t=>Math.exp(-(t*t));
-    const lerp=(x,xs,ys)=>{let i=0;while(i<xs.length-2&&x>xs[i+1])i++;return ys[i]+(ys[i+1]-ys[i])*clamp((x-xs[i])/(xs[i+1]-xs[i]));};
-    const lights=[[250,122,170,100,3,22,32],[480,130,240,100,0,18,27],[760,80,220,95,0,18,33],[300,305,245,65,0,10,18]];
-    const wy=[445,480,510,540,570,600,630,660,690,720],wv=[177,166,155,146,138,131,125,117,110,104];
-    const bx=[0,150,230,330,480,960],by=[289,289,280,275,273,273];
-    const ys=lights.map(l=>Array.from({length:h},(_,y)=>gaussian((y-l[1])/l[3])));
-    for(let x=0;x<w;x++){
-      const yc=lerp(x,wy,wv),fade=ease((x-445)/85)*ease((720-x)/75),bottomStart=lerp(x,bx,by);
-      const col=lights.map(l=>gaussian((x-l[0])/l[2]));
-      for(let y=0;y<h;y++){
-        let r=1,g=15,b=25;
-        for(let j=0;j<lights.length;j++){const l=lights[j],q=col[j]*ys[j][y];r+=q*l[4];g+=q*l[5];b+=q*l[6];}
-        const glow=gaussian((y-yc)/13)*fade,ray=gaussian((y-yc)/3)*fade;
-        g+=43*ray+16*glow;b+=75*ray+29*glow;
-        const top=Math.max(ease((x-600)/65)*ease((132-y)/20),ease((x-716)/55)*ease((155-y)/24));
-        const bottom=ease((y-bottomStart)/10)*ease((800-x)/140),keep=Math.max(top,bottom);
-        const k=(y*w+x)*4,sr=src.data[k],sg=src.data[k+1],sb=src.data[k+2];
-        r=r*(1-keep)+sr*keep;g=g*(1-keep)+sg*keep;b=b*(1-keep)+sb*keep;
-        bg.data[k]=r;bg.data[k+1]=g;bg.data[k+2]=b;bg.data[k+3]=255;
-        // Extrae por color los píxeles de la firma. Las zonas transparentes no tapan las ondas.
-        if(x>=340&&x<=900&&y>=127&&y<=230){
-          const edge=ease((x-340)/6)*ease((900-x)/6)*ease((y-127)/6)*ease((230-y)/6);
-          const signal=x<540?Math.max(sg-sb+3,sr-14):Math.max(sb-b-10,sg-g-12,sr-12);
-          word.data[k]=word.data[k+1]=word.data[k+2]=255;word.data[k+3]=Math.round(ease((signal-6)/24)*edge*255);
+    const w=960,h=384;
+    const make=(width,height)=>{const e=document.createElement("canvas");e.width=width;e.height=height;return e;};
+    const srcCanvas=make(w,h),srcCtx=srcCanvas.getContext("2d",{willReadFrequently:true});
+    if(!srcCtx)throw Error("canvas");
+    srcCtx.drawImage(art,0,0,w,h);
+    const src=srcCtx.getImageData(0,0,w,h).data;
+    const maskCanvas=make(w,h),m=maskCanvas.getContext("2d",{willReadFrequently:true});
+    m.fillStyle="white";m.strokeStyle="white";m.lineJoin="round";m.lineCap="round";
+    const emblem=new Path2D("M53 293 C50 269 59 240 62 216 C65 176 99 147 132 134 C134 91 165 58 211 57 C253 57 281 83 294 117 L346 108 L350 122 L329 204 Q313 259 266 277 Q208 291 151 292Z");
+    m.fill(emblem);
+    m.lineWidth=11;m.stroke(emblem);
+    // Se corta el alfabeto por su contorno real (no por su cuadro delimitador).
+    ["epWordOutline","epIdOutline"].forEach((id,index)=>{
+      const p=new Path2D(document.getElementById(id).getAttribute("d"));
+      m.fill(p,"evenodd");m.lineWidth=index===0?24:16;m.stroke(p);
+    });
+    const alpha=m.getImageData(0,0,w,h).data;
+    // Máscara sólida, extendida hasta cubrir los reflejos que pertenecen al logotipo.
+    // La onda exterior inferior empieza debajo del emblema y no se elimina.
+    const missing=new Uint8Array(w*h);
+    for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+      const k=y*w+x;missing[k]=alpha[k*4+3]>15?1:0;
+      if(x<350&&y>=296)missing[k]=0;
+    }
+    // Pirámide de reconstrucción: no modifica un solo píxel conocido.
+    let previous=null;
+    for(const factor of [8,4,2,1]){
+      const W=w/factor,H=h/factor,N=W*H;
+      let values=new Float32Array(N*3),next=new Float32Array(N*3);
+      const unknown=new Uint8Array(N),indices=[];
+      for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+        const k=y*W+x;let r=0,g=0,b=0,n=0,bad=0;
+        for(let dy=0;dy<factor;dy++)for(let dx=0;dx<factor;dx++){
+          const q=(y*factor+dy)*w+x*factor+dx;
+          if(missing[q]){bad++;continue;}
+          r+=src[q*4];g+=src[q*4+1];b+=src[q*4+2];n++;
         }
-        if(x>=338&&x<=896&&y>=233&&y<=273){
-          const edge=ease((x-338)/6)*ease((896-x)/6)*ease((y-233)/5)*ease((273-y)/5);
-          const signal=Math.max(sr-8,sb-b-8,sg-g-8);
-          id.data[k]=id.data[k+1]=id.data[k+2]=255;id.data[k+3]=Math.round(ease((signal-7)/23)*edge*255);
+        if(!bad){values[k*3]=r/n;values[k*3+1]=g/n;values[k*3+2]=b/n;}
+        else{
+          unknown[k]=1;indices.push(k);
+          if(previous){
+            const fx=(x+.5)*previous.W/W-.5,fy=(y+.5)*previous.H/H-.5;
+            const x0=Math.max(0,Math.floor(fx)),x1=Math.min(previous.W-1,x0+1),y0=Math.max(0,Math.floor(fy)),y1=Math.min(previous.H-1,y0+1);
+            const ax=Math.max(0,Math.min(1,fx-x0)),ay=Math.max(0,Math.min(1,fy-y0));
+            for(let c=0;c<3;c++)values[k*3+c]=(previous.values[(y0*previous.W+x0)*3+c]*(1-ax)+previous.values[(y0*previous.W+x1)*3+c]*ax)*(1-ay)+(previous.values[(y1*previous.W+x0)*3+c]*(1-ax)+previous.values[(y1*previous.W+x1)*3+c]*ax)*ay;
+          }else{values[k*3]=n?r/n:2;values[k*3+1]=n?g/n:24;values[k*3+2]=n?b/n:38;}
         }
       }
+      const passes=factor===8?100:factor===4?65:factor===2?38:24;
+      next.set(values);
+      for(let iter=0;iter<passes;iter++){
+        for(const k of indices){
+          const x=k%W,y=(k/W)|0,L=x?k-1:k,R=x<W-1?k+1:k,U=y?k-W:k,D=y<H-1?k+W:k;
+          for(let c=0;c<3;c++)next[k*3+c]=(values[L*3+c]+values[R*3+c]+values[U*3+c]+values[D*3+c])*.25;
+        }
+        const swap=values;values=next;next=swap;
+      }
+      previous={W,H,values};
     }
-    function attach(data,element,type,quality){ctx.putImageData(data,0,0);document.getElementById(element).setAttribute("href",canvas.toDataURL(type,quality));}
-    attach(bg,"epCleanBackground","image/jpeg",.94);attach(word,"epWordAlpha","image/png");attach(id,"epIdAlpha","image/png");
+    // Completa la curva decorativa cuando atraviesa una región ocupada por texto.
+    // Empalma suavemente con la propia fotografía, siguiendo sus coordenadas reales.
+    const xs=[435,480,510,540,570,600,630,660,690,720,760],ys=[175,158,148,140,132,124,116,109,103,100,96];
+    const clamp=v=>Math.max(0,Math.min(1,v)),ease=v=>{v=clamp(v);return v*v*(3-2*v)};
+    const lerp=(x)=>{let p=0;while(p<xs.length-2&&x>xs[p+1])p++;return ys[p]+(ys[p+1]-ys[p])*clamp((x-xs[p])/(xs[p+1]-xs[p]));};
+    const patch=srcCtx.createImageData(w,h),v=previous.values;
+    for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+      const k=y*w+x,q=k*4;if(!missing[k])continue;
+      let r=v[k*3],g=v[k*3+1],b=v[k*3+2];
+      if(x>435&&x<760&&y<185){
+        const d=y-lerp(x),f=ease((x-435)/60)*ease((760-x)/75),line=Math.exp(-Math.pow(d/1.8,2))*f,glow=Math.exp(-Math.pow(d/9,2))*f;
+        g=Math.max(g,g*.85+52*line+12*glow);b=Math.max(b,b*.85+83*line+20*glow);
+      }
+      patch.data[q]=r;patch.data[q+1]=g;patch.data[q+2]=b;patch.data[q+3]=255;
+    }
+    // Conservar la resolución de la imagen aprobada fuera de las áreas reconstruidas.
+    const patchCanvas=make(w,h);patchCanvas.getContext("2d").putImageData(patch,0,0);
+    const full=make(art.naturalWidth,art.naturalHeight),fullCtx=full.getContext("2d");
+    fullCtx.drawImage(art,0,0,full.width,full.height);
+    fullCtx.drawImage(patchCanvas,0,0,full.width,full.height);
+    document.getElementById("epCleanBackground").setAttribute("href",full.toDataURL("image/png"));
+  }
+
+  // El avance de cada río es un solo tramo continuo, medido en píxeles de su
+  // propia curva SVG. No se repite un patrón de guiones en el extremo opuesto.
+  function startRivers(){
+    const flows=[
+      ["Main",280,2550],["Tip",280,1020],["Upper",1050,1650],["Middle",1280,1450]
+    ].map(([id,delay,duration])=>{
+      const p=document.getElementById("epReveal"+id),g=document.getElementById("epGlint"+id),len=p.getTotalLength();
+      p.setAttribute("stroke-dasharray","0 "+(len*3));p.setAttribute("stroke-dashoffset","0");p.setAttribute("opacity","0");g.setAttribute("opacity","0");
+      return {p,g,len,delay,duration};
+    });
+    const t0=performance.now();
+    const tick=now=>{
+      if(cleaned||!started)return;
+      let ongoing=false;
+      for(const {p,g,len,delay,duration} of flows){
+        const t=Math.max(0,Math.min(1,(now-t0-delay)/duration));
+        // Monotónica, de derecha a izquierda, con avance y llegada sin saltos.
+        const u=t*t*(3-2*t),head=len*u;
+        if(t<1)ongoing=true;
+        if(t<=0){p.setAttribute("opacity","0");g.setAttribute("opacity","0");continue;}
+        p.setAttribute("opacity","1");
+        p.setAttribute("stroke-dasharray",head+" "+(len*3));
+        const trail=Math.min(15,head),tail=Math.max(0,head-trail);
+        g.setAttribute("stroke-dasharray",trail+" "+(len*3));g.setAttribute("stroke-dashoffset",String(-tail));
+        g.setAttribute("opacity",String(t===1?0:Math.min(1,t*5,(1-t)*5)*.48));
+      }
+      if(ongoing)flowFrame=requestAnimationFrame(tick);
+    };
+    flowFrame=requestAnimationFrame(tick);
   }
 
   function close(now){
@@ -1224,6 +1314,7 @@ body.ep-lock{overflow:hidden}
     previousFocus = document.activeElement;
 
     intro.hidden = false;
+    startRivers();
     document.body.classList.add("ep-lock");
     brand.style.visibility = "hidden";
 
@@ -1249,9 +1340,9 @@ body.ep-lock{overflow:hidden}
 
   loadTimer = setTimeout(() => clean(), 3500);
 
-  art.src = "./assets/branding/logo-cinematic-horizontal.png";
+  art.src = "./assets/branding/logo-cinematic-horizontal.png?v=20261117-v8";
 })();
 </script>
-<!-- ===================== /ECO SOLARE · INTRO PREMIUM V7 ===================== -->
+<!-- ===================== /ECO SOLARE · INTRO PREMIUM V8 ===================== -->
 </body>
 </html>
