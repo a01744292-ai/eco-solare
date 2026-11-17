@@ -752,193 +752,595 @@
 <script type="module" src="./js/app.js"></script>
 <script type="module" src="./js/solar.js"></script>
 <script type="module" src="./js/componentes.js"></script>
-<!-- ECO SOLARE · INTRO DE MARCA · pegar inmediatamente antes de </body> -->
+<!-- ===================== ECO SOLARE · INTRO CINEMÁTICA MEJORADA ===================== -->
 <style>
-  html.eco-intro-open { overflow: hidden; }
-  #eco-intro { position: fixed; inset: 0; z-index: 2147483000; }
-  #eco-intro .eco-intro-bg { position:absolute; inset:0; background:#091A25; }
-  #eco-intro canvas { position:absolute; display:block; width:min(85vw,1050px); height:auto; left:50%; top:50%; transform:translate(-50%,-50%); transform-origin:center; pointer-events:none; }
-  #eco-intro .eco-intro-skip { position:absolute; right:max(20px,env(safe-area-inset-right)); bottom:max(20px,env(safe-area-inset-bottom)); padding:10px 18px; min-height:44px; border:1px solid #809B9D; border-radius:100px; background:#092F4B; color:white; font:700 14px Lato,Arial,sans-serif; cursor:pointer; }
-  #eco-intro .eco-intro-skip:focus-visible { outline:3px solid #FFAD18; outline-offset:4px; }
-  .eco-intro-hide-brand { visibility:hidden!important; }
-  @media(max-width:620px) { #eco-intro canvas { width:90vw; } }
-  @media(prefers-reduced-motion:reduce) { #eco-intro { display:none!important; } }
+  :root{
+    --intro-bg: #08131a;
+    --intro-panel: #0b3659;
+    --intro-panel-dark: #082945;
+    --intro-water: #0b95a7;
+    --intro-water-2: #0c6f98;
+    --intro-water-3: #0aa5bf;
+    --intro-leaf: #0c8a34;
+    --intro-leaf-2: #39b34a;
+    --intro-sun: #ffb117;
+    --intro-sun-2: #ffd04d;
+    --intro-text: #ffffff;
+  }
+
+  #ecoIntro{
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background:
+      radial-gradient(circle at 50% 45%, rgba(18,54,76,.40), transparent 42%),
+      linear-gradient(180deg, #0a151d 0%, #09131b 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity .55s ease, visibility .55s ease;
+  }
+
+  #ecoIntro.is-hidden{
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  #ecoIntro .intro-skip{
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 4;
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(255,255,255,.08);
+    color: #fff;
+    border-radius: 999px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font: 700 14px/1 "Lato", Arial, sans-serif;
+    backdrop-filter: blur(6px);
+  }
+
+  #ecoIntro .intro-shell{
+    position: relative;
+    width: min(1040px, 90vw);
+    aspect-ratio: 16 / 8.2;
+    transform-origin: center center;
+    transition: transform .95s cubic-bezier(.22,.78,.14,1), opacity .55s ease;
+    will-change: transform, opacity;
+  }
+
+  #ecoIntro.is-finalizing .intro-shell{
+    pointer-events: none;
+  }
+
+  #ecoIntro .intro-shadow{
+    position: absolute;
+    inset: auto 10% 6% 10%;
+    height: 10%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(0,0,0,.38) 0%, rgba(0,0,0,0) 70%);
+    filter: blur(18px);
+    z-index: 0;
+    opacity: .75;
+    animation: introShadowPulse 4.8s ease-in-out forwards;
+  }
+
+  @keyframes introShadowPulse{
+    0%{transform: scale(.7); opacity: 0;}
+    25%{opacity: .40;}
+    100%{transform: scale(1); opacity: .75;}
+  }
+
+  #ecoIntro svg{
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    shape-rendering: geometricPrecision;
+    text-rendering: geometricPrecision;
+  }
+
+  /* Suavidad general */
+  #ecoIntro .soft-shadow{
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,.18));
+  }
+
+  /* Texto */
+  #ecoIntro .wordmark{
+    opacity: 0;
+    transform: translateY(16px);
+    animation: introWordmarkIn .85s cubic-bezier(.23,.9,.22,1) 2.25s forwards;
+    transform-origin: left center;
+  }
+
+  #ecoIntro .matricula{
+    opacity: 0;
+    transform: translateY(10px);
+    animation: introMatriculaIn .75s ease 2.65s forwards;
+  }
+
+  @keyframes introWordmarkIn{
+    from{opacity:0; transform:translateY(16px)}
+    to{opacity:1; transform:translateY(0)}
+  }
+
+  @keyframes introMatriculaIn{
+    from{opacity:0; transform:translateY(10px)}
+    to{opacity:1; transform:translateY(0)}
+  }
+
+  /* Sol */
+  #ecoIntro .sun-group{
+    transform-origin: 260px 182px;
+    animation: introSunRise 2.3s cubic-bezier(.22,.84,.2,1) .15s forwards;
+  }
+
+  #ecoIntro .sun-disc{
+    filter:
+      drop-shadow(0 0 18px rgba(255,177,23,.65))
+      drop-shadow(0 0 40px rgba(255,177,23,.28));
+  }
+
+  #ecoIntro .sun-glow{
+    opacity: .95;
+    animation: introSunGlow 2.3s ease-out .15s forwards;
+  }
+
+  @keyframes introSunRise{
+    0%{
+      transform: translate(-12px, 86px) scale(.92);
+    }
+    100%{
+      transform: translate(0, 0) scale(1);
+    }
+  }
+
+  @keyframes introSunGlow{
+    0%{ opacity: .88; transform: scale(.92); }
+    100%{ opacity: 1; transform: scale(1); }
+  }
+
+  /* Rayos del sol */
+  #ecoIntro .sun-rays{
+    opacity: 0;
+    animation: introRaysIn .8s ease .55s forwards;
+  }
+
+  @keyframes introRaysIn{
+    from{opacity:0}
+    to{opacity:1}
+  }
+
+  /* Panel */
+  #ecoIntro .panel-group{
+    transform-origin: 385px 253px;
+    opacity: .72;
+    animation: introPanelBright 2.3s ease .15s forwards;
+  }
+
+  @keyframes introPanelBright{
+    0%{ opacity: .42; filter: brightness(.80); }
+    100%{ opacity: 1; filter: brightness(1.04); }
+  }
+
+  /* Brillo general progresivo */
+  #ecoIntro .global-brighten{
+    opacity: .48;
+    animation: introBrighten 2.25s ease .15s forwards;
+  }
+
+  @keyframes introBrighten{
+    0%{ opacity: .34; }
+    100%{ opacity: 1; }
+  }
+
+  /* Hoja */
+  #ecoIntro .leaf-group{
+    transform-box: fill-box;
+    transform-origin: 145px 413px;
+    animation: introLeafGrow 1.8s cubic-bezier(.18,.88,.18,1) .55s forwards;
+  }
+
+  @keyframes introLeafGrow{
+    0%{
+      opacity: 0;
+      transform: translateY(58px) rotate(-32deg) scale(.62);
+    }
+    55%{
+      opacity: 1;
+      transform: translateY(4px) rotate(6deg) scale(1.03);
+    }
+    100%{
+      opacity: 1;
+      transform: translateY(0) rotate(0deg) scale(1);
+    }
+  }
+
+  /* Agua: ya no es desplazamiento simple, sino relleno fluido */
+  #ecoIntro .water-reveal{
+    animation: introWaterReveal 2.35s cubic-bezier(.22,.85,.18,1) .25s forwards;
+    transform-origin: 100% 20%;
+  }
+
+  #ecoIntro .water-flow-texture{
+    animation: introWaterFlow 2.5s linear .15s forwards;
+  }
+
+  #ecoIntro .water-shine{
+    opacity: 0;
+    animation: introWaterShine 2.0s ease .75s forwards;
+  }
+
+  @keyframes introWaterReveal{
+    0%{
+      transform: scale(.08, .08) translate(880px,-250px);
+      opacity: 0;
+    }
+    18%{
+      opacity: .95;
+    }
+    45%{
+      transform: scale(.56,.42) translate(268px,-82px);
+      opacity: 1;
+    }
+    72%{
+      transform: scale(.95,.92) translate(24px,-8px);
+      opacity: 1;
+    }
+    100%{
+      transform: scale(1,1) translate(0,0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes introWaterFlow{
+    0%{ transform: translateX(0); }
+    100%{ transform: translateX(-120px); }
+  }
+
+  @keyframes introWaterShine{
+    0%{ opacity:0; transform:translateX(40px); }
+    100%{ opacity:1; transform:translateX(0); }
+  }
+
+  /* Aparición del logo final */
+  #ecoIntro .logo-complete{
+    opacity: 0;
+    animation: introLogoSettle .6s ease 3.35s forwards;
+  }
+
+  @keyframes introLogoSettle{
+    from{opacity:0}
+    to{opacity:1}
+  }
+
+  /* Suavizar apariencia general del conjunto */
+  #ecoIntro .vector-aa{
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  /* Salida al header */
+  body.intro-lock{
+    overflow: hidden;
+  }
+
+  @media (max-width: 700px){
+    #ecoIntro .intro-shell{
+      width: min(92vw, 760px);
+    }
+    #ecoIntro .intro-skip{
+      top: 12px;
+      right: 12px;
+      font-size: 13px;
+      padding: 9px 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    #ecoIntro,
+    #ecoIntro *{
+      animation: none !important;
+      transition: none !important;
+    }
+    #ecoIntro .wordmark,
+    #ecoIntro .matricula,
+    #ecoIntro .logo-complete{
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
 </style>
+
+<div id="ecoIntro" aria-hidden="true">
+  <button type="button" class="intro-skip" id="ecoIntroSkip">Omitir</button>
+
+  <div class="intro-shell" id="ecoIntroShell">
+    <div class="intro-shadow"></div>
+
+    <svg viewBox="0 0 1200 620" role="presentation" aria-hidden="true">
+      <defs>
+        <linearGradient id="ecoWaterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#11b8c8"/>
+          <stop offset="50%" stop-color="#0e8ca8"/>
+          <stop offset="100%" stop-color="#0a567f"/>
+        </linearGradient>
+
+        <linearGradient id="ecoPanelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0b3f67"/>
+          <stop offset="100%" stop-color="#07284d"/>
+        </linearGradient>
+
+        <linearGradient id="ecoLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0b8e36"/>
+          <stop offset="100%" stop-color="#2fa945"/>
+        </linearGradient>
+
+        <radialGradient id="ecoSunGrad" cx="50%" cy="45%" r="55%">
+          <stop offset="0%" stop-color="#ffd85f"/>
+          <stop offset="100%" stop-color="#ffb117"/>
+        </radialGradient>
+
+        <!-- Máscara de agua superior izquierda -->
+        <mask id="waterUpperMask">
+          <rect width="1200" height="620" fill="black"/>
+          <path d="M112 294
+                   C188 248, 268 226, 355 229
+                   C372 229, 374 320, 372 348
+                   C283 346, 202 366, 130 420
+                   C122 384, 114 341, 112 294Z"
+                fill="white" class="vector-aa"/>
+        </mask>
+
+        <!-- Máscara de agua inferior -->
+        <mask id="waterLowerMask">
+          <rect width="1200" height="620" fill="black"/>
+          <path d="M86 473
+                   C122 440, 178 414, 240 402
+                   C334 384, 468 392, 572 433
+                   C646 463, 710 514, 778 576
+                   C622 576, 346 576, 86 576
+                   C84 544, 84 509, 86 473Z"
+                fill="white" class="vector-aa"/>
+        </mask>
+
+        <!-- Textura de agua -->
+        <pattern id="waterFlowPattern" width="160" height="160" patternUnits="userSpaceOnUse" patternTransform="rotate(-10)">
+          <path d="M0 44 C22 28, 48 26, 78 42 C106 57, 135 56, 160 39"
+                fill="none" stroke="rgba(255,255,255,.18)" stroke-width="7" stroke-linecap="round"/>
+          <path d="M-6 90 C22 72, 50 71, 82 88 C110 103, 136 103, 164 84"
+                fill="none" stroke="rgba(255,255,255,.10)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M-12 136 C18 120, 48 118, 82 134 C114 149, 141 149, 172 128"
+                fill="none" stroke="rgba(255,255,255,.13)" stroke-width="5" stroke-linecap="round"/>
+        </pattern>
+
+        <!-- Brillo agua -->
+        <linearGradient id="waterHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+          <stop offset="40%" stop-color="rgba(255,255,255,.18)"/>
+          <stop offset="65%" stop-color="rgba(255,255,255,.28)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+        </linearGradient>
+      </defs>
+
+      <!-- AGUA -->
+      <g class="soft-shadow">
+        <g class="water-reveal global-brighten">
+          <!-- agua superior izquierda -->
+          <g mask="url(#waterUpperMask)">
+            <path d="M70 205
+                     C173 222, 255 221, 352 229
+                     C374 230, 373 347, 372 369
+                     C268 349, 186 368, 109 430
+                     C87 370, 73 287, 70 205Z"
+                  fill="url(#ecoWaterGrad)"
+                  class="vector-aa"/>
+
+            <g class="water-flow-texture">
+              <rect x="20" y="180" width="500" height="300" fill="url(#waterFlowPattern)"/>
+            </g>
+
+            <path class="water-shine vector-aa"
+                  d="M97 340 C184 294, 271 288, 366 302"
+                  fill="none"
+                  stroke="rgba(255,255,255,.16)"
+                  stroke-width="13"/>
+          </g>
+
+          <!-- agua inferior -->
+          <g mask="url(#waterLowerMask)">
+            <path d="M78 468
+                     C123 428, 190 390, 269 378
+                     C405 356, 573 392, 698 472
+                     C768 516, 833 561, 910 576
+                     L124 576
+                     C95 559, 82 522, 78 468Z"
+                  fill="url(#ecoWaterGrad)"
+                  class="vector-aa"/>
+
+            <g class="water-flow-texture">
+              <rect x="40" y="350" width="930" height="260" fill="url(#waterFlowPattern)"/>
+            </g>
+
+            <path class="water-shine vector-aa"
+                  d="M145 511 C294 438, 485 416, 677 447"
+                  fill="none"
+                  stroke="rgba(255,255,255,.14)"
+                  stroke-width="12"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- SOL -->
+      <g class="sun-group">
+        <!-- menos de 180°, separado visualmente del agua por la izquierda -->
+        <g class="sun-glow">
+          <path d="M236 235
+                   A135 135 0 0 1 428 139
+                   A135 135 0 0 1 552 236
+                   L470 236
+                   A58 58 0 0 0 389 196
+                   A58 58 0 0 0 308 236 Z"
+                fill="url(#ecoSunGrad)"
+                class="sun-disc vector-aa"/>
+        </g>
+
+        <g class="sun-rays" fill="url(#ecoSunGrad)">
+          <path d="M254 181 L220 141 L246 118 L283 162 Z" class="vector-aa"/>
+          <path d="M322 127 L308 72 L346 65 L352 121 Z" class="vector-aa"/>
+          <path d="M408 115 L418 61 L457 69 L438 123 Z" class="vector-aa"/>
+          <path d="M491 138 L522 95 L552 116 L519 162 Z" class="vector-aa"/>
+          <path d="M544 197 L593 176 L608 210 L558 226 Z" class="vector-aa"/>
+        </g>
+      </g>
+
+      <!-- PANEL -->
+      <g class="panel-group soft-shadow">
+        <path d="M371 224
+                 C452 210, 544 208, 649 211
+                 L752 208
+                 C776 208, 783 226, 772 248
+                 L706 386
+                 C697 406, 670 426, 642 426
+                 L526 427
+                 C462 427, 397 409, 338 382
+                 C322 375, 319 362, 330 349
+                 L367 301
+                 C384 277, 398 249, 371 224Z"
+              fill="white"
+              class="vector-aa"/>
+
+        <path d="M397 248
+                 L743 246
+                 C754 246, 758 252, 753 263
+                 L693 381
+                 C687 394, 675 401, 660 401
+                 L368 401
+                 C350 401, 343 391, 351 377
+                 L393 256 Z"
+              fill="url(#ecoPanelGrad)"
+              class="vector-aa"/>
+
+        <g stroke="white" stroke-width="8" fill="none" opacity=".95" class="vector-aa">
+          <path d="M448 251 L413 399"/>
+          <path d="M526 248 L493 399"/>
+          <path d="M610 247 L582 399"/>
+          <path d="M686 246 L662 393"/>
+          <path d="M386 305 L732 305"/>
+          <path d="M366 352 L708 352"/>
+        </g>
+      </g>
+
+      <!-- HOJA -->
+      <g class="leaf-group soft-shadow">
+        <path d="M86 577
+                 C155 500, 231 440, 330 411
+                 C426 383, 522 390, 604 430
+                 C531 430, 445 447, 357 492
+                 C270 537, 190 575, 86 577Z"
+              fill="url(#ecoLeafGrad)"
+              class="vector-aa"/>
+      </g>
+
+      <!-- TEXTO -->
+      <g class="wordmark">
+        <text x="508" y="308"
+              font-family="Lato, Arial, sans-serif"
+              font-weight="900"
+              font-size="90"
+              fill="#11883f">Eco</text>
+
+        <text x="707" y="308"
+              font-family="Lato, Arial, sans-serif"
+              font-weight="900"
+              font-size="90"
+              fill="#0b345c">Solare</text>
+      </g>
+
+      <g class="matricula">
+        <line x1="530" y1="332" x2="714" y2="332" stroke="#1490a5" stroke-width="7" opacity=".95"/>
+        <text x="745" y="346"
+              font-family="Lato, Arial, sans-serif"
+              font-weight="700"
+              font-size="44"
+              letter-spacing="8"
+              fill="#0b345c">A01744292</text>
+        <line x1="1024" y1="332" x2="1176" y2="332" stroke="#1490a5" stroke-width="7" opacity=".95"/>
+      </g>
+
+      <!-- Fijación final -->
+      <g class="logo-complete"></g>
+    </svg>
+  </div>
+</div>
+
 <script>
-(function () {
-  'use strict';
-  const motion = matchMedia('(prefers-reduced-motion: reduce)');
-  const brand = document.querySelector('header a.brand');
-  if (!brand || motion.matches || new URLSearchParams(location.search).has('desde')) return;
-  if (document.getElementById('eco-intro')) return;
-  const src = './assets/branding/logo-horizontal.png?v=20261117-transparente';
-  const overlay = document.createElement('div');
-  overlay.id = 'eco-intro';
-  overlay.setAttribute('role', 'dialog');
-  overlay.setAttribute('aria-label', 'Animación de apertura de Eco Solare');
-  overlay.setAttribute('aria-modal', 'true');
-  overlay.innerHTML = '<div class="eco-intro-bg"></div><canvas aria-hidden="true"></canvas><button class="eco-intro-skip" type="button">Omitir animación</button>';
-  const canvas = overlay.querySelector('canvas');
-  const bg = overlay.querySelector('.eco-intro-bg');
-  const skip = overlay.querySelector('button');
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-  let cancelled = false, running = false, raf = 0, deadline = 0;
-  let savedFocus = null;
-  const previousInert = new Map();
-  function finish() {
-    if (cancelled) return;
-    cancelled = true;
-    cancelAnimationFrame(raf); clearTimeout(deadline);
-    brand.classList.remove('eco-intro-hide-brand');
-    document.documentElement.classList.remove('eco-intro-open');
-    overlay.remove(); previousInert.forEach((v,e) => { e.inert = v; });
-    document.removeEventListener('keydown', keyboard);
-    window.removeEventListener('pagehide', finish);
-    if (motion.removeEventListener) motion.removeEventListener('change', motionChange);
-    if (savedFocus && savedFocus.isConnected) savedFocus.focus({preventScroll:true});
+(function(){
+  const INTRO_KEY = "ecoSolareIntroPlayed_v2";
+  const intro = document.getElementById("ecoIntro");
+  const shell = document.getElementById("ecoIntroShell");
+  const skipBtn = document.getElementById("ecoIntroSkip");
+  const brand = document.querySelector(".brand");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if(!intro || !shell || !brand) return;
+
+  function finishIntro(immediate){
+    if(!intro || intro.classList.contains("is-hidden")) return;
+
+    const brandRect = brand.getBoundingClientRect();
+    const shellRect = shell.getBoundingClientRect();
+
+    const targetX = brandRect.left + brandRect.width / 2 - (shellRect.left + shellRect.width / 2);
+    const targetY = brandRect.top + brandRect.height / 2 - (shellRect.top + shellRect.height / 2);
+
+    const scaleX = Math.max(brandRect.width / shellRect.width, 0.17);
+    const scaleY = Math.max(brandRect.height / shellRect.height, 0.17);
+    const finalScale = Math.min(scaleX, scaleY);
+
+    document.body.classList.add("intro-lock");
+    intro.classList.add("is-finalizing");
+
+    if(immediate){
+      intro.classList.add("is-hidden");
+      document.body.classList.remove("intro-lock");
+      sessionStorage.setItem(INTRO_KEY, "1");
+      setTimeout(() => intro.remove(), 60);
+      return;
+    }
+
+    shell.style.transform =
+      "translate(" + targetX + "px," + targetY + "px) scale(" + finalScale + ")";
+    shell.style.opacity = "0.18";
+
+    setTimeout(() => {
+      intro.classList.add("is-hidden");
+      document.body.classList.remove("intro-lock");
+      sessionStorage.setItem(INTRO_KEY, "1");
+      setTimeout(() => intro.remove(), 560);
+    }, 920);
   }
-  function keyboard(e) { if (e.key==='Escape') finish(); if(e.key==='Tab'){ e.preventDefault(); skip.focus({preventScroll:true}); } }
-  function motionChange(e) { if(e.matches) finish(); }
-  function mount() {
-    savedFocus = document.activeElement;
-    document.body.appendChild(overlay);
-    Array.from(document.body.children).forEach(e => {
-      if (e!==overlay && /^(HEADER|MAIN|FOOTER)$/.test(e.tagName)) { previousInert.set(e, e.inert); e.inert=true; }
-    });
-    document.documentElement.classList.add('eco-intro-open');
-    brand.classList.add('eco-intro-hide-brand');
-    skip.addEventListener('click',finish);
-    document.addEventListener('keydown',keyboard);
-    window.addEventListener('pagehide',finish,{once:true});
-    if (motion.addEventListener) motion.addEventListener('change',motionChange);
-    skip.focus({preventScroll:true});
+
+  if(reducedMotion || sessionStorage.getItem(INTRO_KEY) === "1"){
+    finishIntro(true);
+    return;
   }
-  const clamp = x => Math.max(0,Math.min(1,x));
-  const smooth = x => { x=clamp(x);return x*x*(3-2*x); };
-  const tween = (t,a,b) => smooth((t-a)/(b-a));
-  function makeLayers(image) {
-    // Separa componentes a partir del PNG oficial; no redibuja el símbolo.
-    const W=image.naturalWidth, H=image.naturalHeight;
-    canvas.width=W; canvas.height=H;
-    ctx.drawImage(image,0,0);
-    const original = ctx.getImageData(0,0,W,H), pixels=original.data;
-    const count=W*H, labels=new Uint8Array(count), queue=new Int32Array(count);
-    const SUN=1, PANEL=2, WATER=3, LEAF=4, NAME=5, ID=6;
-    for(let i=0;i<count;i++) {
-      if(labels[i] || pixels[i*4+3]<=100) continue;
-      let head=0, tail=0, minX=W, minY=H, maxX=0, r=0,g=0,b=0;
-      labels[i]=255;queue[tail++]=i;
-      function add(j) { if(!labels[j] && pixels[j*4+3]>100){labels[j]=255;queue[tail++]=j;} }
-      while(head<tail) {
-        const j=queue[head++], x=j%W, y=(j/W)|0, z=j*4;
-        minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x);
-        r+=pixels[z];g+=pixels[z+1];b+=pixels[z+2];
-        if(x>0)add(j-1);if(x<W-1)add(j+1);if(y>0)add(j-W);if(y<H-1)add(j+W);
-      }
-      // La matrícula y sus líneas forman una capa aparte.
-      let k;
-      if(minX>W*.338) k=minY>H*.72?ID:NAME;
-      else if(r>g*1.3 && r>b*2.4 && minY<H*.43) k=SUN;
-      else if(minX<W*.045 && minY>H*.43) k=LEAF;
-      else if(minX<W*.125 && maxX>W*.10) k=WATER;
-      else k=PANEL;
-      for(let j=0;j<tail;j++)labels[queue[j]]=k;
-    }
-    // Recupera los bordes semitransparentes sin recomponer sus colores.
-    for(let pass=0;pass<3;pass++) {
-      const snapshot=labels.slice();
-      for(let i=0;i<count;i++) {
-        if(snapshot[i] || !pixels[i*4+3])continue;
-        const x=i%W,y=(i/W)|0;
-        labels[i]=(x>0?snapshot[i-1]:0)||(x<W-1?snapshot[i+1]:0)||(y>0?snapshot[i-W]:0)||(y<H-1?snapshot[i+W]:0)||0;
-      }
-    }
-    const layers=Array.from({length:6},()=>{
-      const c=document.createElement('canvas');c.width=W;c.height=H;
-      return {canvas:c,context:c.getContext('2d')};
-    });
-    const buffers=layers.map(l=>l.context.createImageData(W,H));
-    for(let i=0;i<count;i++) {
-      const p=i*4;if(!pixels[p+3])continue;
-      const x=i%W,y=(i/W)|0;
-      const k=labels[i]||(x>W*.338?(y>H*.72?ID:NAME):PANEL);
-      const dst=buffers[k-1].data;
-      dst[p]=pixels[p];dst[p+1]=pixels[p+1];dst[p+2]=pixels[p+2];dst[p+3]=pixels[p+3];
-    }
-    layers.forEach((l,i)=>l.context.putImageData(buffers[i],0,0));
-    return Object.fromEntries(['sun','panel','water','leaf','name','id'].map((k,i)=>[k,layers[i].canvas]));
-  }
-  function animate(image) {
-    const L=makeLayers(image), W=canvas.width,H=canvas.height;
-    running=true;
-    const start=performance.now();
-    function draw(layer,{opacity=1,brightness=1,x=0,y=0,rotation=0,pivotX=0,pivotY=0}={}) {
-      if(opacity<=0)return;
-      ctx.save();ctx.globalAlpha=clamp(opacity);
-      if('filter' in ctx)ctx.filter='brightness('+brightness+')';
-      ctx.translate(x+pivotX,y+pivotY);ctx.rotate(rotation);ctx.translate(-pivotX,-pivotY);
-      ctx.drawImage(layer,0,0);ctx.restore();
-    }
-    function frame(now) {
-      if(cancelled)return;
-      const t=now-start;
-      const sunrise=tween(t,150,2250), water=tween(t,500,2350), leaf=tween(t,700,2300);
-      const dawn=tween(t,1400,3050), word=tween(t,2250,3250), id=tween(t,2850,3550);
-      // El amanecer pasa de azul nocturno al fondo claro que permite leer el logo original.
-      bg.style.background='rgb('+Math.round(9+237*dawn)+','+Math.round(26+222*dawn)+','+Math.round(37+213*dawn)+')';
-      ctx.clearRect(0,0,W,H);
-      // El sol tiene su color y luminosidad desde el primer instante.
-      draw(L.sun,{opacity:tween(t,0,180),y:H*.43*(1-sunrise),brightness:1});
-      // El panel permanece en su sitio y se ilumina con el amanecer.
-      draw(L.panel,{brightness:.18+.82*sunrise});
-      draw(L.water,{opacity:tween(t,450,850),brightness:.20+.80*sunrise,x:W*.15*(1-water)});
-      // Ángulo inicial positivo; al reducirse hasta cero gira en sentido antihorario.
-      draw(L.leaf,{opacity:tween(t,650,1050),brightness:.18+.82*sunrise,rotation:1.03*(1-leaf),pivotX:W*.004,pivotY:H*.985});
-      draw(L.name,{opacity:word,brightness:1});
-      draw(L.id,{opacity:id,brightness:1});
-      if(t>=3550) {
-        // La última imagen es exactamente el PNG oficial, no una aproximación por capas.
-        ctx.clearRect(0,0,W,H);ctx.drawImage(image,0,0);
-      }
-      if(t<3950){raf=requestAnimationFrame(frame);return;}
-      fly();
-    }
-    function fly(){
-      // Lee la posición final real incluyendo cabeceras responsivas y tema oscuro.
-      const candidates=brand.querySelectorAll('img,svg');
-      const target=Array.from(candidates).find(e=>e.getBoundingClientRect().width>1 && e.getBoundingClientRect().height>1) || brand;
-      const a=canvas.getBoundingClientRect(), b=target.getBoundingClientRect();
-      if(!a.width||!b.width||!b.height){finish();return;}
-      const scale=Math.min(b.width/a.width,b.height/a.height);
-      const ax=a.left+a.width*.5,ay=a.top+a.height*.5;
-      const bx=b.left+b.width*.5,by=b.top+b.height*.5;
-      const duration=950, begin=performance.now();
-      function move(now){
-        if(cancelled)return;
-        const p=clamp((now-begin)/duration), e=smooth(p);
-        canvas.style.transform='translate(-50%,-50%) translate('+(bx-ax)*e+'px,'+(by-ay)*e+'px) scale('+(1+(scale-1)*e)+')';
-        bg.style.opacity=String(1-tween(p,0,.85));
-        skip.style.opacity=String(1-p);
-        // En pantallas pequeñas y tema oscuro, el header usa su variante original.
-        // La transferencia final evita estirar el logo horizontal hasta una forma cuadrada.
-        canvas.style.opacity=String(1-tween(p,.76,1));
-        if(p>=.77)brand.classList.remove('eco-intro-hide-brand');
-        if(p<1)raf=requestAnimationFrame(move);else finish();
-      }
-      raf=requestAnimationFrame(move);
-    }
-    raf=requestAnimationFrame(frame);
-  }
-  // Si la imagen no se puede cargar o está bloqueada, se deja la página accesible.
-  mount();
-  const image=new Image();
-  deadline=setTimeout(finish,9000);
-  image.onload=()=>{if(cancelled||running)return;try{animate(image);}catch(e){console.warn('Eco Solare: intro omitida',e);finish();}};
-  image.onerror=finish;
-  image.src=src;
+
+  document.body.classList.add("intro-lock");
+
+  skipBtn.addEventListener("click", () => finishIntro(false));
+
+  window.addEventListener("keydown", (e) => {
+    if(e.key === "Escape") finishIntro(false);
+  });
+
+  // Tiempo total antes de moverse al logo del header
+  setTimeout(() => finishIntro(false), 4900);
 })();
 </script>
-<!-- FIN INTRO ECO SOLARE -->
+<!-- ===================== /ECO SOLARE · INTRO CINEMÁTICA MEJORADA ===================== -->
 </body>
 </html>
