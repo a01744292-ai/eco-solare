@@ -763,6 +763,7 @@
 #ecoIntroSkip:focus-visible{outline:3px solid #ffad18;outline-offset:4px}
 #ecoIntroShell{width:min(88vw,1180px);aspect-ratio:1000/244.1;position:relative;transform-origin:center;will-change:transform,opacity}
 #ecoIntroShell svg{display:block;width:100%;height:100%;overflow:visible;shape-rendering:geometricPrecision;image-rendering:auto}
+#ecoIntroShell image{image-rendering:auto}
 #ecoIntro .eco-lit{animation:ecoLit 3s cubic-bezier(.25,.55,.25,1) both}
 #ecoIntro .eco-solar-motion{animation:ecoSunRise 2.45s cubic-bezier(.2,.8,.25,1) both}
 #ecoIntro .eco-solar-glow{filter:drop-shadow(0 0 7px #ffbf3880) drop-shadow(0 0 17px #ffad1840)}
@@ -813,6 +814,9 @@ body.eco-intro-lock{overflow:hidden}
   </clipPath>
   <clipPath id="ecoV3Word"><rect x="340" y="55" width="660" height="118"/></clipPath>
   <clipPath id="ecoV3Id"><rect x="340" y="174" width="660" height="56"/></clipPath>
+  <mask id="ecoV3LetterMask" maskUnits="userSpaceOnUse" x="340" y="55" width="660" height="175" style="mask-type:alpha">
+    <use href="#ecoV3Source"/>
+  </mask>
   <linearGradient id="ecoV3Water" x1="0" y1="1" x2="1" y2="0">
     <stop stop-color="#075a73"/><stop offset=".53" stop-color="#008a97"/><stop offset="1" stop-color="#087f91"/>
   </linearGradient>
@@ -868,7 +872,12 @@ body.eco-intro-lock{overflow:hidden}
   <g clip-path="url(#ecoV3Leaf)" class="eco-lit"><use href="#ecoV3Source"/></g>
 </g>
 <!-- Nombre y matrícula exactos de la imagen original, con una iluminación pasajera. -->
-<g class="eco-word" clip-path="url(#ecoV3Word)"><use href="#ecoV3Source"/></g>
+<g class="eco-word" clip-path="url(#ecoV3Word)">
+  <use href="#ecoV3Source"/>
+  <g mask="url(#ecoV3LetterMask)" style="pointer-events:none">
+    <g class="eco-letter-reflection"><path d="M260 40 L322 40 L282 193 L220 193 Z" fill="url(#ecoV3Sheen)"/></g>
+  </g>
+</g>
 <g class="eco-id" clip-path="url(#ecoV3Id)"><use href="#ecoV3Source"/></g>
 </svg>
 </div>
