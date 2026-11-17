@@ -752,189 +752,544 @@
 <script type="module" src="./js/app.js"></script>
 <script type="module" src="./js/solar.js"></script>
 <script type="module" src="./js/componentes.js"></script>
-<!-- ===================== ECO SOLARE · INTRO PREMIUM V5 ===================== -->
+<!-- ===================== ECO SOLARE · INTRO PREMIUM V6 ===================== -->
 <style>
 #ecoPremium[hidden]{display:none!important}
-#ecoPremium{position:fixed;inset:0;z-index:99999;background:#03131e;display:grid;place-items:center;overflow:hidden;isolation:isolate;transition:background .55s ease}
-#ecoPremium .ep-stage{position:relative;width:min(96vw,1380px);aspect-ratio:1983/793;transform-origin:0 0}
-#ecoPremium svg{width:100%;height:100%;display:block;overflow:visible;shape-rendering:geometricPrecision}
-#ecoPremium .ep-skip{position:absolute;right:max(14px,env(safe-area-inset-right));top:max(14px,env(safe-area-inset-top));z-index:9;padding:10px 16px;min-height:44px;border-radius:24px;border:1px solid #709aa8;background:#092f4b;color:white;font:700 14px Lato,Arial,sans-serif;cursor:pointer}
-#ecoPremium .ep-skip:focus-visible{outline:3px solid #ffad18;outline-offset:3px}
+#ecoPremium{
+  position:fixed; inset:0; z-index:99999; background:#03131e;
+  display:grid; place-items:center; overflow:hidden; isolation:isolate;
+  transition:background .55s ease, opacity .45s ease, visibility .45s ease;
+}
+#ecoPremium.is-hidden{
+  opacity:0; visibility:hidden; pointer-events:none;
+}
+#ecoPremium .ep-stage{
+  position:relative;
+  width:min(96vw,1380px);
+  aspect-ratio:1983/793;
+  transform-origin:0 0;
+  clip-path:inset(0% 0% 0% 0%);
+  will-change:transform, opacity, clip-path;
+}
+#ecoPremium svg{
+  width:100%; height:100%; display:block; overflow:visible;
+  shape-rendering:geometricPrecision;
+}
+#ecoPremium .ep-skip{
+  position:absolute; right:max(14px,env(safe-area-inset-right)); top:max(14px,env(safe-area-inset-top));
+  z-index:12; padding:10px 16px; min-height:44px;
+  border-radius:24px; border:1px solid #709aa8; background:#092f4b; color:white;
+  font:700 14px Lato,Arial,sans-serif; cursor:pointer;
+}
+#ecoPremium .ep-skip:focus-visible{
+  outline:3px solid #ffad18; outline-offset:3px;
+}
+#ecoPremium .ep-photo-bg{
+  animation:epBgReveal 2.15s ease both;
+}
 #ecoPremium .ep-lit{animation:epLight 2.65s ease both}
 #ecoPremium .ep-sun{animation:epRise 2.45s cubic-bezier(.22,.76,.2,1) both}
-#ecoPremium .ep-leaf{transform-box:view-box;transform-origin:62px 288px;animation:epLeaf 1.95s cubic-bezier(.21,.82,.2,1) .64s both}
+#ecoPremium .ep-leaf{
+  transform-box:view-box;
+  transform-origin:62px 288px;
+  animation:epLeaf 1.95s cubic-bezier(.21,.82,.2,1) .64s both
+}
 #ecoPremium .ep-word{animation:epName .8s ease 2.62s both}
 #ecoPremium .ep-id{animation:epName .75s ease 2.95s both}
-#ecoPremium .ep-mask{fill:none;stroke:white;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 100;stroke-dashoffset:100}
+#ecoPremium .ep-mask{
+  fill:none; stroke:white; stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:100 100; stroke-dashoffset:100
+}
 #ecoPremium .ep-main{animation:epFlow 2.55s cubic-bezier(.28,.05,.35,1) .28s both}
 #ecoPremium .ep-upper{animation:epFlow 1.65s ease 1.05s both}
 #ecoPremium .ep-middle{animation:epFlow 1.45s ease 1.28s both}
-#ecoPremium .ep-current{fill:none;stroke:#bdfaff;stroke-width:2.8;stroke-linecap:round;stroke-dasharray:4 16 2 28;animation:epCurrent 1.5s linear .6s 2 both}
+#ecoPremium .ep-current{
+  fill:none; stroke:#bdfaff; stroke-width:2.8; stroke-linecap:round;
+  stroke-dasharray:4 16 2 28; animation:epCurrent 1.5s linear .6s 2 both
+}
 #ecoPremium .ep-sheen{animation:epSheen 1.55s ease 1.15s both}
 #ecoPremium .ep-textsheen{animation:epSheen 1.2s ease 3.05s both}
-/* Una sola fotografía en coordenadas fijas: se revela también el fondo y sus reflejos
-   durante la construcción, nunca se sustituye de golpe por un PNG completo. */
-#ecoPremium .ep-base{animation:epBaseReveal 3.65s cubic-bezier(.25,.5,.25,1) both}
+#ecoPremium .ep-ambient{animation:epAmbient 3.8s ease both}
+
+#ecoPremium .ep-base{
+  animation:epBaseReveal 3.55s cubic-bezier(.25,.5,.25,1) both;
+}
 #ecoPremium .ep-locksun{animation:epUnlock .85s ease 1.72s both}
 #ecoPremium .ep-lockleaf{animation:epUnlock .75s ease 1.95s both}
 #ecoPremium .ep-lockpanel{animation:epUnlock 2.25s ease .25s both}
 #ecoPremium .ep-lockmain{animation:epUnlock .9s ease 2.12s both}
 #ecoPremium .ep-lockupper{animation:epUnlock .85s ease 1.95s both}
 #ecoPremium .ep-lockmiddle{animation:epUnlock .85s ease 2.05s both}
+#ecoPremium .ep-lockupperleft{animation:epUnlock .92s ease 1.9s both}
 #ecoPremium .ep-lockword{animation:epUnlock .82s ease 2.62s both}
 #ecoPremium .ep-lockid{animation:epUnlock .75s ease 2.95s both}
 #ecoPremium .ep-assembly{animation:epAssemblySettle .7s ease 3.40s both}
 #ecoPremium .ep-halo{animation:epHaloSettle 1.3s ease 1.7s both}
-@keyframes epBaseReveal{0%{opacity:0}22%{opacity:.18}58%{opacity:.68}100%{opacity:1}}
-@keyframes epUnlock{from{opacity:1}to{opacity:0}}
-@keyframes epAssemblySettle{from{opacity:1}to{opacity:0}}
-@keyframes epHaloSettle{from{opacity:1}to{opacity:0}}
-#ecoPremium .ep-ambient{animation:epAmbient 3.8s ease both}
-@keyframes epLight{0%{filter:brightness(.26) saturate(.75)}40%{filter:brightness(.58) saturate(.88)}100%{filter:none}}
-@keyframes epRise{from{transform:translateY(67px)}to{transform:translateY(0)}}
-@keyframes epLeaf{0%{opacity:0;transform:rotate(68deg)}15%{opacity:1}100%{opacity:1;transform:rotate(0deg)}}
-@keyframes epName{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes epFlow{to{stroke-dashoffset:0}}
-@keyframes epCurrent{0%{opacity:0;stroke-dashoffset:100}15%{opacity:.75}82%{opacity:.45}100%{opacity:0;stroke-dashoffset:0}}
-@keyframes epSheen{0%{opacity:0;transform:translateX(-220px)}22%{opacity:.48}83%{opacity:.24}100%{opacity:0;transform:translateX(1040px)}}
-@keyframes epAmbient{0%{opacity:.12}100%{opacity:1}}
-#ecoPremium .ep-stage{clip-path:inset(0% 0% 0% 0%);will-change:transform,opacity,clip-path}
-#ecoPremium.ep-docking{pointer-events:none}
-#ecoPremium.ep-docking .ep-stage{transition:transform 1.12s cubic-bezier(.22,.75,.17,1),clip-path .92s cubic-bezier(.25,.65,.25,1),opacity .32s ease .88s}
+
+#ecoPremium.ep-docking{
+  pointer-events:none;
+}
+#ecoPremium.ep-docking .ep-stage{
+  transition:
+    transform 1.12s cubic-bezier(.22,.75,.17,1),
+    clip-path .92s cubic-bezier(.25,.65,.25,1),
+    opacity .32s ease .88s;
+}
+
+#ecoPremium .ep-corner-proxy{
+  position:fixed;
+  z-index:10;
+  pointer-events:none;
+  transform-origin:0 0;
+  opacity:0;
+  will-change:transform, opacity;
+}
+
+@keyframes epBgReveal{
+  0%{opacity:0}
+  100%{opacity:.28}
+}
+@keyframes epLight{
+  0%{filter:brightness(.26) saturate(.75)}
+  40%{filter:brightness(.58) saturate(.88)}
+  100%{filter:none}
+}
+@keyframes epRise{
+  from{transform:translateY(67px)}
+  to{transform:translateY(0)}
+}
+@keyframes epLeaf{
+  0%{opacity:0; transform:rotate(68deg)}
+  15%{opacity:1}
+  100%{opacity:1; transform:rotate(0deg)}
+}
+@keyframes epName{
+  from{opacity:0; transform:translateY(8px)}
+  to{opacity:1; transform:translateY(0)}
+}
+@keyframes epFlow{
+  to{stroke-dashoffset:0}
+}
+@keyframes epCurrent{
+  0%{opacity:0; stroke-dashoffset:100}
+  15%{opacity:.75}
+  82%{opacity:.45}
+  100%{opacity:0; stroke-dashoffset:0}
+}
+@keyframes epSheen{
+  0%{opacity:0; transform:translateX(-220px)}
+  22%{opacity:.48}
+  83%{opacity:.24}
+  100%{opacity:0; transform:translateX(1040px)}
+}
+@keyframes epAmbient{
+  0%{opacity:.12}
+  100%{opacity:1}
+}
+@keyframes epBaseReveal{
+  0%{opacity:0}
+  22%{opacity:.18}
+  58%{opacity:.68}
+  100%{opacity:1}
+}
+@keyframes epUnlock{
+  from{opacity:1}
+  to{opacity:0}
+}
+@keyframes epAssemblySettle{
+  from{opacity:1}
+  to{opacity:0}
+}
+@keyframes epHaloSettle{
+  from{opacity:1}
+  to{opacity:0}
+}
+
 body.ep-lock{overflow:hidden}
-@media(max-width:620px){#ecoPremium .ep-stage{width:96vw}#ecoPremium .ep-skip{font-size:12px;padding:9px 13px}}
-@media(prefers-reduced-motion:reduce){#ecoPremium{display:none!important}}
+
+@media(max-width:620px){
+  #ecoPremium .ep-stage{width:96vw}
+  #ecoPremium .ep-skip{font-size:12px; padding:9px 13px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #ecoPremium{display:none!important}
+}
 </style>
+
 <div id="ecoPremium" hidden role="dialog" aria-modal="true" aria-label="Animación de apertura de Eco Solare">
-<button class="ep-skip" type="button">Omitir animación</button>
-<div class="ep-stage">
-<svg viewBox="0 0 960 384" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Eco Solare A01744292: sol ascendente, agua en flujo y hoja verde">
-<defs>
-<image id="epArt" href="./assets/branding/logo-cinematic-horizontal.png" width="960" height="384" preserveAspectRatio="xMidYMid meet"/>
-<!-- Las coordenadas siguen las formas del render aprobado, no un logo redibujado. -->
-<clipPath id="epSun"><path d="M142 143 A73 73 0 1 1 286 127 L252 135 L218 141 L161 191 Q143 174 142 143Z"/></clipPath>
-<clipPath id="epHorizon"><path d="M115 49 H345 V113 L286 127 L244 135 L210 146 L163 191 L142 179 L115 170Z"/></clipPath>
-<clipPath id="epPanel"><path d="M166 191 L210 148 Q221 138 247 136 L323 130 L297 208 Q287 243 246 244 L228 243 L201 216Z"/></clipPath>
-<clipPath id="epLeaf"><path d="M62 289 Q61 231 103 203 Q149 174 192 216 L231 242 Q190 235 166 253 Q122 283 62 289Z"/></clipPath>
-<clipPath id="epRim"><path d="M254 133 L342 114 L317 183 Q299 247 269 257 Q233 275 144 279 L117 283 Q154 268 179 251 Q202 240 230 246 Q280 255 296 207 L323 130 Z"/></clipPath>
-<clipPath id="epUpper"><path d="M71 222 Q85 163 142 143 L143 164 Q97 169 71 222Z"/></clipPath>
-<clipPath id="epMiddle"><path d="M71 224 Q97 180 144 166 L158 187 Q112 184 71 224Z"/></clipPath>
-<clipPath id="epWord"><rect x="343" y="133" width="551" height="94" rx="4"/></clipPath>
-<clipPath id="epId"><rect x="343" y="238" width="548" height="33" rx="3"/></clipPath>
-<path id="epFlowMain" d="M340 114 C316 150 312 199 285 235 S218 265 177 271 L119 282" pathLength="100"/>
-<path id="epFlowUpper" d="M143 148 C110 152 83 187 71 222" pathLength="100"/>
-<path id="epFlowMiddle" d="M153 178 C117 168 88 201 71 224" pathLength="100"/>
-<mask id="epMainMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384"><use href="#epFlowMain" class="ep-mask ep-main" stroke-width="43"/></mask>
-<mask id="epUpperMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384"><use href="#epFlowUpper" class="ep-mask ep-upper" stroke-width="40"/></mask>
-<mask id="epMiddleMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384"><use href="#epFlowMiddle" class="ep-mask ep-middle" stroke-width="35"/></mask>
-<linearGradient id="epSheenGradient"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#e3fbff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-<radialGradient id="epHalo"><stop stop-color="#ffbd30" stop-opacity=".36"/><stop offset="1" stop-color="#ffbd30" stop-opacity="0"/></radialGradient>
-<radialGradient id="epAmbientBg"><stop stop-color="#11475b"/><stop offset="1" stop-color="#03131e"/></radialGradient>
-  <!-- Máscara complementaria: el original se revela detrás de las piezas móviles
-       en su posición definitiva. Bordes con transición suave para evitar costuras. -->
-  <filter id="epFeather" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3.1"/></filter>
-  <mask id="epContinuity" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:luminance">
-    <rect width="960" height="384" fill="white"/>
-    <g fill="black" stroke="black" stroke-width="7" stroke-linejoin="round" filter="url(#epFeather)">
-      <path class="ep-locksun" d="M133 145 C133 103 162 66 213 66 C251 66 278 95 291 128 L251 138 L220 143 L164 194 Q133 181 133 145Z"/>
-      <path class="ep-lockleaf" d="M58 292 Q58 233 101 202 Q149 174 192 216 L234 243 Q190 237 166 254 Q122 284 58 292Z"/>
-      <path class="ep-lockpanel" d="M164 191 L210 148 Q221 138 247 136 L323 130 L297 208 Q287 243 246 244 L228 243 L201 216Z"/>
-      <path class="ep-lockmain" d="M254 133 L342 114 L317 183 Q299 247 269 257 Q233 275 144 279 L117 283 Q154 268 179 251 Q202 240 230 246 Q280 255 296 207 L323 130 Z"/>
-      <path class="ep-lockupper" d="M71 222 Q85 163 142 143 L143 164 Q97 169 71 222Z"/>
-      <path class="ep-lockmiddle" d="M71 224 Q97 180 144 166 L158 187 Q112 184 71 224Z"/>
-      <rect class="ep-lockword" x="339" y="128" width="559" height="100" rx="5"/>
-      <rect class="ep-lockid" x="339" y="235" width="556" height="39" rx="4"/>
-    </g>
-  </mask>
-</defs>
-<rect width="960" height="384" fill="#03131e"/>
-<rect class="ep-ambient" width="960" height="384" fill="url(#epAmbientBg)"/>
-<g class="ep-base" mask="url(#epContinuity)"><use href="#epArt"/></g>
-<g class="ep-assembly">
-<g clip-path="url(#epHorizon)">
-<g class="ep-sun"><ellipse class="ep-halo" cx="216" cy="145" rx="103" ry="103" fill="url(#epHalo)"/><g clip-path="url(#epSun)"><use href="#epArt"/></g></g>
-</g>
-<g class="ep-lit">
-<g clip-path="url(#epPanel)"><use href="#epArt"/><g class="ep-sheen"><path d="M-25 80 H50 L-5 270 H-80Z" fill="url(#epSheenGradient)"/></g></g>
-<g clip-path="url(#epRim)" mask="url(#epMainMask)"><use href="#epArt"/><use href="#epFlowMain" class="ep-current"/></g>
-<g clip-path="url(#epUpper)" mask="url(#epUpperMask)"><use href="#epArt"/><use href="#epFlowUpper" class="ep-current"/></g>
-<g clip-path="url(#epMiddle)" mask="url(#epMiddleMask)"><use href="#epArt"/><use href="#epFlowMiddle" class="ep-current"/></g>
-<g class="ep-leaf"><g clip-path="url(#epLeaf)"><use href="#epArt"/></g></g>
-</g>
-<g class="ep-word" clip-path="url(#epWord)"><use href="#epArt"/></g>
-<g class="ep-id" clip-path="url(#epId)"><use href="#epArt"/></g>
-<g clip-path="url(#epWord)" class="ep-textsheen"><path d="M335 130 H385 L356 230 H306Z" fill="url(#epSheenGradient)"/></g>
-</g>
-<!-- Al terminar, ep-base ya muestra el original completo. No existe imagen de sustitución. -->
-</svg>
+  <button class="ep-skip" type="button">Omitir animación</button>
+
+  <div class="ep-stage">
+    <svg viewBox="0 0 960 384" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Eco Solare A01744292: sol ascendente, agua en flujo y hoja verde">
+      <defs>
+        <image id="epArt" href="./assets/branding/logo-cinematic-horizontal.png" width="960" height="384" preserveAspectRatio="xMidYMid meet"/>
+
+        <clipPath id="epSun">
+          <path d="M142 143 A73 73 0 1 1 286 127 L252 135 L218 141 L161 191 Q143 174 142 143Z"/>
+        </clipPath>
+        <clipPath id="epHorizon">
+          <path d="M115 49 H345 V113 L286 127 L244 135 L210 146 L163 191 L142 179 L115 170Z"/>
+        </clipPath>
+        <clipPath id="epPanel">
+          <path d="M166 191 L210 148 Q221 138 247 136 L323 130 L297 208 Q287 243 246 244 L228 243 L201 216Z"/>
+        </clipPath>
+        <clipPath id="epLeaf">
+          <path d="M62 289 Q61 231 103 203 Q149 174 192 216 L231 242 Q190 235 166 253 Q122 283 62 289Z"/>
+        </clipPath>
+        <clipPath id="epRim">
+          <path d="M254 133 L342 114 L317 183 Q299 247 269 257 Q233 275 144 279 L117 283 Q154 268 179 251 Q202 240 230 246 Q280 255 296 207 L323 130 Z"/>
+        </clipPath>
+        <clipPath id="epUpper">
+          <path d="M71 222 Q85 163 142 143 L143 164 Q97 169 71 222Z"/>
+        </clipPath>
+        <clipPath id="epMiddle">
+          <path d="M71 224 Q97 180 144 166 L158 187 Q112 184 71 224Z"/>
+        </clipPath>
+        <clipPath id="epWord">
+          <rect x="343" y="133" width="551" height="94" rx="4"/>
+        </clipPath>
+        <clipPath id="epId">
+          <rect x="343" y="238" width="548" height="33" rx="3"/>
+        </clipPath>
+
+        <path id="epFlowMain" d="M340 114 C316 150 312 199 285 235 S218 265 177 271 L119 282" pathLength="100"/>
+        <path id="epFlowUpper" d="M143 148 C110 152 83 187 71 222" pathLength="100"/>
+        <path id="epFlowMiddle" d="M153 178 C117 168 88 201 71 224" pathLength="100"/>
+
+        <mask id="epMainMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384">
+          <use href="#epFlowMain" class="ep-mask ep-main" stroke-width="43"/>
+        </mask>
+        <mask id="epUpperMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384">
+          <use href="#epFlowUpper" class="ep-mask ep-upper" stroke-width="40"/>
+        </mask>
+        <mask id="epMiddleMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384">
+          <use href="#epFlowMiddle" class="ep-mask ep-middle" stroke-width="35"/>
+        </mask>
+
+        <linearGradient id="epSheenGradient">
+          <stop stop-color="#fff" stop-opacity="0"/>
+          <stop offset=".5" stop-color="#e3fbff" stop-opacity=".85"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="epHalo">
+          <stop stop-color="#ffbd30" stop-opacity=".36"/>
+          <stop offset="1" stop-color="#ffbd30" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="epAmbientBg">
+          <stop stop-color="#11475b"/>
+          <stop offset="1" stop-color="#03131e"/>
+        </radialGradient>
+
+        <filter id="epFeather" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3.1"/>
+        </filter>
+
+        <!-- máscara de continuidad -->
+        <mask id="epContinuity" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:luminance">
+          <rect width="960" height="384" fill="white"/>
+          <g fill="black" stroke="black" stroke-width="7" stroke-linejoin="round" filter="url(#epFeather)">
+            <path class="ep-locksun" d="M133 145 C133 103 162 66 213 66 C251 66 278 95 291 128 L251 138 L220 143 L164 194 Q133 181 133 145Z"/>
+            <path class="ep-lockleaf" d="M58 292 Q58 233 101 202 Q149 174 192 216 L234 243 Q190 237 166 254 Q122 284 58 292Z"/>
+            <path class="ep-lockpanel" d="M164 191 L210 148 Q221 138 247 136 L323 130 L297 208 Q287 243 246 244 L228 243 L201 216Z"/>
+            <path class="ep-lockmain" d="M254 133 L342 114 L317 183 Q299 247 269 257 Q233 275 144 279 L117 283 Q154 268 179 251 Q202 240 230 246 Q280 255 296 207 L323 130 Z"/>
+            <path class="ep-lockupper" d="M71 222 Q85 163 142 143 L143 164 Q97 169 71 222Z"/>
+            <path class="ep-lockmiddle" d="M71 224 Q97 180 144 166 L158 187 Q112 184 71 224Z"/>
+
+            <!-- bloqueo ampliado del agua izquierda -->
+            <path class="ep-lockupperleft" d="M52 232
+              C62 179 94 142 140 136
+              C126 162 109 185 80 213
+              C71 222 63 228 52 232Z"/>
+
+            <rect class="ep-lockword" x="343" y="133" width="551" height="94" rx="4"/>
+            <rect class="ep-lockid" x="343" y="238" width="548" height="33" rx="3"/>
+          </g>
+        </mask>
+      </defs>
+
+      <rect width="960" height="384" fill="#03131e"/>
+
+      <!-- fondo visible desde temprano -->
+      <g class="ep-photo-bg">
+        <use href="#epArt" opacity=".24"/>
+      </g>
+
+      <rect class="ep-ambient" width="960" height="384" fill="url(#epAmbientBg)"/>
+
+      <!-- base original revelada progresivamente -->
+      <g class="ep-base" mask="url(#epContinuity)">
+        <use href="#epArt"/>
+      </g>
+
+      <g class="ep-assembly">
+        <g clip-path="url(#epHorizon)">
+          <g class="ep-sun">
+            <ellipse class="ep-halo" cx="216" cy="145" rx="103" ry="103" fill="url(#epHalo)"/>
+            <g clip-path="url(#epSun)">
+              <use href="#epArt"/>
+            </g>
+          </g>
+        </g>
+
+        <g class="ep-lit">
+          <g clip-path="url(#epPanel)">
+            <use href="#epArt"/>
+            <g class="ep-sheen">
+              <path d="M-25 80 H50 L-5 270 H-80Z" fill="url(#epSheenGradient)"/>
+            </g>
+          </g>
+
+          <g clip-path="url(#epRim)" mask="url(#epMainMask)">
+            <use href="#epArt"/>
+            <use href="#epFlowMain" class="ep-current"/>
+          </g>
+
+          <g clip-path="url(#epUpper)" mask="url(#epUpperMask)">
+            <use href="#epArt"/>
+            <use href="#epFlowUpper" class="ep-current"/>
+          </g>
+
+          <g clip-path="url(#epMiddle)" mask="url(#epMiddleMask)">
+            <use href="#epArt"/>
+            <use href="#epFlowMiddle" class="ep-current"/>
+          </g>
+
+          <g class="ep-leaf">
+            <g clip-path="url(#epLeaf)">
+              <use href="#epArt"/>
+            </g>
+          </g>
+        </g>
+
+        <g class="ep-word" clip-path="url(#epWord)">
+          <use href="#epArt"/>
+        </g>
+
+        <g class="ep-id" clip-path="url(#epId)">
+          <use href="#epArt"/>
+        </g>
+
+        <g clip-path="url(#epWord)" class="ep-textsheen">
+          <path d="M335 130 H385 L356 230 H306Z" fill="url(#epSheenGradient)"/>
+        </g>
+      </g>
+    </svg>
+  </div>
 </div>
-</div>
+
 <script>
 (function(){
-"use strict";
-const intro=document.getElementById("ecoPremium"),stage=intro&&intro.querySelector(".ep-stage"),skip=intro&&intro.querySelector(".ep-skip"),brand=document.querySelector("header .brand");
-if(!intro||!stage||!skip||!brand)return;
-const key="ecoSolarePremiumV5",motion=matchMedia("(prefers-reduced-motion: reduce)");
-let played=false;try{played=sessionStorage.getItem(key)==="1"}catch(e){}
-if(played||motion.matches||new URLSearchParams(location.search).get("desde")==="laboratorio"){intro.remove();return;}
-let ended=false,started=false,loadTimer=0,finishTimer=0,dockTimer=0,previousFocus=null,locked=[];
-const art=new Image();
-function clean(){
- clearTimeout(loadTimer);clearTimeout(finishTimer);clearTimeout(dockTimer);
- document.body.classList.remove("ep-lock");brand.style.removeProperty("visibility");brand.style.removeProperty("opacity");brand.style.removeProperty("transition");
- locked.forEach(el=>el.inert=false);locked=[];
- document.removeEventListener("keydown",onKey);window.removeEventListener("resize",onResize);
- if(motion.removeEventListener)motion.removeEventListener("change",onMotion);
- try{if(started)sessionStorage.setItem(key,"1")}catch(e){}
- intro.remove();if(previousFocus&&previousFocus.isConnected&&previousFocus!==document.body)previousFocus.focus({preventScroll:true});
-}
-function close(now){
- if(ended)return;ended=true;
- if(now||!started){clean();return;}
- // El mismo SVG que se ha construido se desplaza hasta el encabezado.
- // No se crea una segunda fotografía, ni se recorta mediante una elipse.
- const actual=brand.querySelector(".brand-picture.is-ready img")||brand;
- const target=actual.getBoundingClientRect(),r=stage.getBoundingClientRect();
- if(!target.width||!target.height||!r.width||!r.height){clean();return;}
- const compact=target.width/target.height<2;
- const [x,y,w,h]=compact?[59,70,283,222]:[59,70,837,222];
- const unit=r.width/960;
- const cw=w*unit,ch=h*unit;
- const s=Math.min(target.width/cw,target.height/ch);
- const dx=target.left+target.width/2-r.left-(x+w/2)*unit*s;
- const dy=target.top+target.height/2-r.top-(y+h/2)*unit*s;
- const clip=[y/384*100,(960-x-w)/960*100,(384-y-h)/384*100,x/960*100].map(n=>n.toFixed(3)+"%").join(" ");
- skip.hidden=true;
- // Intercambio progresivo con el logo estático solo cuando la composición llega.
- brand.style.transition="opacity .32s ease .88s";
- brand.style.opacity="0";brand.style.visibility="visible";
- intro.classList.add("ep-docking");
- requestAnimationFrame(()=>requestAnimationFrame(()=>{
-   stage.style.transform="translate("+dx+"px,"+dy+"px) scale("+s+")";
-   stage.style.clipPath="inset("+clip+")";
-   stage.style.opacity="0";
-   intro.style.background="transparent";
-   brand.style.opacity="1";
- }));
- dockTimer=setTimeout(clean,1230);
-}
-function onKey(e){if(e.key==="Escape"){e.preventDefault();if(ended)clean();else close(true)}else if(e.key==="Tab"&&started&&!ended){e.preventDefault();skip.focus()}}
-function onMotion(e){if(e.matches){if(ended)clean();else close(true)}}
-function onResize(){if(ended)clean()}
-function start(){
- if(ended||started)return;started=true;clearTimeout(loadTimer);
- previousFocus=document.activeElement;
- // El overlay se activa después de la carga de la imagen; no bloquea la web si hay un fallo.
- intro.hidden=false;document.body.classList.add("ep-lock");brand.style.visibility="hidden";
- Array.from(document.body.children).filter(el=>el!==intro&&/^(HEADER|MAIN|FOOTER)$/.test(el.tagName)&&!el.inert).forEach(el=>{el.inert=true;locked.push(el)});
- skip.focus({preventScroll:true});finishTimer=setTimeout(()=>close(false),5050);
- document.addEventListener("keydown",onKey);window.addEventListener("resize",onResize);
- if(motion.addEventListener)motion.addEventListener("change",onMotion);
-}
-skip.addEventListener("click",()=>close(true));art.onload=start;art.onerror=()=>close(true);
-loadTimer=setTimeout(()=>close(true),3500);art.src="./assets/branding/logo-cinematic-horizontal.png";
+  "use strict";
+
+  const intro = document.getElementById("ecoPremium");
+  const stage = intro && intro.querySelector(".ep-stage");
+  const skip = intro && intro.querySelector(".ep-skip");
+  const brand = document.querySelector("header .brand");
+  const motion = matchMedia("(prefers-reduced-motion: reduce)");
+
+  if(!intro || !stage || !skip || !brand) return;
+
+  if(motion.matches || new URLSearchParams(location.search).get("desde") === "laboratorio"){
+    intro.remove();
+    return;
+  }
+
+  let ended = false;
+  let started = false;
+  let loadTimer = 0;
+  let finishTimer = 0;
+  let dockTimer = 0;
+  let previousFocus = null;
+  let locked = [];
+  let cornerProxy = null;
+
+  const art = new Image();
+
+  function clean(){
+    clearTimeout(loadTimer);
+    clearTimeout(finishTimer);
+    clearTimeout(dockTimer);
+
+    document.body.classList.remove("ep-lock");
+
+    brand.style.removeProperty("visibility");
+    brand.style.removeProperty("opacity");
+    brand.style.removeProperty("transition");
+
+    if(cornerProxy && cornerProxy.parentNode){
+      cornerProxy.remove();
+      cornerProxy = null;
+    }
+
+    locked.forEach(el => el.inert = false);
+    locked = [];
+
+    document.removeEventListener("keydown", onKey);
+    window.removeEventListener("resize", onResize);
+    if(motion.removeEventListener) motion.removeEventListener("change", onMotion);
+
+    intro.remove();
+
+    if(previousFocus && previousFocus.isConnected && previousFocus !== document.body){
+      previousFocus.focus({preventScroll:true});
+    }
+  }
+
+  function buildCornerProxy(currentTargetRect, stageRect, crop, source){
+    const [x,y,w,h] = crop;
+    const unit = stageRect.width / 960;
+
+    const proxy = document.createElement("img");
+    proxy.className = "ep-corner-proxy";
+    proxy.alt = "";
+    proxy.src = source;
+    proxy.style.left = (stageRect.left + x * unit) + "px";
+    proxy.style.top = (stageRect.top + y * unit) + "px";
+    proxy.style.width = (w * unit) + "px";
+    proxy.style.height = (h * unit) + "px";
+    proxy.style.transition =
+      "opacity .38s ease, transform 1.04s cubic-bezier(.22,.75,.17,1) .38s";
+    document.body.appendChild(proxy);
+
+    requestAnimationFrame(() => {
+      proxy.style.opacity = "1";
+    });
+
+    const sx = currentTargetRect.width / (w * unit);
+    const sy = currentTargetRect.height / (h * unit);
+    const s = Math.min(sx, sy);
+
+    const dx = currentTargetRect.left + currentTargetRect.width/2 - (stageRect.left + (x + w/2) * unit);
+    const dy = currentTargetRect.top + currentTargetRect.height/2 - (stageRect.top + (y + h/2) * unit);
+
+    return { proxy, dx, dy, s };
+  }
+
+  function close(now){
+    if(ended) return;
+    ended = true;
+
+    if(now || !started){
+      clean();
+      return;
+    }
+
+    const actualImg =
+      brand.querySelector(".brand-picture.is-ready img") ||
+      brand.querySelector("img") ||
+      brand;
+
+    const target = actualImg.getBoundingClientRect();
+    const r = stage.getBoundingClientRect();
+
+    if(!target.width || !target.height || !r.width || !r.height){
+      clean();
+      return;
+    }
+
+    const compact = target.width / target.height < 2;
+    const crop = compact ? [59,70,283,222] : [59,70,837,222];
+
+    skip.hidden = true;
+
+    // transición previa hacia la misma versión del logo del header
+    const headerSource =
+      actualImg.currentSrc ||
+      actualImg.getAttribute("src") ||
+      "./assets/branding/logo-horizontal.png?v=20261117-transparente";
+
+    const proxySetup = buildCornerProxy(target, r, crop, headerSource);
+    cornerProxy = proxySetup.proxy;
+
+    brand.style.visibility = "visible";
+    brand.style.opacity = "0";
+    brand.style.transition = "opacity .30s ease .92s";
+
+    intro.classList.add("ep-docking");
+
+    const [x,y,w,h] = crop;
+    const clip = [
+      (y / 384) * 100,
+      ((960 - x - w) / 960) * 100,
+      ((384 - y - h) / 384) * 100,
+      (x / 960) * 100
+    ].map(n => n.toFixed(3) + "%").join(" ");
+
+    // 1) pequeño tiempo para ver la transición a la versión del corner
+    setTimeout(() => {
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        stage.style.transform = `translate(${proxySetup.dx}px, ${proxySetup.dy}px) scale(${proxySetup.s})`;
+        stage.style.clipPath = `inset(${clip})`;
+        stage.style.opacity = "0";
+        intro.style.background = "transparent";
+
+        cornerProxy.style.transform = `translate(${proxySetup.dx}px, ${proxySetup.dy}px) scale(${proxySetup.s})`;
+        brand.style.opacity = "1";
+      }));
+    }, 360);
+
+    dockTimer = setTimeout(clean, 1500);
+  }
+
+  function onKey(e){
+    if(e.key === "Escape"){
+      e.preventDefault();
+      if(ended) clean();
+      else close(true);
+    }else if(e.key === "Tab" && started && !ended){
+      e.preventDefault();
+      skip.focus();
+    }
+  }
+
+  function onMotion(e){
+    if(e.matches){
+      if(ended) clean();
+      else close(true);
+    }
+  }
+
+  function onResize(){
+    if(ended) clean();
+  }
+
+  function start(){
+    if(ended || started) return;
+    started = true;
+    clearTimeout(loadTimer);
+
+    previousFocus = document.activeElement;
+
+    intro.hidden = false;
+    document.body.classList.add("ep-lock");
+    brand.style.visibility = "hidden";
+
+    Array.from(document.body.children)
+      .filter(el => el !== intro && /^(HEADER|MAIN|FOOTER)$/.test(el.tagName) && !el.inert)
+      .forEach(el => {
+        el.inert = true;
+        locked.push(el);
+      });
+
+    skip.focus({preventScroll:true});
+    finishTimer = setTimeout(() => close(false), 5050);
+
+    document.addEventListener("keydown", onKey);
+    window.addEventListener("resize", onResize);
+    if(motion.addEventListener) motion.addEventListener("change", onMotion);
+  }
+
+  skip.addEventListener("click", () => close(true));
+
+  art.onload = start;
+  art.onerror = () => clean();
+
+  loadTimer = setTimeout(() => clean(), 3500);
+
+  art.src = "./assets/branding/logo-cinematic-horizontal.png";
 })();
 </script>
-<!-- ===================== /ECO SOLARE · INTRO PREMIUM V5 ===================== -->
+<!-- ===================== /ECO SOLARE · INTRO PREMIUM V6 ===================== -->
 </body>
 </html>
