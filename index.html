@@ -752,595 +752,175 @@
 <script type="module" src="./js/app.js"></script>
 <script type="module" src="./js/solar.js"></script>
 <script type="module" src="./js/componentes.js"></script>
-<!-- ===================== ECO SOLARE · INTRO CINEMÁTICA MEJORADA ===================== -->
+<!-- ===================== ECO SOLARE · INTRO CINEMÁTICA V3 ===================== -->
 <style>
-  :root{
-    --intro-bg: #08131a;
-    --intro-panel: #0b3659;
-    --intro-panel-dark: #082945;
-    --intro-water: #0b95a7;
-    --intro-water-2: #0c6f98;
-    --intro-water-3: #0aa5bf;
-    --intro-leaf: #0c8a34;
-    --intro-leaf-2: #39b34a;
-    --intro-sun: #ffb117;
-    --intro-sun-2: #ffd04d;
-    --intro-text: #ffffff;
-  }
-
-  #ecoIntro{
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    background:
-      radial-gradient(circle at 50% 45%, rgba(18,54,76,.40), transparent 42%),
-      linear-gradient(180deg, #0a151d 0%, #09131b 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    transition: opacity .55s ease, visibility .55s ease;
-  }
-
-  #ecoIntro.is-hidden{
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  #ecoIntro .intro-skip{
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    z-index: 4;
-    border: 1px solid rgba(255,255,255,.18);
-    background: rgba(255,255,255,.08);
-    color: #fff;
-    border-radius: 999px;
-    padding: 10px 14px;
-    cursor: pointer;
-    font: 700 14px/1 "Lato", Arial, sans-serif;
-    backdrop-filter: blur(6px);
-  }
-
-  #ecoIntro .intro-shell{
-    position: relative;
-    width: min(1040px, 90vw);
-    aspect-ratio: 16 / 8.2;
-    transform-origin: center center;
-    transition: transform .95s cubic-bezier(.22,.78,.14,1), opacity .55s ease;
-    will-change: transform, opacity;
-  }
-
-  #ecoIntro.is-finalizing .intro-shell{
-    pointer-events: none;
-  }
-
-  #ecoIntro .intro-shadow{
-    position: absolute;
-    inset: auto 10% 6% 10%;
-    height: 10%;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(0,0,0,.38) 0%, rgba(0,0,0,0) 70%);
-    filter: blur(18px);
-    z-index: 0;
-    opacity: .75;
-    animation: introShadowPulse 4.8s ease-in-out forwards;
-  }
-
-  @keyframes introShadowPulse{
-    0%{transform: scale(.7); opacity: 0;}
-    25%{opacity: .40;}
-    100%{transform: scale(1); opacity: .75;}
-  }
-
-  #ecoIntro svg{
-    display: block;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    shape-rendering: geometricPrecision;
-    text-rendering: geometricPrecision;
-  }
-
-  /* Suavidad general */
-  #ecoIntro .soft-shadow{
-    filter: drop-shadow(0 8px 24px rgba(0,0,0,.18));
-  }
-
-  /* Texto */
-  #ecoIntro .wordmark{
-    opacity: 0;
-    transform: translateY(16px);
-    animation: introWordmarkIn .85s cubic-bezier(.23,.9,.22,1) 2.25s forwards;
-    transform-origin: left center;
-  }
-
-  #ecoIntro .matricula{
-    opacity: 0;
-    transform: translateY(10px);
-    animation: introMatriculaIn .75s ease 2.65s forwards;
-  }
-
-  @keyframes introWordmarkIn{
-    from{opacity:0; transform:translateY(16px)}
-    to{opacity:1; transform:translateY(0)}
-  }
-
-  @keyframes introMatriculaIn{
-    from{opacity:0; transform:translateY(10px)}
-    to{opacity:1; transform:translateY(0)}
-  }
-
-  /* Sol */
-  #ecoIntro .sun-group{
-    transform-origin: 260px 182px;
-    animation: introSunRise 2.3s cubic-bezier(.22,.84,.2,1) .15s forwards;
-  }
-
-  #ecoIntro .sun-disc{
-    filter:
-      drop-shadow(0 0 18px rgba(255,177,23,.65))
-      drop-shadow(0 0 40px rgba(255,177,23,.28));
-  }
-
-  #ecoIntro .sun-glow{
-    opacity: .95;
-    animation: introSunGlow 2.3s ease-out .15s forwards;
-  }
-
-  @keyframes introSunRise{
-    0%{
-      transform: translate(-12px, 86px) scale(.92);
-    }
-    100%{
-      transform: translate(0, 0) scale(1);
-    }
-  }
-
-  @keyframes introSunGlow{
-    0%{ opacity: .88; transform: scale(.92); }
-    100%{ opacity: 1; transform: scale(1); }
-  }
-
-  /* Rayos del sol */
-  #ecoIntro .sun-rays{
-    opacity: 0;
-    animation: introRaysIn .8s ease .55s forwards;
-  }
-
-  @keyframes introRaysIn{
-    from{opacity:0}
-    to{opacity:1}
-  }
-
-  /* Panel */
-  #ecoIntro .panel-group{
-    transform-origin: 385px 253px;
-    opacity: .72;
-    animation: introPanelBright 2.3s ease .15s forwards;
-  }
-
-  @keyframes introPanelBright{
-    0%{ opacity: .42; filter: brightness(.80); }
-    100%{ opacity: 1; filter: brightness(1.04); }
-  }
-
-  /* Brillo general progresivo */
-  #ecoIntro .global-brighten{
-    opacity: .48;
-    animation: introBrighten 2.25s ease .15s forwards;
-  }
-
-  @keyframes introBrighten{
-    0%{ opacity: .34; }
-    100%{ opacity: 1; }
-  }
-
-  /* Hoja */
-  #ecoIntro .leaf-group{
-    transform-box: fill-box;
-    transform-origin: 145px 413px;
-    animation: introLeafGrow 1.8s cubic-bezier(.18,.88,.18,1) .55s forwards;
-  }
-
-  @keyframes introLeafGrow{
-    0%{
-      opacity: 0;
-      transform: translateY(58px) rotate(-32deg) scale(.62);
-    }
-    55%{
-      opacity: 1;
-      transform: translateY(4px) rotate(6deg) scale(1.03);
-    }
-    100%{
-      opacity: 1;
-      transform: translateY(0) rotate(0deg) scale(1);
-    }
-  }
-
-  /* Agua: ya no es desplazamiento simple, sino relleno fluido */
-  #ecoIntro .water-reveal{
-    animation: introWaterReveal 2.35s cubic-bezier(.22,.85,.18,1) .25s forwards;
-    transform-origin: 100% 20%;
-  }
-
-  #ecoIntro .water-flow-texture{
-    animation: introWaterFlow 2.5s linear .15s forwards;
-  }
-
-  #ecoIntro .water-shine{
-    opacity: 0;
-    animation: introWaterShine 2.0s ease .75s forwards;
-  }
-
-  @keyframes introWaterReveal{
-    0%{
-      transform: scale(.08, .08) translate(880px,-250px);
-      opacity: 0;
-    }
-    18%{
-      opacity: .95;
-    }
-    45%{
-      transform: scale(.56,.42) translate(268px,-82px);
-      opacity: 1;
-    }
-    72%{
-      transform: scale(.95,.92) translate(24px,-8px);
-      opacity: 1;
-    }
-    100%{
-      transform: scale(1,1) translate(0,0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes introWaterFlow{
-    0%{ transform: translateX(0); }
-    100%{ transform: translateX(-120px); }
-  }
-
-  @keyframes introWaterShine{
-    0%{ opacity:0; transform:translateX(40px); }
-    100%{ opacity:1; transform:translateX(0); }
-  }
-
-  /* Aparición del logo final */
-  #ecoIntro .logo-complete{
-    opacity: 0;
-    animation: introLogoSettle .6s ease 3.35s forwards;
-  }
-
-  @keyframes introLogoSettle{
-    from{opacity:0}
-    to{opacity:1}
-  }
-
-  /* Suavizar apariencia general del conjunto */
-  #ecoIntro .vector-aa{
-    stroke-linejoin: round;
-    stroke-linecap: round;
-  }
-
-  /* Salida al header */
-  body.intro-lock{
-    overflow: hidden;
-  }
-
-  @media (max-width: 700px){
-    #ecoIntro .intro-shell{
-      width: min(92vw, 760px);
-    }
-    #ecoIntro .intro-skip{
-      top: 12px;
-      right: 12px;
-      font-size: 13px;
-      padding: 9px 12px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    #ecoIntro,
-    #ecoIntro *{
-      animation: none !important;
-      transition: none !important;
-    }
-    #ecoIntro .wordmark,
-    #ecoIntro .matricula,
-    #ecoIntro .logo-complete{
-      opacity: 1 !important;
-      transform: none !important;
-    }
-  }
+#ecoIntro{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;overflow:hidden;background:#08151d;isolation:isolate;opacity:1;transition:opacity .32s ease;--water-start:.38s;--water-duration:2.65s}
+#ecoIntro[hidden]{display:none}
+#ecoIntro::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 35% 42%,#fff5df 0%,#eaf3ee 42%,#d6e5e4 100%);opacity:0;animation:ecoDawn 3.6s cubic-bezier(.2,.65,.3,1) forwards;pointer-events:none;z-index:-1}
+#ecoIntro.eco-exit{background:transparent;transition:background .45s}
+#ecoIntro.eco-exit::before{animation:none;opacity:0;transition:opacity .45s}
+#ecoIntroSkip{position:absolute;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));font:700 14px/1.2 Lato,Arial,sans-serif;border:1px solid #88a6ad;background:#092f4b;color:white;border-radius:50px;min-height:44px;padding:10px 18px;cursor:pointer;z-index:2}
+#ecoIntroSkip:focus-visible{outline:3px solid #ffad18;outline-offset:4px}
+#ecoIntroShell{width:min(88vw,1180px);aspect-ratio:1000/244.1;position:relative;transform-origin:center;will-change:transform,opacity}
+#ecoIntroShell svg{display:block;width:100%;height:100%;overflow:visible;shape-rendering:geometricPrecision;image-rendering:auto}
+#ecoIntro .eco-lit{animation:ecoLit 3s cubic-bezier(.25,.55,.25,1) both}
+#ecoIntro .eco-solar-motion{animation:ecoSunRise 2.45s cubic-bezier(.2,.8,.25,1) both}
+#ecoIntro .eco-solar-glow{filter:drop-shadow(0 0 7px #ffbf3880) drop-shadow(0 0 17px #ffad1840)}
+#ecoIntro .eco-leaf-motion{transform-origin:4px 239px;transform-box:view-box;animation:ecoLeaf 2.1s cubic-bezier(.22,.86,.26,1) .75s both}
+#ecoIntro .eco-word{animation:ecoWord .85s cubic-bezier(.2,.7,.2,1) 2.7s both}
+#ecoIntro .eco-id{animation:ecoWord .85s cubic-bezier(.2,.7,.2,1) 3.05s both}
+#ecoIntro .eco-river-mask{fill:none;stroke:white;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 100;stroke-dashoffset:100}
+#ecoIntro .eco-river-main{animation:ecoRiver var(--water-duration) cubic-bezier(.42,0,.28,1) var(--water-start) both}
+#ecoIntro .eco-river-upper{animation:ecoRiver 1.64s cubic-bezier(.35,0,.23,1) 1.05s both}
+#ecoIntro .eco-river-inner{animation:ecoRiver 1.48s cubic-bezier(.35,0,.23,1) 1.36s both}
+#ecoIntro .eco-current{fill:none;stroke:#d2fbff;stroke-linecap:round;stroke-width:4;stroke-dasharray:12 32 7 49;stroke-dashoffset:100;animation:ecoCurrent 1.65s linear .5s 2 both;opacity:0}
+#ecoIntro .eco-panel-reflection{animation:ecoReflection 1.55s cubic-bezier(.2,.6,.25,1) 1.2s both}
+#ecoIntro .eco-letter-reflection{animation:ecoReflection 1.05s ease 3.1s both}
+@keyframes ecoDawn{0%{opacity:0}18%{opacity:.1}56%{opacity:.8}100%{opacity:1}}
+@keyframes ecoLit{0%{filter:brightness(.28) saturate(.72)}18%{filter:brightness(.42) saturate(.82)}72%{filter:brightness(.94) saturate(1)}100%{filter:none}}
+@keyframes ecoSunRise{0%{transform:translate(0,69px)}12%{transform:translate(0,65px)}100%{transform:translate(0,0)}}
+@keyframes ecoLeaf{0%{transform:rotate(72deg) scale(.96);opacity:0}15%{opacity:1}100%{transform:rotate(0deg) scale(1);opacity:1}}
+@keyframes ecoWord{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ecoRiver{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@keyframes ecoCurrent{0%{stroke-dashoffset:100;opacity:0}12%{opacity:.46}78%{opacity:.35}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes ecoReflection{0%{transform:translateX(-190px);opacity:0}22%{opacity:.46}80%{opacity:.22}100%{transform:translateX(850px);opacity:0}}
+body.eco-intro-lock{overflow:hidden}
+@media(max-width:620px){#ecoIntroShell{width:92vw}#ecoIntroSkip{font-size:12px;padding:8px 13px}}
+@media(prefers-reduced-motion:reduce){#ecoIntro{display:none!important}}
 </style>
-
-<div id="ecoIntro" aria-hidden="true">
-  <button type="button" class="intro-skip" id="ecoIntroSkip">Omitir</button>
-
-  <div class="intro-shell" id="ecoIntroShell">
-    <div class="intro-shadow"></div>
-
-    <svg viewBox="0 0 1200 620" role="presentation" aria-hidden="true">
-      <defs>
-        <linearGradient id="ecoWaterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#11b8c8"/>
-          <stop offset="50%" stop-color="#0e8ca8"/>
-          <stop offset="100%" stop-color="#0a567f"/>
-        </linearGradient>
-
-        <linearGradient id="ecoPanelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#0b3f67"/>
-          <stop offset="100%" stop-color="#07284d"/>
-        </linearGradient>
-
-        <linearGradient id="ecoLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#0b8e36"/>
-          <stop offset="100%" stop-color="#2fa945"/>
-        </linearGradient>
-
-        <radialGradient id="ecoSunGrad" cx="50%" cy="45%" r="55%">
-          <stop offset="0%" stop-color="#ffd85f"/>
-          <stop offset="100%" stop-color="#ffb117"/>
-        </radialGradient>
-
-        <!-- Máscara de agua superior izquierda -->
-        <mask id="waterUpperMask">
-          <rect width="1200" height="620" fill="black"/>
-          <path d="M112 294
-                   C188 248, 268 226, 355 229
-                   C372 229, 374 320, 372 348
-                   C283 346, 202 366, 130 420
-                   C122 384, 114 341, 112 294Z"
-                fill="white" class="vector-aa"/>
-        </mask>
-
-        <!-- Máscara de agua inferior -->
-        <mask id="waterLowerMask">
-          <rect width="1200" height="620" fill="black"/>
-          <path d="M86 473
-                   C122 440, 178 414, 240 402
-                   C334 384, 468 392, 572 433
-                   C646 463, 710 514, 778 576
-                   C622 576, 346 576, 86 576
-                   C84 544, 84 509, 86 473Z"
-                fill="white" class="vector-aa"/>
-        </mask>
-
-        <!-- Textura de agua -->
-        <pattern id="waterFlowPattern" width="160" height="160" patternUnits="userSpaceOnUse" patternTransform="rotate(-10)">
-          <path d="M0 44 C22 28, 48 26, 78 42 C106 57, 135 56, 160 39"
-                fill="none" stroke="rgba(255,255,255,.18)" stroke-width="7" stroke-linecap="round"/>
-          <path d="M-6 90 C22 72, 50 71, 82 88 C110 103, 136 103, 164 84"
-                fill="none" stroke="rgba(255,255,255,.10)" stroke-width="6" stroke-linecap="round"/>
-          <path d="M-12 136 C18 120, 48 118, 82 134 C114 149, 141 149, 172 128"
-                fill="none" stroke="rgba(255,255,255,.13)" stroke-width="5" stroke-linecap="round"/>
-        </pattern>
-
-        <!-- Brillo agua -->
-        <linearGradient id="waterHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
-          <stop offset="40%" stop-color="rgba(255,255,255,.18)"/>
-          <stop offset="65%" stop-color="rgba(255,255,255,.28)"/>
-          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-        </linearGradient>
-      </defs>
-
-      <!-- AGUA -->
-      <g class="soft-shadow">
-        <g class="water-reveal global-brighten">
-          <!-- agua superior izquierda -->
-          <g mask="url(#waterUpperMask)">
-            <path d="M70 205
-                     C173 222, 255 221, 352 229
-                     C374 230, 373 347, 372 369
-                     C268 349, 186 368, 109 430
-                     C87 370, 73 287, 70 205Z"
-                  fill="url(#ecoWaterGrad)"
-                  class="vector-aa"/>
-
-            <g class="water-flow-texture">
-              <rect x="20" y="180" width="500" height="300" fill="url(#waterFlowPattern)"/>
-            </g>
-
-            <path class="water-shine vector-aa"
-                  d="M97 340 C184 294, 271 288, 366 302"
-                  fill="none"
-                  stroke="rgba(255,255,255,.16)"
-                  stroke-width="13"/>
-          </g>
-
-          <!-- agua inferior -->
-          <g mask="url(#waterLowerMask)">
-            <path d="M78 468
-                     C123 428, 190 390, 269 378
-                     C405 356, 573 392, 698 472
-                     C768 516, 833 561, 910 576
-                     L124 576
-                     C95 559, 82 522, 78 468Z"
-                  fill="url(#ecoWaterGrad)"
-                  class="vector-aa"/>
-
-            <g class="water-flow-texture">
-              <rect x="40" y="350" width="930" height="260" fill="url(#waterFlowPattern)"/>
-            </g>
-
-            <path class="water-shine vector-aa"
-                  d="M145 511 C294 438, 485 416, 677 447"
-                  fill="none"
-                  stroke="rgba(255,255,255,.14)"
-                  stroke-width="12"/>
-          </g>
-        </g>
-      </g>
-
-      <!-- SOL -->
-      <g class="sun-group">
-        <!-- menos de 180°, separado visualmente del agua por la izquierda -->
-        <g class="sun-glow">
-          <path d="M236 235
-                   A135 135 0 0 1 428 139
-                   A135 135 0 0 1 552 236
-                   L470 236
-                   A58 58 0 0 0 389 196
-                   A58 58 0 0 0 308 236 Z"
-                fill="url(#ecoSunGrad)"
-                class="sun-disc vector-aa"/>
-        </g>
-
-        <g class="sun-rays" fill="url(#ecoSunGrad)">
-          <path d="M254 181 L220 141 L246 118 L283 162 Z" class="vector-aa"/>
-          <path d="M322 127 L308 72 L346 65 L352 121 Z" class="vector-aa"/>
-          <path d="M408 115 L418 61 L457 69 L438 123 Z" class="vector-aa"/>
-          <path d="M491 138 L522 95 L552 116 L519 162 Z" class="vector-aa"/>
-          <path d="M544 197 L593 176 L608 210 L558 226 Z" class="vector-aa"/>
-        </g>
-      </g>
-
-      <!-- PANEL -->
-      <g class="panel-group soft-shadow">
-        <path d="M371 224
-                 C452 210, 544 208, 649 211
-                 L752 208
-                 C776 208, 783 226, 772 248
-                 L706 386
-                 C697 406, 670 426, 642 426
-                 L526 427
-                 C462 427, 397 409, 338 382
-                 C322 375, 319 362, 330 349
-                 L367 301
-                 C384 277, 398 249, 371 224Z"
-              fill="white"
-              class="vector-aa"/>
-
-        <path d="M397 248
-                 L743 246
-                 C754 246, 758 252, 753 263
-                 L693 381
-                 C687 394, 675 401, 660 401
-                 L368 401
-                 C350 401, 343 391, 351 377
-                 L393 256 Z"
-              fill="url(#ecoPanelGrad)"
-              class="vector-aa"/>
-
-        <g stroke="white" stroke-width="8" fill="none" opacity=".95" class="vector-aa">
-          <path d="M448 251 L413 399"/>
-          <path d="M526 248 L493 399"/>
-          <path d="M610 247 L582 399"/>
-          <path d="M686 246 L662 393"/>
-          <path d="M386 305 L732 305"/>
-          <path d="M366 352 L708 352"/>
-        </g>
-      </g>
-
-      <!-- HOJA -->
-      <g class="leaf-group soft-shadow">
-        <path d="M86 577
-                 C155 500, 231 440, 330 411
-                 C426 383, 522 390, 604 430
-                 C531 430, 445 447, 357 492
-                 C270 537, 190 575, 86 577Z"
-              fill="url(#ecoLeafGrad)"
-              class="vector-aa"/>
-      </g>
-
-      <!-- TEXTO -->
-      <g class="wordmark">
-        <text x="508" y="308"
-              font-family="Lato, Arial, sans-serif"
-              font-weight="900"
-              font-size="90"
-              fill="#11883f">Eco</text>
-
-        <text x="707" y="308"
-              font-family="Lato, Arial, sans-serif"
-              font-weight="900"
-              font-size="90"
-              fill="#0b345c">Solare</text>
-      </g>
-
-      <g class="matricula">
-        <line x1="530" y1="332" x2="714" y2="332" stroke="#1490a5" stroke-width="7" opacity=".95"/>
-        <text x="745" y="346"
-              font-family="Lato, Arial, sans-serif"
-              font-weight="700"
-              font-size="44"
-              letter-spacing="8"
-              fill="#0b345c">A01744292</text>
-        <line x1="1024" y1="332" x2="1176" y2="332" stroke="#1490a5" stroke-width="7" opacity=".95"/>
-      </g>
-
-      <!-- Fijación final -->
-      <g class="logo-complete"></g>
-    </svg>
-  </div>
+<div id="ecoIntro" hidden aria-label="Animación de apertura de Eco Solare" role="dialog" aria-modal="true">
+<button type="button" id="ecoIntroSkip">Omitir animación</button>
+<div id="ecoIntroShell">
+<svg viewBox="0 0 1000 244.1" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Eco Solare, A01744292: amanecer sobre un panel, agua en movimiento y una hoja que se eleva">
+<defs>
+  <!-- Fuente original de alta resolución. Las máscaras separan componentes sin reconstruir la firma. -->
+  <image id="ecoV3Source" href="./assets/branding/logo-horizontal.png?v=20261117-transparente" x="0" y="0" width="1000" height="244.1" preserveAspectRatio="none"/>
+  <clipPath id="ecoV3SunShape" clipPathUnits="userSpaceOnUse">
+    <path d="M105 57 L109 43 L135 15 L174 -3 H230 L257 19 L277 50 L273 55 L246 61 L241 72 L192 79 L153 109 L147 100 L148 71 L106 61 Z"/>
+  </clipPath>
+  <!-- Mantiene al sol detrás del borde superior del panel mientras asciende. -->
+  <clipPath id="ecoV3Horizon" clipPathUnits="userSpaceOnUse">
+    <path d="M90 -20 H340 V45 L277 56 L245 71 L192 78 L149 111 L145 93 L90 89 Z"/>
+  </clipPath>
+  <clipPath id="ecoV3Panel" clipPathUnits="userSpaceOnUse">
+    <path d="M138 123 L193 78 L311 66 L293 113 L277 156 Q258 182 229 182 L216 181 L208 173 L180 150 Z"/>
+  </clipPath>
+  <clipPath id="ecoV3Leaf" clipPathUnits="userSpaceOnUse">
+    <path d="M0 244 L6 197 L30 150 Q64 119 103 121 Q151 120 209 179 Q171 176 144 197 Q104 229 57 232 L12 244 Z"/>
+  </clipPath>
+  <clipPath id="ecoV3Rim" clipPathUnits="userSpaceOnUse">
+    <path d="M243 69 Q279 54 334 46 L318 101 L292 173 Q263 208 203 216 L95 233 Q127 219 151 202 Q172 185 206 188 Q255 192 275 154 L311 64 Z"/>
+  </clipPath>
+  <clipPath id="ecoV3Word"><rect x="340" y="55" width="660" height="118"/></clipPath>
+  <clipPath id="ecoV3Id"><rect x="340" y="174" width="660" height="56"/></clipPath>
+  <linearGradient id="ecoV3Water" x1="0" y1="1" x2="1" y2="0">
+    <stop stop-color="#075a73"/><stop offset=".53" stop-color="#008a97"/><stop offset="1" stop-color="#087f91"/>
+  </linearGradient>
+  <linearGradient id="ecoV3Sheen">
+    <stop stop-color="#ffffff" stop-opacity="0"/><stop offset=".48" stop-color="#fff9d5" stop-opacity=".74"/><stop offset=".53" stop-color="#fff9d5" stop-opacity=".43"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+  </linearGradient>
+  <!-- Cauce principal, de la punta superior derecha a la base inferior izquierda. -->
+  <path id="ecoV3MainRoute" d="M331 48 C313 72 307 119 286 155 S251 194 214 201 S146 210 96 233" pathLength="100"/>
+  <path id="ecoV3UpperRoute" d="M149 81 C105 70 60 103 29 157" pathLength="100"/>
+  <path id="ecoV3InnerRoute" d="M147 108 C100 95 53 125 30 155" pathLength="100"/>
+  <!-- Secciones del agua de la versión simplificada: no hay amarillo en estos cauces. -->
+  <path id="ecoV3UpperWater" d="M29 157 C41 112 80 76 107 70 C121 66 134 68 146 74 L144 93 C96 81 51 116 29 157 Z"/>
+  <path id="ecoV3InnerWater" d="M30 154 C53 121 95 99 124 98 Q137 98 149 105 L136 120 C98 108 57 125 30 154 Z"/>
+  <clipPath id="ecoV3UpperClip"><use href="#ecoV3UpperWater"/></clipPath>
+  <clipPath id="ecoV3InnerClip"><use href="#ecoV3InnerWater"/></clipPath>
+  <mask id="ecoV3MainMask" maskUnits="userSpaceOnUse" x="-20" y="-20" width="1040" height="285">
+    <use href="#ecoV3MainRoute" class="eco-river-mask eco-river-main" stroke-width="59"/>
+  </mask>
+  <mask id="ecoV3UpperMask" maskUnits="userSpaceOnUse" x="-20" y="-20" width="1040" height="285">
+    <use href="#ecoV3UpperRoute" class="eco-river-mask eco-river-upper" stroke-width="43"/>
+  </mask>
+  <mask id="ecoV3InnerMask" maskUnits="userSpaceOnUse" x="-20" y="-20" width="1040" height="285">
+    <use href="#ecoV3InnerRoute" class="eco-river-mask eco-river-inner" stroke-width="34"/>
+  </mask>
+</defs>
+<!-- El sol conserva sus rayos originales superiores; se elimina el segmento inferior izquierdo. -->
+<g clip-path="url(#ecoV3Horizon)">
+  <g class="eco-solar-motion eco-solar-glow">
+    <g clip-path="url(#ecoV3SunShape)"><use href="#ecoV3Source"/></g>
+  </g>
+</g>
+<!-- La oscuridad del panel cede conforme asciende el sol. -->
+<g clip-path="url(#ecoV3Panel)" class="eco-lit">
+  <use href="#ecoV3Source"/>
+  <g class="eco-panel-reflection"><path d="M-80 20 L12 20 L-40 235 L-132 235Z" fill="url(#ecoV3Sheen)"/></g>
+</g>
+<!-- La imagen del cauce queda inmóvil; solo avanza la frontera de agua. -->
+<g class="eco-lit">
+  <g mask="url(#ecoV3MainMask)" clip-path="url(#ecoV3Rim)">
+    <use href="#ecoV3Source"/>
+    <use href="#ecoV3MainRoute" class="eco-current"/>
+  </g>
+  <g mask="url(#ecoV3UpperMask)" clip-path="url(#ecoV3UpperClip)">
+    <use href="#ecoV3UpperWater" fill="url(#ecoV3Water)"/>
+    <use href="#ecoV3UpperRoute" class="eco-current"/>
+  </g>
+  <g mask="url(#ecoV3InnerMask)" clip-path="url(#ecoV3InnerClip)">
+    <use href="#ecoV3InnerWater" fill="url(#ecoV3Water)"/>
+    <use href="#ecoV3InnerRoute" class="eco-current"/>
+  </g>
+</g>
+<g class="eco-leaf-motion">
+  <g clip-path="url(#ecoV3Leaf)" class="eco-lit"><use href="#ecoV3Source"/></g>
+</g>
+<!-- Nombre y matrícula exactos de la imagen original, con una iluminación pasajera. -->
+<g class="eco-word" clip-path="url(#ecoV3Word)"><use href="#ecoV3Source"/></g>
+<g class="eco-id" clip-path="url(#ecoV3Id)"><use href="#ecoV3Source"/></g>
+</svg>
 </div>
-
+</div>
 <script>
 (function(){
-  const INTRO_KEY = "ecoSolareIntroPlayed_v2";
-  const intro = document.getElementById("ecoIntro");
-  const shell = document.getElementById("ecoIntroShell");
-  const skipBtn = document.getElementById("ecoIntroSkip");
-  const brand = document.querySelector(".brand");
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if(!intro || !shell || !brand) return;
-
-  function finishIntro(immediate){
-    if(!intro || intro.classList.contains("is-hidden")) return;
-
-    const brandRect = brand.getBoundingClientRect();
-    const shellRect = shell.getBoundingClientRect();
-
-    const targetX = brandRect.left + brandRect.width / 2 - (shellRect.left + shellRect.width / 2);
-    const targetY = brandRect.top + brandRect.height / 2 - (shellRect.top + shellRect.height / 2);
-
-    const scaleX = Math.max(brandRect.width / shellRect.width, 0.17);
-    const scaleY = Math.max(brandRect.height / shellRect.height, 0.17);
-    const finalScale = Math.min(scaleX, scaleY);
-
-    document.body.classList.add("intro-lock");
-    intro.classList.add("is-finalizing");
-
-    if(immediate){
-      intro.classList.add("is-hidden");
-      document.body.classList.remove("intro-lock");
-      sessionStorage.setItem(INTRO_KEY, "1");
-      setTimeout(() => intro.remove(), 60);
-      return;
-    }
-
-    shell.style.transform =
-      "translate(" + targetX + "px," + targetY + "px) scale(" + finalScale + ")";
-    shell.style.opacity = "0.18";
-
-    setTimeout(() => {
-      intro.classList.add("is-hidden");
-      document.body.classList.remove("intro-lock");
-      sessionStorage.setItem(INTRO_KEY, "1");
-      setTimeout(() => intro.remove(), 560);
-    }, 920);
+  "use strict";
+  const intro=document.getElementById("ecoIntro"),shell=document.getElementById("ecoIntroShell"),skip=document.getElementById("ecoIntroSkip"),brand=document.querySelector("header .brand");
+  if(!intro||!shell||!brand)return;
+  const key="ecoSolareIntroPlayed_v3",motion=matchMedia("(prefers-reduced-motion: reduce)");
+  let played=false;try{played=sessionStorage.getItem(key)==="1"}catch(e){}
+  if(played||motion.matches){intro.remove();return;}
+  if(new URLSearchParams(location.search).get("desde")==="laboratorio"){intro.remove();return;}
+  let ending=false,timer=0,loadTimer=0,started=false,previousFocus=document.activeElement;
+  function clean(){
+    clearTimeout(timer);clearTimeout(loadTimer);document.body.classList.remove("eco-intro-lock");
+    brand.style.removeProperty("visibility");
+    try{sessionStorage.setItem(key,"1")}catch(e){}
+    document.removeEventListener("keydown",onKey);
+    motion.removeEventListener&&motion.removeEventListener("change",onMotion);
+    intro.remove();
+    if(previousFocus&&previousFocus!==document.body&&previousFocus.isConnected)previousFocus.focus({preventScroll:true});
   }
-
-  if(reducedMotion || sessionStorage.getItem(INTRO_KEY) === "1"){
-    finishIntro(true);
-    return;
+  function finish(immediate){
+    if(ending)return;ending=true;clearTimeout(timer);clearTimeout(loadTimer);
+    if(immediate||!started){clean();return;}
+    const from=shell.getBoundingClientRect(),to=brand.getBoundingClientRect();
+    const scale=Math.min(to.width/from.width,to.height/from.height);
+    if(!Number.isFinite(scale)||scale<=0){clean();return;}
+    const dx=to.left+to.width/2-from.left-from.width/2,dy=to.top+to.height/2-from.top-from.height/2;
+    intro.classList.add("eco-exit");skip.hidden=true;
+    shell.style.transition="transform .94s cubic-bezier(.21,.8,.2,1),opacity .28s ease .7s";
+    requestAnimationFrame(()=>{shell.style.transform="translate("+dx+"px,"+dy+"px) scale("+scale+")";shell.style.opacity="0";});
+    setTimeout(()=>{brand.style.removeProperty("visibility");intro.style.opacity="0";},730);
+    setTimeout(clean,1100);
   }
-
-  document.body.classList.add("intro-lock");
-
-  skipBtn.addEventListener("click", () => finishIntro(false));
-
-  window.addEventListener("keydown", (e) => {
-    if(e.key === "Escape") finishIntro(false);
-  });
-
-  // Tiempo total antes de moverse al logo del header
-  setTimeout(() => finishIntro(false), 4900);
+  function onKey(e){if(e.key==="Escape"){e.preventDefault();finish(true);}else if(e.key==="Tab"){e.preventDefault();skip.focus();}}
+  function onMotion(e){if(e.matches)finish(true);}
+  function start(){
+    if(ending||started)return;started=true;clearTimeout(loadTimer);
+    intro.hidden=false;brand.style.visibility="hidden";document.body.classList.add("eco-intro-lock");
+    skip.focus({preventScroll:true});timer=setTimeout(()=>finish(false),4450);
+  }
+  skip.addEventListener("click",()=>finish(true));
+  document.addEventListener("keydown",onKey);
+  motion.addEventListener&&motion.addEventListener("change",onMotion);
+  // La imagen se carga antes de mostrar la apertura; si falla, el sitio queda navegable.
+  const image=new Image();image.onload=start;image.onerror=()=>finish(true);
+  loadTimer=setTimeout(()=>finish(true),1800);
+  image.src="./assets/branding/logo-horizontal.png?v=20261117-transparente";
 })();
 </script>
-<!-- ===================== /ECO SOLARE · INTRO CINEMÁTICA MEJORADA ===================== -->
+<!-- ===================== /ECO SOLARE · INTRO CINEMÁTICA V3 ===================== -->
 </body>
 </html>
