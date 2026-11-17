@@ -501,12 +501,92 @@ h1,h2,h3,h4,.logo,.preset,.status,.angle-pill,.metric strong,.slider-head,.kicke
 .angle-pill{color:var(--green)}
 .graph text{font-family:"Source Sans 3",Arial,sans-serif}
 
+
+/* Eco Solare | identidad visual, versiones originales PNG sin filtros. */
+.brand,.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;text-decoration:none;min-width:0}
+.brand-picture{display:none;align-items:center;gap:8px;flex-shrink:0}
+.brand-picture.is-ready{display:flex}
+.brand-picture.is-ready~.brand-fallback{display:none}
+.brand-picture img{display:block;width:220px;height:auto;max-width:100%;object-fit:contain;filter:none;flex-shrink:0}
+.brand-picture .brand-name{display:none;font-family:Lato,Arial,sans-serif;font-weight:900;font-size:1.15rem;white-space:nowrap}
+.brand-fallback{display:flex;align-items:center;gap:9px}
+.brand-fallback svg{flex-shrink:0}
+.brand-negative img{width:60px;height:60px;object-fit:contain}
+.brand-negative.is-ready .brand-name{display:inline}
+.brand-detail{display:none;width:80px;height:80px;object-fit:contain;flex:none;border-radius:0}
+.brand-detail.is-ready{display:block}
+@media(max-width:620px){
+  .brand-picture img{width:48px;height:48px}
+  .brand-picture .brand-name{display:inline}
+  .brand-negative img{width:54px;height:54px}
+}
+@media(prefers-color-scheme:dark){
+  .brand-picture img{width:56px;height:56px}
+  .brand-picture .brand-name{display:inline;color:#EAF4F2}
+  .brand-detail{display:none!important}
+}
+
+/* Pantallas pequeñas: no alterar geometría, rayos ni temporizadores del simulador. */
+.topinner{flex-wrap:wrap}
+.backlink{display:inline-flex;align-items:center;min-height:44px}
+.layout>*,.metric-grid>*{min-width:0}
+.chart-shell{max-width:100%}
+.tablewrap{max-width:100%;overscroll-behavior-x:contain}
+@media(max-width:520px){
+ main{padding:25px 12px 40px}
+ .topinner{padding:8px 12px;gap:8px}
+ .topinner .backlink{font-size:.78rem;padding:7px 10px}
+ h1{font-size:clamp(1.8rem,7.5vw,2.5rem);letter-spacing:-1px}
+ .card{padding:14px;min-width:0}
+ .controls{gap:7px}
+ .preset{flex:1 1 118px;min-height:44px}
+ input[type=range]{min-height:32px}
+ .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .metric.power{grid-column:1/-1}
+ .metric strong{font-size:clamp(1.05rem,5vw,1.3rem)}
+ .metric.power strong{font-size:1.6rem}
+ .chart-key{gap:10px}
+ .chart-shell{padding:6px}
+}
+@media(max-width:360px){.visual{height:245px}.panel-anchor{transform:translate(-50%,-50%) scale(.60)}.card{padding:10px}.range-ends{font-size:.7rem}}
+@media(prefers-color-scheme:dark){
+ :root{color-scheme:dark;--ink:#EAF4F2;--green:#75DFA5;--deep:#092F4B;--teal:#55CADB;--gold:#FFAD18;--muted:#BCD1D0;--line:#35505C;--paper:#0B1821;--white:#122631}
+ body{background:var(--paper);color:var(--ink)}
+ .topbar,.card{background:var(--white);border-color:var(--line)}
+ .card{box-shadow:0 12px 38px #0004}
+ .backlink,.preset{background:#10232D;border-color:var(--line);color:var(--ink)}
+ .preset[aria-pressed=true]{background:#08783F;border-color:#08783F;color:white}
+ .metric,.metric.power{background:#183440}
+ .metric small,.unit,.range-ends,.small-note{color:var(--muted)}
+ .status,.angle-pill{background:#174D37;color:#A0F1C0}
+ .chart-shell{background:#0C202A;border-color:var(--line)}
+ .graph .grid-line{stroke:#35505C}
+ .graph .axis{stroke:#91A8AD}
+ .graph text{fill:#BCD1D0}
+ .graph .marker{stroke:#0C202A}
+ .graph [stroke="#087f91"]{stroke:#55CADB}
+ .graph [fill="#087f91"]{fill:#55CADB}
+ .graph [stroke="#08783f"]{stroke:#75DFA5}
+ .graph [fill="#08783f"]{fill:#75DFA5}
+ th{background:#183440}
+ .note{background:#332B19;color:#F4DCAD}
+ /* La ilustración de un experimento diurno conserva el cielo y panel originales. */
+}
+
 </style>
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){
+ const mq=window.matchMedia("(prefers-color-scheme: dark)");
+ function icon(){const path="./assets/branding/"+(mq.matches?"logo-negativo.png":"logo-minimo-color.png");const check=new Image();check.onload=()=>{let link=document.querySelector('link[data-brand-icon]');if(!link){link=document.createElement("link");link.rel="icon";link.type="image/png";link.dataset.brandIcon="";document.head.appendChild(link);}link.href=path;};check.src=path;}
+ icon();if(mq.addEventListener)mq.addEventListener("change",icon);else if(mq.addListener)mq.addListener(icon);
+})();
+</script>
 </head>
 <body>
 <header class="topbar">
   <div class="topinner">
-    <a class="logo" href="./index.html?desde=laboratorio#inicio"><span>Eco</span> Solare ☀</a>
+    <a class="logo" href="./index.html?desde=laboratorio#inicio" aria-label="Eco Solare, inicio"><span class="brand-picture" aria-hidden="true"><picture><source media="(prefers-color-scheme: dark)" srcset="./assets/branding/logo-negativo.png"><source media="(max-width: 620px)" srcset="./assets/branding/logo-minimo-color.png"><img src="./assets/branding/logo-horizontal.png" alt="" onload="this.closest('.brand-picture').classList.add('is-ready')" onerror="this.closest('.brand-picture').classList.remove('is-ready')"></picture><span class="brand-name">Eco Solare</span></span><span class="brand-fallback"><span>Eco</span> Solare ☀</span></a>
     <a class="backlink" href="./index.html?desde=laboratorio#inicio">← Volver al sitio</a>
   </div>
 </header>
