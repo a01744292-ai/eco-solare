@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#092F4B">
   <meta name="description" content="Eco Solare: propuesta preliminar de soluciones fotovoltaicas para hogares, escuelas y negocios.">
   <title>Eco Solare | Energía solar inteligente</title>
-  <style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
     :root {
       --green: #08783f;
       --green-dark: #064b35;
@@ -206,7 +210,22 @@
     @media(max-width:850px){.eco-slides nav{flex-basis:100%;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:5px 0 8px;scrollbar-width:thin}}
     @media(max-width:620px){.eco-slides nav a:not(.nav-cta){display:inline-flex}.eco-slides nav{gap:16px}.eco-slides .nav{min-height:68px}}
     @media(prefers-reduced-motion:reduce){.eco-slide-track{will-change:auto}}
-  </style>
+  
+    /* Identidad Eco Solare v2.0 — colores oficiales y jerarquía tipográfica. */
+    :root{--green:#08783F;--navy:#092F4B;--teal:#087F91;--orange:#FFAD18;--white:#FFFFFF;--cream:#EDF4F0}
+    body{font-family:"Source Sans 3",Arial,sans-serif}
+    h1,h2,h3,h4,.brand,nav,.button,.nav-cta,.eyebrow,.footer-brand,.step-number,.metric strong,.dashboard-head strong{font-family:Lato,Arial,sans-serif}
+    .solution{background:var(--cream)}
+    .visual,.cta-box{background:linear-gradient(125deg,var(--navy),var(--teal))}
+    footer{background:var(--navy)}
+    .dashboard,.step,.feature,.result-card{border-color:#dce8df}
+    .bar span{background:linear-gradient(90deg,var(--green),var(--teal))}
+    .button.secondary{color:var(--green)}
+    .button.secondary:hover{color:var(--white)}
+    .eco-slides nav a[aria-current="page"]{color:var(--teal)}
+    .eco-slides nav .nav-cta[aria-current="page"]{color:var(--white)}
+
+</style>
 </head>
 <body>
   <header>
