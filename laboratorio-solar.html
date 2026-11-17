@@ -3,9 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#073a34">
+<meta name="theme-color" content="#092F4B">
 <meta name="description" content="Laboratorio solar interactivo Eco Solare: explora la orientación de una celda fotovoltaica, sus mediciones y un modelo educativo de voltaje, corriente y potencia.">
 <title>Laboratorio de inclinación solar | Eco Solare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#092f4b;
@@ -487,6 +490,17 @@ td{font-variant-numeric:tabular-nums}
     transition:none;
   }
 }
+
+/* Identidad Eco Solare v2.0: solo estilos de interfaz; escena 3D intacta. */
+:root{--ink:#092F4B;--green:#08783F;--deep:#092F4B;--teal:#087F91;--gold:#FFAD18;--paper:#EDF4F0;--white:#FFFFFF}
+body{font-family:"Source Sans 3",Arial,sans-serif}
+h1,h2,h3,h4,.logo,.preset,.status,.angle-pill,.metric strong,.slider-head,.kicker,.backlink{font-family:Lato,Arial,sans-serif}
+.topbar,.card{background:var(--white)}
+.metric,.metric.power{background:var(--paper)}
+.preset[aria-pressed=true]{background:var(--green);border-color:var(--green);color:var(--white)}
+.angle-pill{color:var(--green)}
+.graph text{font-family:"Source Sans 3",Arial,sans-serif}
+
 </style>
 </head>
 <body>
@@ -757,7 +771,7 @@ td{font-variant-numeric:tabular-nums}
 
     var series = [
       { key:"v", maximum:vmax, color:"#087f91" },
-      { key:"i", maximum:imax, color:"#ffb52e" },
+      { key:"i", maximum:imax, color:"#FFAD18" },
       { key:"p", maximum:vmax * imax, color:"#08783f" }
     ];
 
