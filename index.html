@@ -752,7 +752,7 @@
 <script type="module" src="./js/app.js"></script>
 <script type="module" src="./js/solar.js"></script>
 <script type="module" src="./js/componentes.js"></script>
-<!-- ===================== ECO SOLARE · INTRO PREMIUM V6 ===================== -->
+<!-- ===================== ECO SOLARE · INTRO PREMIUM V7 ===================== -->
 <style>
 #ecoPremium[hidden]{display:none!important}
 #ecoPremium{
@@ -915,6 +915,16 @@ body.ep-lock{overflow:hidden}
 @media(prefers-reduced-motion:reduce){
   #ecoPremium{display:none!important}
 }
+
+/* Las animaciones usan máscaras independientes. No existe copia temprana del logo. */
+#ecoPremium .ep-mask{stroke-linecap:butt;opacity:0}
+#ecoPremium .ep-word,#ecoPremium .ep-id{animation-name:epV7Appear}
+#ecoPremium .ep-final-photo{animation:epV7Appear .95s ease 3.85s both}
+#ecoPremium .ep-assembly{animation:epAssemblySettle .95s ease 3.85s both}
+#ecoPremium .ep-corner-proxy{object-fit:contain;max-width:none}
+@keyframes epFlow{0%{stroke-dashoffset:100;opacity:0}1%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
+@keyframes epV7Appear{from{opacity:0}to{opacity:1}}
+
 </style>
 
 <div id="ecoPremium" hidden role="dialog" aria-modal="true" aria-label="Animación de apertura de Eco Solare">
@@ -926,25 +936,25 @@ body.ep-lock{overflow:hidden}
         <image id="epArt" href="./assets/branding/logo-cinematic-horizontal.png" width="960" height="384" preserveAspectRatio="xMidYMid meet"/>
 
         <clipPath id="epSun">
-          <path d="M142 143 A73 73 0 1 1 286 127 L252 135 L218 141 L161 191 Q143 174 142 143Z"/>
+          <path d="M142.2 145 C142 105 176 71.8 215 71.8 C249 71.8 277 93 286 125.8 L258 133 L211 140 L164 191 Q142 173 142.2 145Z"/>
         </clipPath>
         <clipPath id="epHorizon">
-          <path d="M115 49 H345 V113 L286 127 L244 135 L210 146 L163 191 L142 179 L115 170Z"/>
+          <path d="M119 48 H347 V112 L286 125 L256 132 L210 141 L164 191 L142 179 L119 175Z"/>
         </clipPath>
         <clipPath id="epPanel">
-          <path d="M166 191 L210 148 Q221 138 247 136 L323 130 L297 208 Q287 243 246 244 L228 243 L201 216Z"/>
+          <path d="M162 191 L208 145 Q219 137 250 135 L323 130 L299 205 Q285 243 248 244 L228 243 L219 234 L201 216Z"/>
         </clipPath>
         <clipPath id="epLeaf">
-          <path d="M62 289 Q61 231 103 203 Q149 174 192 216 L231 242 Q190 235 166 253 Q122 283 62 289Z"/>
+          <path d="M62 289 C63 253 70 226 92 209 C119 185 150 188 179 202 Q207 217 232 240 Q198 236 170 253 Q122 281 62 289Z"/>
         </clipPath>
         <clipPath id="epRim">
-          <path d="M254 133 L342 114 L317 183 Q299 247 269 257 Q233 275 144 279 L117 283 Q154 268 179 251 Q202 240 230 246 Q280 255 296 207 L323 130 Z"/>
+          <path d="M253 132 Q291 124 341 114 L316 196 Q305 237 286 250 Q257 268 223 272 L116 283 Q148 274 176 258 Q199 244 229 244 Q282 250 298 206 L323 130 Z"/>
         </clipPath>
         <clipPath id="epUpper">
-          <path d="M71 222 Q85 163 142 143 L143 164 Q97 169 71 222Z"/>
+          <path d="M70.8 223 C75 187 103 151 141.6 141.5 L141.9 161 C113 164 88 189 70.8 223Z"/>
         </clipPath>
         <clipPath id="epMiddle">
-          <path d="M71 224 Q97 180 144 166 L158 187 Q112 184 71 224Z"/>
+          <path d="M70.8 223 C91 191 118 173 143.8 162 C147 171 153 181 162 190 C124 184 95 201 70.8 223Z"/>
         </clipPath>
         <clipPath id="epWord">
           <rect x="343" y="133" width="551" height="94" rx="4"/>
@@ -953,18 +963,18 @@ body.ep-lock{overflow:hidden}
           <rect x="343" y="238" width="548" height="33" rx="3"/>
         </clipPath>
 
-        <path id="epFlowMain" d="M340 114 C316 150 312 199 285 235 S218 265 177 271 L119 282" pathLength="100"/>
-        <path id="epFlowUpper" d="M143 148 C110 152 83 187 71 222" pathLength="100"/>
-        <path id="epFlowMiddle" d="M153 178 C117 168 88 201 71 224" pathLength="100"/>
+        <path id="epFlowMain" d="M351 108 C333 132 324 166 312 199 S286 250 252 261 S174 274 108 286" pathLength="100"/>
+        <path id="epFlowUpper" d="M149 143 C113 146 83 185 66 232" pathLength="100"/>
+        <path id="epFlowMiddle" d="M167 182 C131 171 92 198 66 232" pathLength="100"/>
 
         <mask id="epMainMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384">
-          <use href="#epFlowMain" class="ep-mask ep-main" stroke-width="43"/>
+          <path d="M351 108 C333 132 324 166 312 199 S286 250 252 261 S174 274 108 286" pathLength="100" class="ep-mask ep-main" stroke-width="54"/>
         </mask>
         <mask id="epUpperMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384">
-          <use href="#epFlowUpper" class="ep-mask ep-upper" stroke-width="40"/>
+          <path d="M149 143 C113 146 83 185 66 232" pathLength="100" class="ep-mask ep-upper" stroke-width="41"/>
         </mask>
         <mask id="epMiddleMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384">
-          <use href="#epFlowMiddle" class="ep-mask ep-middle" stroke-width="35"/>
+          <path d="M167 182 C131 171 92 198 66 232" pathLength="100" class="ep-mask ep-middle" stroke-width="38"/>
         </mask>
 
         <linearGradient id="epSheenGradient">
@@ -985,43 +995,14 @@ body.ep-lock{overflow:hidden}
           <feGaussianBlur stdDeviation="3.1"/>
         </filter>
 
-        <!-- máscara de continuidad -->
-        <mask id="epContinuity" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:luminance">
-          <rect width="960" height="384" fill="white"/>
-          <g fill="black" stroke="black" stroke-width="7" stroke-linejoin="round" filter="url(#epFeather)">
-            <path class="ep-locksun" d="M133 145 C133 103 162 66 213 66 C251 66 278 95 291 128 L251 138 L220 143 L164 194 Q133 181 133 145Z"/>
-            <path class="ep-lockleaf" d="M58 292 Q58 233 101 202 Q149 174 192 216 L234 243 Q190 237 166 254 Q122 284 58 292Z"/>
-            <path class="ep-lockpanel" d="M164 191 L210 148 Q221 138 247 136 L323 130 L297 208 Q287 243 246 244 L228 243 L201 216Z"/>
-            <path class="ep-lockmain" d="M254 133 L342 114 L317 183 Q299 247 269 257 Q233 275 144 279 L117 283 Q154 268 179 251 Q202 240 230 246 Q280 255 296 207 L323 130 Z"/>
-            <path class="ep-lockupper" d="M71 222 Q85 163 142 143 L143 164 Q97 169 71 222Z"/>
-            <path class="ep-lockmiddle" d="M71 224 Q97 180 144 166 L158 187 Q112 184 71 224Z"/>
-
-            <!-- bloqueo ampliado del agua izquierda -->
-            <path class="ep-lockupperleft" d="M52 232
-              C62 179 94 142 140 136
-              C126 162 109 185 80 213
-              C71 222 63 228 52 232Z"/>
-
-            <rect class="ep-lockword" x="343" y="133" width="551" height="94" rx="4"/>
-            <rect class="ep-lockid" x="343" y="238" width="548" height="33" rx="3"/>
-          </g>
-        </mask>
+        <mask id="epWordMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:alpha"><image id="epWordAlpha" width="960" height="384"/></mask>
+        <mask id="epIdMask" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:alpha"><image id="epIdAlpha" width="960" height="384"/></mask>
       </defs>
 
       <rect width="960" height="384" fill="#03131e"/>
 
-      <!-- fondo visible desde temprano -->
-      <g class="ep-photo-bg">
-        <use href="#epArt" opacity=".24"/>
-      </g>
-
-      <rect class="ep-ambient" width="960" height="384" fill="url(#epAmbientBg)"/>
-
-      <!-- base original revelada progresivamente -->
-      <g class="ep-base" mask="url(#epContinuity)">
-        <use href="#epArt"/>
-      </g>
-
+      <!-- Fondo separado: sin siluetas del logo antes de su animación. -->
+      <image id="epCleanBackground" width="960" height="384" preserveAspectRatio="none"/>
       <g class="ep-assembly">
         <g clip-path="url(#epHorizon)">
           <g class="ep-sun">
@@ -1062,18 +1043,19 @@ body.ep-lock{overflow:hidden}
           </g>
         </g>
 
-        <g class="ep-word" clip-path="url(#epWord)">
+        <g class="ep-word" mask="url(#epWordMask)">
           <use href="#epArt"/>
         </g>
 
-        <g class="ep-id" clip-path="url(#epId)">
+        <g class="ep-id" mask="url(#epIdMask)">
           <use href="#epArt"/>
         </g>
 
-        <g clip-path="url(#epWord)" class="ep-textsheen">
+        <g mask="url(#epWordMask)" class="ep-textsheen">
           <path d="M335 130 H385 L356 230 H306Z" fill="url(#epSheenGradient)"/>
         </g>
       </g>
+      <use class="ep-final-photo" href="#epArt"/>
     </svg>
   </div>
 </div>
@@ -1096,6 +1078,8 @@ body.ep-lock{overflow:hidden}
   }
 
   let ended = false;
+  let cleaned = false;
+  let fadeTimer = 0;
   let started = false;
   let loadTimer = 0;
   let finishTimer = 0;
@@ -1107,6 +1091,8 @@ body.ep-lock{overflow:hidden}
   const art = new Image();
 
   function clean(){
+    if(cleaned)return;cleaned=true;ended=true;
+    clearTimeout(fadeTimer);
     clearTimeout(loadTimer);
     clearTimeout(finishTimer);
     clearTimeout(dockTimer);
@@ -1136,100 +1122,75 @@ body.ep-lock{overflow:hidden}
     }
   }
 
-  function buildCornerProxy(currentTargetRect, stageRect, crop, source){
-    const [x,y,w,h] = crop;
-    const unit = stageRect.width / 960;
 
-    const proxy = document.createElement("img");
-    proxy.className = "ep-corner-proxy";
-    proxy.alt = "";
-    proxy.src = source;
-    proxy.style.left = (stageRect.left + x * unit) + "px";
-    proxy.style.top = (stageRect.top + y * unit) + "px";
-    proxy.style.width = (w * unit) + "px";
-    proxy.style.height = (h * unit) + "px";
-    proxy.style.transition =
-      "opacity .38s ease, transform 1.04s cubic-bezier(.22,.75,.17,1) .38s";
-    document.body.appendChild(proxy);
-
-    requestAnimationFrame(() => {
-      proxy.style.opacity = "1";
-    });
-
-    const sx = currentTargetRect.width / (w * unit);
-    const sy = currentTargetRect.height / (h * unit);
-    const s = Math.min(sx, sy);
-
-    const dx = currentTargetRect.left + currentTargetRect.width/2 - (stageRect.left + (x + w/2) * unit);
-    const dy = currentTargetRect.top + currentTargetRect.height/2 - (stageRect.top + (y + h/2) * unit);
-
-    return { proxy, dx, dy, s };
+  // Construye un fondo sin marca, de la propia imagen original y luz ambiental.
+  // Los cauces decorativos exteriores permanecen visibles desde el primer fotograma.
+  function prepareLayers(){
+    const w=960,h=384,canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;
+    const ctx=canvas.getContext("2d",{willReadFrequently:true});if(!ctx)throw Error("canvas");
+    ctx.drawImage(art,0,0,w,h);
+    const src=ctx.getImageData(0,0,w,h),bg=ctx.createImageData(w,h),word=ctx.createImageData(w,h),id=ctx.createImageData(w,h);
+    const clamp=v=>Math.max(0,Math.min(1,v)),ease=v=>{v=clamp(v);return v*v*(3-2*v)};
+    const gaussian=t=>Math.exp(-(t*t));
+    const lerp=(x,xs,ys)=>{let i=0;while(i<xs.length-2&&x>xs[i+1])i++;return ys[i]+(ys[i+1]-ys[i])*clamp((x-xs[i])/(xs[i+1]-xs[i]));};
+    const lights=[[250,122,170,100,3,22,32],[480,130,240,100,0,18,27],[760,80,220,95,0,18,33],[300,305,245,65,0,10,18]];
+    const wy=[445,480,510,540,570,600,630,660,690,720],wv=[177,166,155,146,138,131,125,117,110,104];
+    const bx=[0,150,230,330,480,960],by=[289,289,280,275,273,273];
+    const ys=lights.map(l=>Array.from({length:h},(_,y)=>gaussian((y-l[1])/l[3])));
+    for(let x=0;x<w;x++){
+      const yc=lerp(x,wy,wv),fade=ease((x-445)/85)*ease((720-x)/75),bottomStart=lerp(x,bx,by);
+      const col=lights.map(l=>gaussian((x-l[0])/l[2]));
+      for(let y=0;y<h;y++){
+        let r=1,g=15,b=25;
+        for(let j=0;j<lights.length;j++){const l=lights[j],q=col[j]*ys[j][y];r+=q*l[4];g+=q*l[5];b+=q*l[6];}
+        const glow=gaussian((y-yc)/13)*fade,ray=gaussian((y-yc)/3)*fade;
+        g+=43*ray+16*glow;b+=75*ray+29*glow;
+        const top=Math.max(ease((x-600)/65)*ease((132-y)/20),ease((x-716)/55)*ease((155-y)/24));
+        const bottom=ease((y-bottomStart)/10)*ease((800-x)/140),keep=Math.max(top,bottom);
+        const k=(y*w+x)*4,sr=src.data[k],sg=src.data[k+1],sb=src.data[k+2];
+        r=r*(1-keep)+sr*keep;g=g*(1-keep)+sg*keep;b=b*(1-keep)+sb*keep;
+        bg.data[k]=r;bg.data[k+1]=g;bg.data[k+2]=b;bg.data[k+3]=255;
+        // Extrae por color los píxeles de la firma. Las zonas transparentes no tapan las ondas.
+        if(x>=340&&x<=900&&y>=127&&y<=230){
+          const edge=ease((x-340)/6)*ease((900-x)/6)*ease((y-127)/6)*ease((230-y)/6);
+          const signal=x<540?Math.max(sg-sb+3,sr-14):Math.max(sb-b-10,sg-g-12,sr-12);
+          word.data[k]=word.data[k+1]=word.data[k+2]=255;word.data[k+3]=Math.round(ease((signal-6)/24)*edge*255);
+        }
+        if(x>=338&&x<=896&&y>=233&&y<=273){
+          const edge=ease((x-338)/6)*ease((896-x)/6)*ease((y-233)/5)*ease((273-y)/5);
+          const signal=Math.max(sr-8,sb-b-8,sg-g-8);
+          id.data[k]=id.data[k+1]=id.data[k+2]=255;id.data[k+3]=Math.round(ease((signal-7)/23)*edge*255);
+        }
+      }
+    }
+    function attach(data,element,type,quality){ctx.putImageData(data,0,0);document.getElementById(element).setAttribute("href",canvas.toDataURL(type,quality));}
+    attach(bg,"epCleanBackground","image/jpeg",.94);attach(word,"epWordAlpha","image/png");attach(id,"epIdAlpha","image/png");
   }
 
   function close(now){
-    if(ended) return;
-    ended = true;
-
-    if(now || !started){
-      clean();
-      return;
-    }
-
-    const actualImg =
-      brand.querySelector(".brand-picture.is-ready img") ||
-      brand.querySelector("img") ||
-      brand;
-
-    const target = actualImg.getBoundingClientRect();
-    const r = stage.getBoundingClientRect();
-
-    if(!target.width || !target.height || !r.width || !r.height){
-      clean();
-      return;
-    }
-
-    const compact = target.width / target.height < 2;
-    const crop = compact ? [59,70,283,222] : [59,70,837,222];
-
-    skip.hidden = true;
-
-    // transición previa hacia la misma versión del logo del header
-    const headerSource =
-      actualImg.currentSrc ||
-      actualImg.getAttribute("src") ||
-      "./assets/branding/logo-horizontal.png?v=20261117-transparente";
-
-    const proxySetup = buildCornerProxy(target, r, crop, headerSource);
-    cornerProxy = proxySetup.proxy;
-
-    brand.style.visibility = "visible";
-    brand.style.opacity = "0";
-    brand.style.transition = "opacity .30s ease .92s";
-
-    intro.classList.add("ep-docking");
-
-    const [x,y,w,h] = crop;
-    const clip = [
-      (y / 384) * 100,
-      ((960 - x - w) / 960) * 100,
-      ((384 - y - h) / 384) * 100,
-      (x / 960) * 100
-    ].map(n => n.toFixed(3) + "%").join(" ");
-
-    // 1) pequeño tiempo para ver la transición a la versión del corner
-    setTimeout(() => {
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        stage.style.transform = `translate(${proxySetup.dx}px, ${proxySetup.dy}px) scale(${proxySetup.s})`;
-        stage.style.clipPath = `inset(${clip})`;
-        stage.style.opacity = "0";
-        intro.style.background = "transparent";
-
-        cornerProxy.style.transform = `translate(${proxySetup.dx}px, ${proxySetup.dy}px) scale(${proxySetup.s})`;
-        brand.style.opacity = "1";
-      }));
-    }, 360);
-
-    dockTimer = setTimeout(clean, 1500);
+    if(ended)return;ended=true;
+    if(now||!started){clean();return;}
+    const actual=brand.querySelector(".brand-picture.is-ready img");
+    if(!actual||!actual.complete||!actual.naturalWidth){clean();return;}
+    const target=actual.getBoundingClientRect(),r=stage.getBoundingClientRect();
+    if(!target.width||!target.height||!r.width){clean();return;}
+    const compact=target.width/target.height<2,unit=r.width/960;
+    const [x,y,w,h]=compact?[59,70,283,222]:[59,70,837,222];
+    const ratio=target.width/target.height,ww=Math.min(w*unit,h*unit*ratio),hh=ww/ratio;
+    const left=r.left+(x+w/2)*unit-ww/2,top=r.top+(y+h/2)*unit-hh/2;
+    const proxy=document.createElement("img");cornerProxy=proxy;proxy.className="ep-corner-proxy";proxy.alt="";proxy.src=actual.currentSrc||actual.src;
+    proxy.style.cssText="left:"+left+"px;top:"+top+"px;width:"+ww+"px;height:"+hh+"px;transition:opacity .52s ease;";
+    intro.append(proxy);skip.hidden=true;intro.style.pointerEvents="none";
+    stage.style.transition="opacity .52s ease";
+    const color=getComputedStyle(document.querySelector("header")).backgroundColor;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{if(cleaned)return;stage.style.opacity="0";proxy.style.opacity="1";intro.style.background=color||"#edf4f0";}));
+    fadeTimer=setTimeout(()=>{
+      if(cleaned)return;
+      const s=target.width/ww,dx=target.left-left,dy=target.top-top;
+      proxy.style.transition="transform 1.04s cubic-bezier(.22,.75,.17,1)";
+      requestAnimationFrame(()=>{if(cleaned)return;proxy.style.transform="translate("+dx+"px,"+dy+"px) scale("+s+")";intro.style.background="transparent";});
+      dockTimer=setTimeout(clean,1090);
+    },570);
   }
 
   function onKey(e){
@@ -1256,6 +1217,7 @@ body.ep-lock{overflow:hidden}
 
   function start(){
     if(ended || started) return;
+    try{prepareLayers();}catch(e){clean();return;}
     started = true;
     clearTimeout(loadTimer);
 
@@ -1290,6 +1252,6 @@ body.ep-lock{overflow:hidden}
   art.src = "./assets/branding/logo-cinematic-horizontal.png";
 })();
 </script>
-<!-- ===================== /ECO SOLARE · INTRO PREMIUM V6 ===================== -->
+<!-- ===================== /ECO SOLARE · INTRO PREMIUM V7 ===================== -->
 </body>
 </html>
