@@ -752,7 +752,7 @@
 <script type="module" src="./js/app.js"></script>
 <script type="module" src="./js/solar.js"></script>
 <script type="module" src="./js/componentes.js"></script>
-<!-- ===================== ECO SOLARE · INTRO PREMIUM V4 ===================== -->
+<!-- ===================== ECO SOLARE · INTRO PREMIUM V5 ===================== -->
 <style>
 #ecoPremium[hidden]{display:none!important}
 #ecoPremium{position:fixed;inset:0;z-index:99999;background:#03131e;display:grid;place-items:center;overflow:hidden;isolation:isolate;transition:background .55s ease}
@@ -772,7 +772,23 @@
 #ecoPremium .ep-current{fill:none;stroke:#bdfaff;stroke-width:2.8;stroke-linecap:round;stroke-dasharray:4 16 2 28;animation:epCurrent 1.5s linear .6s 2 both}
 #ecoPremium .ep-sheen{animation:epSheen 1.55s ease 1.15s both}
 #ecoPremium .ep-textsheen{animation:epSheen 1.2s ease 3.05s both}
-#ecoPremium .ep-complete{animation:epComplete .65s ease 3.85s both}
+/* Una sola fotografía en coordenadas fijas: se revela también el fondo y sus reflejos
+   durante la construcción, nunca se sustituye de golpe por un PNG completo. */
+#ecoPremium .ep-base{animation:epBaseReveal 3.65s cubic-bezier(.25,.5,.25,1) both}
+#ecoPremium .ep-locksun{animation:epUnlock .85s ease 1.72s both}
+#ecoPremium .ep-lockleaf{animation:epUnlock .75s ease 1.95s both}
+#ecoPremium .ep-lockpanel{animation:epUnlock 2.25s ease .25s both}
+#ecoPremium .ep-lockmain{animation:epUnlock .9s ease 2.12s both}
+#ecoPremium .ep-lockupper{animation:epUnlock .85s ease 1.95s both}
+#ecoPremium .ep-lockmiddle{animation:epUnlock .85s ease 2.05s both}
+#ecoPremium .ep-lockword{animation:epUnlock .82s ease 2.62s both}
+#ecoPremium .ep-lockid{animation:epUnlock .75s ease 2.95s both}
+#ecoPremium .ep-assembly{animation:epAssemblySettle .7s ease 3.40s both}
+#ecoPremium .ep-halo{animation:epHaloSettle 1.3s ease 1.7s both}
+@keyframes epBaseReveal{0%{opacity:0}22%{opacity:.18}58%{opacity:.68}100%{opacity:1}}
+@keyframes epUnlock{from{opacity:1}to{opacity:0}}
+@keyframes epAssemblySettle{from{opacity:1}to{opacity:0}}
+@keyframes epHaloSettle{from{opacity:1}to{opacity:0}}
 #ecoPremium .ep-ambient{animation:epAmbient 3.8s ease both}
 @keyframes epLight{0%{filter:brightness(.26) saturate(.75)}40%{filter:brightness(.58) saturate(.88)}100%{filter:none}}
 @keyframes epRise{from{transform:translateY(67px)}to{transform:translateY(0)}}
@@ -781,9 +797,10 @@
 @keyframes epFlow{to{stroke-dashoffset:0}}
 @keyframes epCurrent{0%{opacity:0;stroke-dashoffset:100}15%{opacity:.75}82%{opacity:.45}100%{opacity:0;stroke-dashoffset:0}}
 @keyframes epSheen{0%{opacity:0;transform:translateX(-220px)}22%{opacity:.48}83%{opacity:.24}100%{opacity:0;transform:translateX(1040px)}}
-@keyframes epComplete{from{opacity:0}to{opacity:1}}
 @keyframes epAmbient{0%{opacity:.12}100%{opacity:1}}
-#ecoPremium .ep-dock{position:fixed;z-index:4;pointer-events:none;object-fit:contain;transform-origin:0 0}
+#ecoPremium .ep-stage{clip-path:inset(0% 0% 0% 0%);will-change:transform,opacity,clip-path}
+#ecoPremium.ep-docking{pointer-events:none}
+#ecoPremium.ep-docking .ep-stage{transition:transform 1.12s cubic-bezier(.22,.75,.17,1),clip-path .92s cubic-bezier(.25,.65,.25,1),opacity .32s ease .88s}
 body.ep-lock{overflow:hidden}
 @media(max-width:620px){#ecoPremium .ep-stage{width:96vw}#ecoPremium .ep-skip{font-size:12px;padding:9px 13px}}
 @media(prefers-reduced-motion:reduce){#ecoPremium{display:none!important}}
@@ -813,11 +830,29 @@ body.ep-lock{overflow:hidden}
 <linearGradient id="epSheenGradient"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#e3fbff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
 <radialGradient id="epHalo"><stop stop-color="#ffbd30" stop-opacity=".36"/><stop offset="1" stop-color="#ffbd30" stop-opacity="0"/></radialGradient>
 <radialGradient id="epAmbientBg"><stop stop-color="#11475b"/><stop offset="1" stop-color="#03131e"/></radialGradient>
+  <!-- Máscara complementaria: el original se revela detrás de las piezas móviles
+       en su posición definitiva. Bordes con transición suave para evitar costuras. -->
+  <filter id="epFeather" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3.1"/></filter>
+  <mask id="epContinuity" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="384" style="mask-type:luminance">
+    <rect width="960" height="384" fill="white"/>
+    <g fill="black" stroke="black" stroke-width="7" stroke-linejoin="round" filter="url(#epFeather)">
+      <path class="ep-locksun" d="M133 145 C133 103 162 66 213 66 C251 66 278 95 291 128 L251 138 L220 143 L164 194 Q133 181 133 145Z"/>
+      <path class="ep-lockleaf" d="M58 292 Q58 233 101 202 Q149 174 192 216 L234 243 Q190 237 166 254 Q122 284 58 292Z"/>
+      <path class="ep-lockpanel" d="M164 191 L210 148 Q221 138 247 136 L323 130 L297 208 Q287 243 246 244 L228 243 L201 216Z"/>
+      <path class="ep-lockmain" d="M254 133 L342 114 L317 183 Q299 247 269 257 Q233 275 144 279 L117 283 Q154 268 179 251 Q202 240 230 246 Q280 255 296 207 L323 130 Z"/>
+      <path class="ep-lockupper" d="M71 222 Q85 163 142 143 L143 164 Q97 169 71 222Z"/>
+      <path class="ep-lockmiddle" d="M71 224 Q97 180 144 166 L158 187 Q112 184 71 224Z"/>
+      <rect class="ep-lockword" x="339" y="128" width="559" height="100" rx="5"/>
+      <rect class="ep-lockid" x="339" y="235" width="556" height="39" rx="4"/>
+    </g>
+  </mask>
 </defs>
 <rect width="960" height="384" fill="#03131e"/>
 <rect class="ep-ambient" width="960" height="384" fill="url(#epAmbientBg)"/>
+<g class="ep-base" mask="url(#epContinuity)"><use href="#epArt"/></g>
+<g class="ep-assembly">
 <g clip-path="url(#epHorizon)">
-<g class="ep-sun"><ellipse cx="216" cy="145" rx="103" ry="103" fill="url(#epHalo)"/><g clip-path="url(#epSun)"><use href="#epArt"/></g></g>
+<g class="ep-sun"><ellipse class="ep-halo" cx="216" cy="145" rx="103" ry="103" fill="url(#epHalo)"/><g clip-path="url(#epSun)"><use href="#epArt"/></g></g>
 </g>
 <g class="ep-lit">
 <g clip-path="url(#epPanel)"><use href="#epArt"/><g class="ep-sheen"><path d="M-25 80 H50 L-5 270 H-80Z" fill="url(#epSheenGradient)"/></g></g>
@@ -829,8 +864,8 @@ body.ep-lock{overflow:hidden}
 <g class="ep-word" clip-path="url(#epWord)"><use href="#epArt"/></g>
 <g class="ep-id" clip-path="url(#epId)"><use href="#epArt"/></g>
 <g clip-path="url(#epWord)" class="ep-textsheen"><path d="M335 130 H385 L356 230 H306Z" fill="url(#epSheenGradient)"/></g>
-<!-- Cierre con la imagen aprobada íntegra, sin corrección de color, escala no proporcional ni redibujo. -->
-<use class="ep-complete" href="#epArt"/>
+</g>
+<!-- Al terminar, ep-base ya muestra el original completo. No existe imagen de sustitución. -->
 </svg>
 </div>
 </div>
@@ -839,14 +874,14 @@ body.ep-lock{overflow:hidden}
 "use strict";
 const intro=document.getElementById("ecoPremium"),stage=intro&&intro.querySelector(".ep-stage"),skip=intro&&intro.querySelector(".ep-skip"),brand=document.querySelector("header .brand");
 if(!intro||!stage||!skip||!brand)return;
-const key="ecoSolarePremiumV4",motion=matchMedia("(prefers-reduced-motion: reduce)");
+const key="ecoSolarePremiumV5",motion=matchMedia("(prefers-reduced-motion: reduce)");
 let played=false;try{played=sessionStorage.getItem(key)==="1"}catch(e){}
 if(played||motion.matches||new URLSearchParams(location.search).get("desde")==="laboratorio"){intro.remove();return;}
 let ended=false,started=false,loadTimer=0,finishTimer=0,dockTimer=0,previousFocus=null,locked=[];
 const art=new Image();
 function clean(){
  clearTimeout(loadTimer);clearTimeout(finishTimer);clearTimeout(dockTimer);
- document.body.classList.remove("ep-lock");brand.style.removeProperty("visibility");
+ document.body.classList.remove("ep-lock");brand.style.removeProperty("visibility");brand.style.removeProperty("opacity");brand.style.removeProperty("transition");
  locked.forEach(el=>el.inert=false);locked=[];
  document.removeEventListener("keydown",onKey);window.removeEventListener("resize",onResize);
  if(motion.removeEventListener)motion.removeEventListener("change",onMotion);
@@ -856,24 +891,32 @@ function clean(){
 function close(now){
  if(ended)return;ended=true;
  if(now||!started){clean();return;}
- // La escena completa permanece visible; solo la marca viaja hasta su destino.
+ // El mismo SVG que se ha construido se desplaza hasta el encabezado.
+ // No se crea una segunda fotografía, ni se recorta mediante una elipse.
  const actual=brand.querySelector(".brand-picture.is-ready img")||brand;
  const target=actual.getBoundingClientRect(),r=stage.getBoundingClientRect();
- if(!target.width||!target.height||!r.width){clean();return;}
+ if(!target.width||!target.height||!r.width||!r.height){clean();return;}
  const compact=target.width/target.height<2;
- // El recorte conserva exclusivamente el logo que cabe en la firma de destino.
- const crop=compact?[59,70,283,222]:[59,70,837,222];
- const [x,y,w,h]=crop;
- const scale=r.width/960;
- const flyer=document.createElement("div");
- flyer.className="ep-dock";flyer.style.cssText="overflow:hidden;left:"+(r.left+x*scale)+"px;top:"+(r.top+y*scale)+"px;width:"+(w*scale)+"px;height:"+(h*scale)+"px;transition:transform 1.05s cubic-bezier(.22,.75,.17,1),opacity .27s ease .78s;mask-image:radial-gradient(ellipse at center,#000 70%,transparent 100%);";
- const im=document.createElement("img");im.src=art.src;im.alt="";im.style.cssText="position:absolute;max-width:none;width:"+(960*scale)+"px;height:"+(384*scale)+"px;left:"+(-x*scale)+"px;top:"+(-y*scale)+"px";
- flyer.append(im);intro.append(flyer);skip.hidden=true;
- stage.style.transition="opacity .22s ease";stage.style.opacity="0";intro.style.background="transparent";
- const fw=w*scale,fh=h*scale,s=Math.min(target.width/fw,target.height/fh);
- const dx=target.left+(target.width-fw*s)/2-(r.left+x*scale),dy=target.top+(target.height-fh*s)/2-(r.top+y*scale);
- requestAnimationFrame(()=>requestAnimationFrame(()=>{flyer.style.transform="translate("+dx+"px,"+dy+"px) scale("+s+")";flyer.style.opacity="0";}));
- dockTimer=setTimeout(()=>{brand.style.removeProperty("visibility");clean();},1120);
+ const [x,y,w,h]=compact?[59,70,283,222]:[59,70,837,222];
+ const unit=r.width/960;
+ const cw=w*unit,ch=h*unit;
+ const s=Math.min(target.width/cw,target.height/ch);
+ const dx=target.left+target.width/2-r.left-(x+w/2)*unit*s;
+ const dy=target.top+target.height/2-r.top-(y+h/2)*unit*s;
+ const clip=[y/384*100,(960-x-w)/960*100,(384-y-h)/384*100,x/960*100].map(n=>n.toFixed(3)+"%").join(" ");
+ skip.hidden=true;
+ // Intercambio progresivo con el logo estático solo cuando la composición llega.
+ brand.style.transition="opacity .32s ease .88s";
+ brand.style.opacity="0";brand.style.visibility="visible";
+ intro.classList.add("ep-docking");
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{
+   stage.style.transform="translate("+dx+"px,"+dy+"px) scale("+s+")";
+   stage.style.clipPath="inset("+clip+")";
+   stage.style.opacity="0";
+   intro.style.background="transparent";
+   brand.style.opacity="1";
+ }));
+ dockTimer=setTimeout(clean,1230);
 }
 function onKey(e){if(e.key==="Escape"){e.preventDefault();if(ended)clean();else close(true)}else if(e.key==="Tab"&&started&&!ended){e.preventDefault();skip.focus()}}
 function onMotion(e){if(e.matches){if(ended)clean();else close(true)}}
@@ -892,6 +935,6 @@ skip.addEventListener("click",()=>close(true));art.onload=start;art.onerror=()=>
 loadTimer=setTimeout(()=>close(true),3500);art.src="./assets/branding/logo-cinematic-horizontal.png";
 })();
 </script>
-<!-- ===================== /ECO SOLARE · INTRO PREMIUM V4 ===================== -->
+<!-- ===================== /ECO SOLARE · INTRO PREMIUM V5 ===================== -->
 </body>
 </html>
