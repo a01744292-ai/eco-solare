@@ -1,17 +1,50 @@
 {
   "checked": "2026-11-18",
-  "status": "public-specifications-only",
+  "status": "academic-public-msrp-snapshot",
+  "currency": "MXN",
+  "exchangeReference": {
+    "value": 18.6723,
+    "date": "2026-11-18",
+    "source": "https://www.banxico.org.mx/apps/dao-web/4/52/Fix48.html"
+  },
+  "priceBasis": "Importes estimados al cliente por la partida paneles; derivados de MSRP público con IVA. No son precios especiales ni ofertas confirmadas. No incluyen la partida restante del sistema.",
+  "categorySource": "https://betaweb.syscom.mx/categories/66416",
   "products": [
     {
-      "brand": "EPCOM",
-      "model": "EPL450M144",
-      "w": 450,
-      "l": 2.094,
-      "b": 1.038,
-      "thick": 35,
+      "brand": "EPCOM POWERLINE",
+      "model": "EPL37024AL",
+      "w": 370,
+      "l": 1.856,
+      "b": 0.88,
+      "thick": 30,
+      "weight": 16.5,
       "productWarranty": null,
       "powerWarranty": null,
-      "source": "https://www.syscom.mx/products/196961"
+      "source": "https://betaweb.syscom.mx/products/254080",
+      "sourceDate": "2026-11-18",
+      "availability": "Sin inventario verificado",
+      "efficiencyCalculated": 22.65,
+      "panelEstimateMXN": 4160,
+      "pack": null,
+      "notes": null
+    },
+    {
+      "brand": "LONGi",
+      "model": "LR754HVH475M",
+      "w": 475,
+      "l": 1.8,
+      "b": 1.134,
+      "thick": 30,
+      "weight": 21.6,
+      "productWarranty": 15,
+      "powerWarranty": 30,
+      "source": "https://betaweb.syscom.mx/products/254179",
+      "sourceDate": "2026-11-18",
+      "availability": "Sin inventario verificado",
+      "efficiencyCalculated": 23.27,
+      "panelEstimateMXN": 5590,
+      "pack": null,
+      "notes": null
     },
     {
       "brand": "LONGi",
@@ -20,21 +53,182 @@
       "l": 1.8,
       "b": 1.134,
       "thick": 30,
+      "weight": 23.5,
       "productWarranty": 15,
       "powerWarranty": 30,
-      "source": "https://betaweb.syscom.mx/products/255802"
+      "source": "https://betaweb.syscom.mx/products/255802",
+      "sourceDate": "2026-11-18",
+      "availability": "Sin inventario verificado",
+      "efficiencyCalculated": 23.27,
+      "panelEstimateMXN": 6370,
+      "pack": null,
+      "notes": null
     },
     {
-      "brand": "EPCOM",
-      "model": "EPL540M144",
-      "w": 540,
-      "l": 2.278,
-      "b": 1.133,
-      "thick": 35,
-      "weight": 28,
-      "productWarranty": 12,
+      "brand": "ELITE SOLAR",
+      "model": "ETN760TBHGL480W",
+      "w": 480,
+      "l": 1.908,
+      "b": 1.134,
+      "thick": 30,
+      "weight": null,
+      "productWarranty": null,
       "powerWarranty": null,
+      "source": "https://betaweb.syscom.mx/products/242012",
+      "sourceDate": "2026-11-18",
+      "availability": "Sin inventario verificado",
+      "efficiencyCalculated": 22.18,
+      "panelEstimateMXN": 4680,
+      "pack": null,
+      "notes": "Garantía detallada pendiente de reconciliar con encabezado."
+    },
+    {
+      "brand": "LONGi",
+      "model": "LR760HVHL540M",
+      "w": 540,
+      "l": 1.99,
+      "b": 1.134,
+      "thick": 30,
+      "weight": 16.3,
+      "productWarranty": 15,
+      "powerWarranty": 30,
+      "source": "https://betaweb.syscom.mx/products/242558",
+      "sourceDate": "2026-11-18",
+      "availability": "Sin inventario verificado",
+      "efficiencyCalculated": 23.93,
+      "panelEstimateMXN": 6500,
+      "pack": {
+        "quantity": 36,
+        "panelEstimateMXN": 6370,
+        "source": "https://betaweb.syscom.mx/products/255488"
+      },
+      "notes": null
+    },
+    {
+      "brand": "LEAPTON",
+      "model": "LP182*210M66NB630W",
+      "w": 630,
+      "l": 2.382,
+      "b": 1.134,
+      "thick": 30,
+      "weight": 32.1,
+      "productWarranty": 25,
+      "powerWarranty": null,
+      "source": "https://betaweb.syscom.mx/products/254514",
+      "sourceDate": "2026-11-18",
+      "availability": "Sin inventario verificado",
+      "efficiencyCalculated": 23.32,
+      "panelEstimateMXN": 4940,
+      "pack": null,
+      "notes": null
+    },
+    {
+      "brand": "LONGi",
+      "model": "LR866HVD645M",
+      "w": 645,
+      "l": 2.382,
+      "b": 1.134,
+      "thick": 30,
+      "weight": 33.5,
+      "productWarranty": 15,
+      "powerWarranty": null,
+      "source": "https://betaweb.syscom.mx/products/243958",
+      "sourceDate": "2026-11-18",
+      "availability": "Sin inventario verificado",
+      "efficiencyCalculated": 23.88,
+      "panelEstimateMXN": 5850,
+      "pack": {
+        "quantity": 36,
+        "panelEstimateMXN": 5720,
+        "source": "https://betaweb.syscom.mx/products/255486"
+      },
+      "notes": "La página menciona vida útil de potencia; garantía lineal pendiente de confirmar."
+    },
+    {
+      "brand": "LONGi",
+      "model": "LR772HVH645M",
+      "w": 645,
+      "l": 2.382,
+      "b": 1.134,
+      "thick": 30,
+      "weight": 28.5,
+      "productWarranty": 15,
+      "powerWarranty": 30,
+      "source": "https://betaweb.syscom.mx/products/237575",
+      "sourceDate": "2026-11-18",
+      "availability": "Sin inventario verificado",
+      "efficiencyCalculated": 23.88,
+      "panelEstimateMXN": 5980,
+      "pack": {
+        "quantity": 36,
+        "panelEstimateMXN": 5850,
+        "source": "https://betaweb.syscom.mx/products/255479"
+      },
+      "notes": null
+    },
+    {
+      "brand": "LEAPTON",
+      "model": "LP210*210M66NB730W",
+      "w": 730,
+      "l": 2.384,
+      "b": 1.303,
+      "thick": 33,
+      "weight": 37.5,
+      "productWarranty": 25,
+      "powerWarranty": null,
+      "source": "https://betaweb.syscom.mx/products/247256",
+      "sourceDate": "2026-11-18",
+      "availability": "Sin inventario verificado",
+      "efficiencyCalculated": 23.5,
+      "panelEstimateMXN": 6110,
+      "pack": {
+        "quantity": 34,
+        "panelEstimateMXN": 5980,
+        "source": "https://betaweb.syscom.mx/products/261478"
+      },
+      "notes": "Geometría y potencia publicadas; discrepancia en dato eléctrico, no apto para validación eléctrica automática."
+    }
+  ],
+  "excluded": [
+    {
+      "model": "EPL450M144",
+      "reason": "Descontinuado",
+      "source": "https://betaweb.syscom.mx/products/196961"
+    },
+    {
+      "model": "EPL540M144",
+      "reason": "Sin MSRP público verificado; garantía inconsistente",
       "source": "https://www.syscom.mx/products/196960"
+    },
+    {
+      "model": "ETM760BH450WW",
+      "reason": "Descontinuado",
+      "source": "https://betaweb.syscom.mx/products/231132"
+    },
+    {
+      "model": "ETNR66TBH620GL",
+      "reason": "Descontinuado",
+      "source": "https://betaweb.syscom.mx/products/243382"
+    },
+    {
+      "model": "LP182*199M72NH610W",
+      "reason": "Descontinuado",
+      "source": "https://betaweb.syscom.mx/products/240969"
+    },
+    {
+      "model": "LR772HVHF645M",
+      "reason": "Título 645 W, descripción técnica 640 W; requiere ficha inequívoca",
+      "source": "https://betaweb.syscom.mx/products/241998"
+    },
+    {
+      "model": "LP182*210M66NB620W",
+      "reason": "Descripción técnica menciona identificador distinto; pendiente cotejo",
+      "source": "https://betaweb.syscom.mx/products/243815"
+    },
+    {
+      "model": "LP182*210M66QNB660W",
+      "reason": "Dimensiones publicadas no concuerdan con eficiencia declarada; pendiente cotejo",
+      "source": "https://betaweb.syscom.mx/products/254512"
     }
   ]
 }
