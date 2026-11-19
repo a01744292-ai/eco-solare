@@ -1,0 +1,40 @@
+{
+  "checked": "2026-11-18",
+  "status": "public-specifications-only",
+  "products": [
+    {
+      "brand": "EPCOM",
+      "model": "EPL450M144",
+      "w": 450,
+      "l": 2.094,
+      "b": 1.038,
+      "thick": 35,
+      "productWarranty": null,
+      "powerWarranty": null,
+      "source": "https://www.syscom.mx/products/196961"
+    },
+    {
+      "brand": "LONGi",
+      "model": "LR754HVBB475M",
+      "w": 475,
+      "l": 1.8,
+      "b": 1.134,
+      "thick": 30,
+      "productWarranty": 15,
+      "powerWarranty": 30,
+      "source": "https://betaweb.syscom.mx/products/255802"
+    },
+    {
+      "brand": "EPCOM",
+      "model": "EPL540M144",
+      "w": 540,
+      "l": 2.278,
+      "b": 1.133,
+      "thick": 35,
+      "weight": 28,
+      "productWarranty": 12,
+      "powerWarranty": null,
+      "source": "https://www.syscom.mx/products/196960"
+    }
+  ]
+}
